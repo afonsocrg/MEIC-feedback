@@ -236,7 +236,7 @@
 
  * [[AGISIt](courses/AGISIt.md)] Administração e Gestão de Infraestruturas e Serviços de It
  * [[DDRS](courses/DDRS.md)] Desempenho e Dimensionamento de Redes e Sistemas
- * [[ESLE](courses/ESLE.md)] -> Engenharia de Sistema de Larga Escala
+ * [[ESLE](courses/ESLE.md)] Engenharia de Sistema de Larga Escala ("new")
  * [[SIRS](courses/SIRS.md)] Segurança Informática em Redes e Sistemas
  * [[ADSI](courses/ADSI.md)] Administração de Dados e Sistemas de Informação
  * [[CNV](courses/CNV.md)] Computação em Nuvem e Virtualização

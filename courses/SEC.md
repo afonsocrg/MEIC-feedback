@@ -1,0 +1,6 @@
+# Sistemas de Elevada Confiabilidade
+
+Fenix: [Pre-MEPP](https://fenix.tecnico.ulisboa.pt/cursos/meic-a/disciplina-curricular/283003985068055) | [Pos-MEPP](https://fenix.tecnico.ulisboa.pt/cursos/meic-a/disciplina-curricular/564478961778806)
+
+---
+SEC é Sistemas de Elevada Confiabilidade dada pelo Miguel Matos, cool guy que ensina bem. A matéria é basicamente o filho de DAD com SIRS e se tiverem feito estas duas cadeiras têm na boa metade da teorica feita, vão basicamente abordar as falhas bizantinas que não falam de DAD. Para quem gostou de DAD e SIRS vai adorar SEC, e para mim é de longe a cadeira mais gira de SD. No entanto é tambem a mais desafiante e de longe a que da mais trabalho. No entanto recomendo altamente quem va fazer SD ou Ciber a fazer SEC pq é das materias mais importantes que vão dar. O projeto é um sistema distribuido super seguro, basicamente projeto de DAD com criptografia a mistura. Na teorica dao algoritmos bizantinos e alem disso um pouco de Hardware seguro, Smart Cards e Blockchain (o Matos faz investigação nisto por isso se estao interessados ele é o vosso go to). Overall da super trabalho mas acho que vale a pena, quem ja foi enrabado com DAD e SIRS aguenta SEC tmb lmao
