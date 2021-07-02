@@ -10,4 +10,5 @@ Uma das cadeiras mais fáceis e menos trabalhosas que fiz desde que estou no té
 O prof. disponibiliza uma VM com o software já pré-instalado e pré-configurado, o que ajuda imenso, mas podem instalar tudo nativamente.
 
 O prof. das teóricas é excelente, a matéria é pouca por isso ele dá tudo com calma, é super simpático e está sempre pronto a responder a dúvidas. Acho que fui às teóricas todas mesmo por gosto. A avaliação é 70% exame e 30% projeto. Os labs são literalmente guiões, tutoriais que podes seguir passo a passo, e o projeto é uma coisinha minúscula que se faz em 2 tardes em que só tens de fazer o mesmo tipo de coisas que fizeste nos labs. A única parte mais estranha é o exame - a matéria é muito prática mas o exame é mais teórico, e envolve que sejas um bocado mais crítico e mais criativo, em vez de ser simplesmente "decora tudo e está feito".
+
 Overall, é uma cadeira que recomendo imenso. Interessante, pouco trabalho, prof excelente.
