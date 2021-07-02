@@ -166,3 +166,4 @@
  * [[VI](courses/VI.md)] Visualização de Informação
  * [[AAva](courses/AAva.md)] Algoritmos Avançados
  * [[PF](courses/PF.md)] Processamento da Fala
+ </details>
