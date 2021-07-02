@@ -35,10 +35,11 @@
 
 ## Area
 
-### Ambientes Extremos
-  *
-  *
-  *
+### Ambientes Extremos 
+  Pagina[https://fenix.tecnico.ulisboa.pt/cursos/min-ae]
+  * Ambientes Extremos na Terra e no Espaço
+  * Detecção Remota
+  * Técnicas e Metodologias de Amostragem em Ambientes Extremos
   
 ### Aplicações da Matemática à Engenharia
   *
