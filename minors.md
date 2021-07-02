@@ -58,40 +58,38 @@
 
 * Energia para o Futuro
 
-Engenharia Humanitária
+* Engenharia Humanitária
 
-Física Contemporânea
+* Física Contemporânea
 
-Física Médica
+* Física Médica
 
-Gestão Ambiental
+* Gestão Ambiental
 
-Gestão Industrial e de Sistemas
+* Gestão Industrial e de Sistemas
 
-Indústria 4.0 Sustentável
+* Indústria 4.0 Sustentável
 
-Instrumentação Eletrónica e Sistemas de Aquisição de Dados
+* Instrumentação Eletrónica e Sistemas de Aquisição de Dados
 
-Matemática Computacional Aplicada às Finanças
+* Matemática Computacional Aplicada às Finanças
 
-Nanoengenharia e Microssistemas
+* Nanoengenharia e Microssistemas
 
-Nanomateriais e Fabricação Avançada
+* Nanomateriais e Fabricação Avançada
 
-Produção de Electricidade Renovável
+* Produção de Electricidade Renovável
 
-Sistemas e Métodos de Apoio à Decisão
+* Sistemas e Métodos de Apoio à Decisão
 
-Smart Cities
+* Smart Cities
 
-Spatial Data Science
+* Spatial Data Science
 
-Tecnologias Biológicas
+* Tecnologias Biológicas
 
-Tecnologias da Internet
+* Tecnologias da Internet
 
-Tecnologias Fotónicas
+* Tecnologias Fotónicas
 
-Tecnologias para o Património Cultural
-
-
+* Tecnologias para o Património Cultural
