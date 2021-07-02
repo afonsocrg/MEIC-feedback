@@ -2,21 +2,21 @@
 
 ## Índice
 
-### Especializações
+### Por especialização
 + [Algoritmos e Programação -> Algoritmos e Aplicações [Pos MEPP]](#algo)
 + [Bioinformática e Biologia Computacional](#bio)
 + [Ciber-Segurança](#ciber)
 + [Engenharia de Software](#es)
 + [Interação e Visualização](#vis)
 + [Jogos](#jogos)
-+ [Processamento e Análise de Dados -> Engenharia e Ciência de Dados](#cdados)
++ [Processamento e Análise de Dados -> Engenharia e Ciência de Dados [Pos MEPP]](#cdados)
 + [Robótica Inteligente](#robot)
-+ [Sistemas Computacionais -> Sistemas Ciberfísicos](#sisciber)
++ [Sistemas Computacionais -> Sistemas Ciberfísicos [Pos MEPP]](#sisciber)
 + [Sistemas Distribuídos](#sd)
 + [Sistemas Empresariais](#sisemp)
 + [Sistemas de Informação](#sisinfo)
-+ [Sistemas Inteligentes -> Inteligência Artifical](#ia)
-+ [Tecnologia dos Sistemas Informáticos -> Gestão de Serviços de It](#gesit)
++ [Sistemas Inteligentes -> Inteligência Artifical [Pos MEPP]](#ia)
++ [Tecnologia dos Sistemas Informáticos -> Gestão de Serviços de It [Pos MEPP]](#gesit)
 + [Tecnologia para Processamento de Informação e Linguagem](#tepil)
 
 ### Por cadeira
@@ -31,11 +31,11 @@
 + [[AGISIt](courses/AGISIt.md)] Administração e Gestão de Infraestruturas e Serviços de It
 + [[AID](courses/AID.md)] Análise e Integração de Dados
 + [[ALC](courses/ALC.md)] Algoritmos para Lógica Computacional
-+ [[AS](courses/AS.md)] Arquitecturas de Software -> Arquitectura de Software
++ [[AS](courses/AS.md)] Arquitecturas de Software -> Arquitectura de Software [Pos MEPP]
 + [[AVT](courses/AVT.md)] Animação e Visualização Tridimensional
 + [[AmbInt](courses/AmbInt.md)] Ambientes Inteligentes
-+ [[Apre](courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei)
-+ [[BioInf](courses/BioInf.md)] Bioinformática ~> Biologia Computacional
++ [[Apre](courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei) [Pos MEPP]
++ [[BioInf](courses/BioInf.md)] Bioinformática ~> Biologia Computacional [Pos MEPP]
 + [[CC](courses/CC.md)] Computabilidade e Complexidade
 + [[CCU](courses/CCU.md)] Conceção Centrada no Utilizador
 + [[CD](courses/CD.md)] Ciência de Dados
@@ -46,17 +46,17 @@
 + [[CPS](courses/CPS.md)] Criptografia e Protocolos de Segurança
 + [[CRC](courses/CRC.md)] Ciência das Redes Complexas
 + [[CSF](courses/CSF.md)] Ciber Segurança Forense
-+ [[CVI](courses/CVI.md)] Comunicação Visual Interactiva -> [CV] Computação Visual
++ [[CVI](courses/CVI.md)] Comunicação Visual Interactiva -> [CV] Computação Visual [Pos MEPP]
 + [[DAD](courses/DAD.md)] Desenvolvimento de Aplicações Distribuídas
 + [[DDRS](courses/DDRS.md)] Desempenho e Dimensionamento de Redes e Sistemas
-+ [[DIIC](courses/DIIC.md)] Design de Interação para a Internet das Coisas -> [EDI] Estúdio de Design de Interação
++ [[DIIC](courses/DIIC.md)] Design de Interação para a Internet das Coisas -> [EDI] Estúdio de Design de Interação [Pos MEPP]
 + [[DJ](courses/DJ.md)] Design de Jogos
-+ [[ESLE](courses/ESLE.md)] -> Engenharia de Sistema de Larga Escala
++ [[ESLE](courses/ESLE.md)] -> Engenharia de Sistema de Larga Escala [Pos MEPP]
 + [[ETPN](courses/ETPN.md)] Engenharia e Tecnologia de Processos de Negócio
 + [[EspSoft](courses/EspSoft.md)] Especificação de Software
 + [[FSI](courses/FSI.md)] Fundamentos de Sistemas de Informação
 + [[GPI](courses/GPI.md)] Gestão de Projectos Informáticos
-+ [[GSI](courses/GSI.md)] Gestão de Sistemas de Informação -> [SGSI] Segurança e Gestão de Sistemas de Informação
++ [[GSI](courses/GSI.md)] Gestão de Sistemas de Informação -> [SGSI] Segurança e Gestão de Sistemas de Informação [Pos MEPP]
 + [[IAJ](courses/IAJ.md)] Inteligência Artificial para Jogos
 + [[IEmp](courses/IEmp.md)] Integração Empresarial
 + [[IR](courses/IR.md)] Introdução à Robótica
@@ -72,13 +72,13 @@
 + [[PP](courses/PP.md)] Procura e Planeamento
 + [[PRI](courses/PRI.md)] Processamento e Recuperação de Informação
 + [[RCR](courses/RCR.md)] Representação do Conhecimento e Raciocínio
-+ [[RSIPR](courses/RSIPR.md)] Robôs Sociais e Interação Pessoa Robô -> [RSIHR] Robótica Social e Interação Humanos-Robôs
++ [[RSIPR](courses/RSIPR.md)] Robôs Sociais e Interação Pessoa Robô -> [RSIHR] Robótica Social e Interação Humanos-Robôs [Pos MEPP]
 + [[RV](courses/RV.md)] Realidade Virtual
 + [[SEC](courses/SEC.md)] Sistemas de Elevada Confiabilidade
 + [[SIRS](courses/SIRS.md)] Segurança Informática em Redes e Sistemas
 + [[SRM](courses/SRM.md)] Sistemas Robóticos em Manipulação
 + [[SSof](courses/SSof.md)] Segurança em Software
-+ [[TIS](courses/TIS.md)] Tecnologias de Informação em Saúde -> [TIDB] Tecnologias de Informação e Decisão Biomédica
++ [[TIS](courses/TIS.md)] Tecnologias de Informação em Saúde -> [TIDB] Tecnologias de Informação e Decisão Biomédica [Pos MEPP]
 + [[TVS](courses/TVS.md)] Teste e Validação de Software
 + [[VI](courses/VI.md)] Visualização de Informação
 </details>
@@ -101,12 +101,12 @@
 
 ### Bioinformática e Biologia Computacional
 
- * [[Apre](courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei)
+ * [[Apre](courses/Apre.md)] Aprendizagem -> Aprendizagem Profunda (Dei) [Pos MEPP]
  * [[BioInf](courses/BioInf.md)] Bioinformática ~> Biologia Computacional
  * [[CRC](courses/CRC.md)] Ciência das Redes Complexas
  * [[CD](courses/CD.md)] Ciência de Dados
  * [[AAva](courses/AAva.md)] Algoritmos Avançados
- * [[TIS](courses/TIS.md)] Tecnologias de Informação em Saúde -> [TIDB] Tecnologias de Informação e Decisão Biomédica
+ * [[TIS](courses/TIS.md)] Tecnologias de Informação em Saúde -> [TIDB] Tecnologias de Informação e Decisão Biomédica [Pos MEPP]
 
 <a name="ciber"/>
 
@@ -116,14 +116,14 @@
  * [[SSof](courses/SSof.md)] Segurança em Software
  * [[SIRS](courses/SIRS.md)] Segurança Informática em Redes e Sistemas
  * [[CPS](courses/CPS.md)] Criptografia e Protocolos de Segurança
- * [[GSI](courses/GSI.md)] Gestão de Sistemas de Informação -> [SGSI] Segurança e Gestão de Sistemas de Informação
+ * [[GSI](courses/GSI.md)] Gestão de Sistemas de Informação -> [SGSI] Segurança e Gestão de Sistemas de Informação [Pos MEPP]
  * [[SEC](courses/SEC.md)] Sistemas de Elevada Confiabilidade
 
 <a name="es"/>
 
 ### Engenharia de Software
 
- * [[AS](courses/AS.md)] Arquitecturas de Software -> Arquitectura de Software
+ * [[AS](courses/AS.md)] Arquitecturas de Software -> Arquitectura de Software [Pos MEPP]
  * [[EspSoft](courses/EspSoft.md)] Especificação de Software
  * [[GPI](courses/GPI.md)] Gestão de Projectos Informáticos
  * [[PAva](courses/PAva.md)] Programação Avançada
@@ -137,7 +137,7 @@
  * [[CCU](courses/CCU.md)] Conceção Centrada no Utilizador
  * [[RV](courses/RV.md)] Realidade Virtual
  * [[VI](courses/VI.md)] Visualização de Informação
- * [[CVI](courses/CVI.md)] Comunicação Visual Interactiva -> [CV] Computação Visual
+ * [[CVI](courses/CVI.md)] Comunicação Visual Interactiva -> [CV] Computação Visual [Pos MEPP]
  * [[PCM](courses/PCM.md)] Produção de Conteúdos Multimédia
  * [[P3D](courses/P3D.md)] Programação 3D
 
@@ -154,10 +154,10 @@
 
 <a name="cdados"/>
 
-### Processamento e Análise de Dados ~> Engenharia e Ciência de Dados
+### Processamento e Análise de Dados -> Engenharia e Ciência de Dados
 
  * [[AID](courses/AID.md)] Análise e Integração de Dados
- * [[Apre](courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei)
+ * [[Apre](courses/Apre.md)] Aprendizagem -> Aprendizagem Profunda (Dei) [Pos MEPP]
  * [[CD](courses/CD.md)] Ciência de Dados
  * [[VI](courses/VI.md)] Visualização de Informação
  * [[CNV](courses/CNV.md)] Computação em Nuvem e Virtualização
@@ -167,11 +167,11 @@
 
 ### Robótica Inteligente
 
- * [[Apre](courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei)
+ * [[Apre](courses/Apre.md)] Aprendizagem -> Aprendizagem Profunda (Dei) [Pos MEPP]
  * [[IR](courses/IR.md)] Introdução à Robótica
  * [[PADI](courses/PADI.md)] Planeamento, Aprendizagem e Decisão Inteligente
  * [[PIV](courses/PIV.md)] Processamento de Imagem e Visão
- * [[RSIPR](courses/RSIPR.md)] Robôs Sociais e Interação Pessoa Robô ~> [RSIHR] Robótica Social e Interação Humanos-Robôs
+ * [[RSIPR](courses/RSIPR.md)] Robôs Sociais e Interação Pessoa Robô -> [RSIHR] Robótica Social e Interação Humanos-Robôs [Pos MEPP]
  * [[SRM](courses/SRM.md)] Sistemas Robóticos em Manipulação
 
 <a name="sisciber"/>
@@ -180,7 +180,7 @@
 
  * [[ACIC](courses/ACIC.md)] Aplicações e Computação para a Internet das Coisas
  * [[CD](courses/CD.md)] Ciência de Dados
- * [[DIIC](courses/DIIC.md)] Design de Interação para a Internet das Coisas -> [EDI] Estúdio de Design de Interação
+ * [[DIIC](courses/DIIC.md)] Design de Interação para a Internet das Coisas -> [EDI] Estúdio de Design de Interação [Pos MEPP]
  * [[AmbInt](courses/AmbInt.md)] Ambientes Inteligentes
  * [[CMU](courses/CMU.md)] Computação Móvel e Ubíqua
  * [[SEC](courses/SEC.md)] Sistemas de Elevada Confiabilidade
@@ -205,7 +205,7 @@
  * [[FSI](courses/FSI.md)] Fundamentos de Sistemas de Informação
  * [[GPI](courses/GPI.md)] Gestão de Projectos Informáticos
  * [[AEmp](courses/AEmp.md)] Arquitetura Empresarial
- * [[GSI](courses/GSI.md)] Gestão de Sistemas de Informação -> [SGSI] Segurança e Gestão de Sistemas de Informação
+ * [[GSI](courses/GSI.md)] Gestão de Sistemas de Informação -> [SGSI] Segurança e Gestão de Sistemas de Informação [Pos MEPP]
 
 <a name="sisinfo"/>
 
@@ -222,7 +222,7 @@
 
 ### Sistemas Inteligentes -> Inteligência Artificial
 
- * [[Apre](courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei)
+ * [[Apre](courses/Apre.md)] Aprendizagem -> Aprendizagem Profunda (Dei) [Pos MEPP]
  * [[CD](courses/CD.md)] Ciência de Dados
  * [[LN](courses/LN.md)] Língua Natural
  * [[PP](courses/PP.md)] Procura e Planeamento
@@ -232,7 +232,7 @@
 
 <a name="gesit"/>
 
-### Tecnologia dos Sistemas Informáticos -> Gestão de Serviços de It
+### Tecnologia dos Sistemas Informáticos -> Gestão de Serviços de It [Pos MEPP]
 
  * [[AGISIt](courses/AGISIt.md)] Administração e Gestão de Infraestruturas e Serviços de It
  * [[DDRS](courses/DDRS.md)] Desempenho e Dimensionamento de Redes e Sistemas
@@ -246,7 +246,7 @@
 
 ### Tecnologia para Processamento de Informação e Linguagem
 
- * [[Apre](courses/Aprendizagem-Profunda.md)] Aprendizagem ~> Aprendizagem Profunda (Dei)
+ * [[Apre](courses/Aprendizagem-Profunda.md)] Aprendizagem -> Aprendizagem Profunda (Dei) [Pos MEPP]
  * [[LN](courses/LN.md)] Língua Natural
  * [[PRI](courses/PRI.md)] Processamento e Recuperação de Informação
  * [[VI](courses/VI.md)] Visualização de Informação
