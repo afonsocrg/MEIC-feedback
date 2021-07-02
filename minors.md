@@ -56,14 +56,18 @@
   * Projecto Integrador de 2º Ciclo em Engenharia Biomédica (?)
 
 ### Big Picture Thinking para a Sustentabilidade
-  *
-  *
-  *
+  https://fenix.tecnico.ulisboa.pt/cursos/min-bpts
+  * Ciência de Redes Complexas
+  * Desenvolvimento Sustentável - Fundamentos Quantitativos
+  * Grande História e Sustentabilidade
 
 ### Ciência de Dados
-  *
-  *
-  *
+  https://fenix.tecnico.ulisboa.pt/cursos/min-cd
+  * Aprendizagem Automática
+  * Estatística Computacional
+  * Sistemas de Informação e Bases de Dados
+  * Visualização de Informação
+
 
 ### Ciências e Tecnologias do Espaço
   *
