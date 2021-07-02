@@ -36,20 +36,24 @@
 ## Area
 
 ### Ambientes Extremos 
-  Pagina[https://fenix.tecnico.ulisboa.pt/cursos/min-ae]
+  https://fenix.tecnico.ulisboa.pt/cursos/min-ae
   * Ambientes Extremos na Terra e no Espaço
   * Detecção Remota
   * Técnicas e Metodologias de Amostragem em Ambientes Extremos
   
 ### Aplicações da Matemática à Engenharia
-  *
-  *
-  *
+  https://fenix.tecnico.ulisboa.pt/cursos/min-ame
+  * Análise Numérica Funcional e Optimização
+  * Métodos de Álgebra e Geometria em Engenharia e Física
+  * Métodos Estatísticos em Data Mining
+  * Algoritmos e Modelação Computacional
 
 ### Aplicações de Engenharia em Saúde
-  *
-  *
-  *
+  https://fenix.tecnico.ulisboa.pt/cursos/min-aes
+  * Engenharia de Células e Tecidos
+  * Fundamentos de Interfaces Homem-Máquina
+  * Processamento de Biossinais e Imagem Biomédica
+  * Projecto Integrador de 2º Ciclo em Engenharia Biomédica (?)
 
 ### Big Picture Thinking para a Sustentabilidade
   *
