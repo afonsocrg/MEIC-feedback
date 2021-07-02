@@ -1,190 +1,221 @@
 # Minors compativeis com MEIC e LEIC
 
-## Oferta
+<details>
+    <summary>Ambientes Extremos</summary>
 
-
-+ [Ambientes Extremos](#1)
-+ [Aplicações da Matemática à Engenharia](#2)
-+ [Aplicações de Engenharia em Saúde](#3)
-+ [Big Picture Thinking para a Sustentabilidade](#4)
-+ [Ciência de Dados](#5)
-+ [Ciências e Tecnologias do Espaço ](#6)
-+ [Ciências e Tecnologias Quânticas](#7)
-+ [Ciências Nucleares Aplicadas](#8)
-+ [Economia Circular](#9)
-+ [Empreendedorismo e Inovação](#10)
-+ [Energia para o Futuro](#11)
-+ [Engenharia Humanitária](#12)
-+ [Física Contemporânea](#13)
-+ [Física Médica](#14)
-+ [Gestão Ambiental](#15)
-+ [Gestão Industrial e de Sistemas](#16)
-+ [Indústria 4.0 Sustentável](#17)
-+ [Instrumentação Eletrónica e Sistemas de Aquisição de Dados](#18)
-+ [Matemática Computacional Aplicada às Finanças](#19)
-+ [Nanoengenharia e Microssistemas](#20)
-+ [Nanomateriais e Fabricação Avançada](#21)
-+ [Produção de Eletricidade Renovável](#22)
-+ [Sistemas e Métodos de Apoio à Decisão](#23)
-+ [Smart Cities](#24)
-+ [Spatial Data Sciences](#25)
-+ [Tecnologias Biológicas](#26)
-+ [Tecnologias da Internet](#27)
-+ [Tecnologias Fotónicas](#28)
-+ [Tecnologias Para o Património Cultural](#29)
-
-## Area
-
-### Ambientes Extremos 
   https://fenix.tecnico.ulisboa.pt/cursos/min-ae
   * Ambientes Extremos na Terra e no Espaço
   * Detecção Remota
   * Técnicas e Metodologias de Amostragem em Ambientes Extremos
+</details>
   
-### Aplicações da Matemática à Engenharia
+<details>
+    <summary>Aplicações da Matemática à Engenharia</summary>
+    
   https://fenix.tecnico.ulisboa.pt/cursos/min-ame
   * Análise Numérica Funcional e Optimização
   * Métodos de Álgebra e Geometria em Engenharia e Física
   * Métodos Estatísticos em Data Mining
   * Algoritmos e Modelação Computacional
-
-### Aplicações de Engenharia em Saúde
+</details>
+  
+<details>
+    <summary>Aplicações de Engenharia em Saúde</summary>
+    
   https://fenix.tecnico.ulisboa.pt/cursos/min-aes
   * Engenharia de Células e Tecidos
   * Fundamentos de Interfaces Homem-Máquina
   * Processamento de Biossinais e Imagem Biomédica
   * Projecto Integrador de 2º Ciclo em Engenharia Biomédica (?)
+</details>
+  
+<details>
+    <summary>Big Picture Thinking para a Sustentabilidade</summary>
 
-### Big Picture Thinking para a Sustentabilidade
   https://fenix.tecnico.ulisboa.pt/cursos/min-bpts
   * Ciência de Redes Complexas
   * Desenvolvimento Sustentável - Fundamentos Quantitativos
   * Grande História e Sustentabilidade
+</details>
+  
+<details>
+    <summary>Ciência de Dados</summary>
 
-### Ciência de Dados
   https://fenix.tecnico.ulisboa.pt/cursos/min-cd
   * Aprendizagem Automática
   * Estatística Computacional
   * Sistemas de Informação e Bases de Dados
   * Visualização de Informação
+</details>
+  
+<details>
+    <summary>Ciências e Tecnologias do Espaço</summary>
 
 
-### Ciências e Tecnologias do Espaço
+<details>
+    <summary>Ciências e Tecnologias do Espaço</summary>
   *
   *
   *
+</details>
 
-### Ciências e Tecnologias Quânticas
+<details>
+    <summary>Ciências e Tecnologias Quânticas</summary>
   *
   *
   *
+</details>
 
-### Ciências Nucleares Aplicadas
+<details>
+    <summary>Ciências Nucleares Aplicadas</summary>
   *
   *
   *
+</details>
 
-### Economia Circular
+<details>
+    <summary>Economia Circular</summary>
   *
   *
   *
+</details>
 
-### Empreendedorismo e Inovação
+<details>
+    <summary>Empreendedorismo e Inovação</summary>
   *
   *
   *
+</details>
 
-### Energia para o Futuro
+<details>
+    <summary>Energia para o Futuro</summary>
   *
   *
   *
+</details>
 
-### Engenharia Humanitária
+<details>
+    <summary>Engenharia Humanitária</summary>
   *
   *
   *
+</details>
 
-### Física Contemporânea
+<details>
+    <summary>Física Contemporânea</summary>
   *
   *
   *
+</details>
 
-### Física Médica
+<details>
+    <summary>Física Médica</summary>
   *
   *
   *
+</details>
 
-### Gestão Ambiental
+<details>
+    <summary>Gestão Ambiental</summary>
   *
   *
   *
+</details>
 
-### Gestão Industrial e de Sistemas
+<details>
+    <summary>Gestão Industrial e de Sistemas</summary>
   *
   *
   *
+</details>
 
-### Indústria 4.0 Sustentável
+<details>
+    <summary>Indústria 4.0 Sustentável</summary>
   *
   *
   *
+</details>
 
-### Instrumentação Eletrónica e Sistemas de Aquisição de Dados
+<details>
+    <summary>Instrumentação Eletrónica e Sistemas de Aquisição de Dados</summary>
   *
   *
   *
+</details>
 
-### Matemática Computacional Aplicada às Finanças
+<details>
+    <summary>Matemática Computacional Aplicada às Finanças</summary>
   *
   *
   *
+</details>
 
-### Nanoengenharia e Microssistemas
+<details>
+    <summary>Nanoengenharia e Microssistemas</summary>
   *
   *
   *
+</details>
 
-### Nanomateriais e Fabricação Avançada
+<details>
+    <summary>Nanomateriais e Fabricação Avançada</summary>
   *
   *
   *
+</details>
 
-### Produção de Electricidade Renovável
+<details>
+    <summary>Produção de Electricidade Renovável</summary>
   *
   *
   *
+</details>
 
-### Sistemas e Métodos de Apoio à Decisão
+<details>
+    <summary>Sistemas e Métodos de Apoio à Decisão</summary>
   *
   *
   *
+</details>
 
-### Smart Cities
+<details>
+    <summary>Smart Cities</summary>
   *
   *
   *
+</details>
 
-### Spatial Data Science
+<details>
+    <summary>Spatial Data Science</summary>
   *
   *
   *
+</details>
 
-### Tecnologias Biológicas
+<details>
+    <summary>Tecnologias Biológicas</summary>
   *
   *
   *
+</details>
 
-### Tecnologias da Internet
+<details>
+    <summary>Tecnologias da Internet</summary>
   *
   *
   *
+</details>
 
-### Tecnologias Fotónicas
+<details>
+    <summary>Tecnologias Fotónicas</summary>
   *
   *
   *
+</details>
 
-### Tecnologias para o Património Cultural
+<details>
+    <summary>Tecnologias para o Património Cultural</summary>
   *
   *
   *
+</details>
