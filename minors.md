@@ -51,6 +51,7 @@
 <details>
     <summary>Ciências e Tecnologias do Espaço</summary>
 
+</details>
 
 <details>
     <summary>Ciências e Tecnologias do Espaço</summary>
