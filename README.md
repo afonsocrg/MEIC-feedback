@@ -2,7 +2,7 @@
 
 ## Índice
 
-### Por especialização
+### Especializações
 + [Algoritmos e Programação -> Algoritmos e Aplicações [Pos MEPP]](#algo)
 + [Bioinformática e Biologia Computacional](#bio)
 + [Ciber-Segurança](#ciber)
