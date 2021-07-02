@@ -22,8 +22,7 @@ E foi fixe, fomos perceber melhor como funcionava e pensamos como mostrar as van
 O projeto acaba por ser onde aprofundas mais.
 Uma cena fixe foi que a entrega acabou por ser dia 31 de Dezembro, e depois na 1ª semana de exames fizemos uma apresentação que não deu muito trabalho, preparamos uns slides para introduzir e depois mostramos o video de walkthrough do Lab. É fixe para dar pouco trabalho, ao longo do semestre era tipo 2 ou 3 horas e fazias o Lab, nunca te gasta muito tempo.
 
-[Rafael Soares]
-
+---
 No tagus a avaliação é os labs + uma apresentação, em q todas as aulas teoricas são só as apresentações dos alunos. Escusado sera dizer q o q "aprendes" nas teoricas esta ao click de ires ao google e procurares o mesmo q os outros pesquisaram, sendo as apresentações dos mais e diversos temas desde os varios sistemas cloud comerciais, segurança, base de dados, quantum computing, epa é uma mistura super estranha. No entanto desde q atires para a apresentação um trilião de estatisticas reais e noticias recentes e wtv é 17/18 garantido.
 
 Queres aprender e ter mais trabalho faz na Alameda, se queres ter o minimo de trabalho e nota garantida faz no Tagus
