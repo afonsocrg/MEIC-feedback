@@ -7,7 +7,7 @@
 + [[ALC](../courses/ALC.md)] Algoritmos para Lógica Computacional
 + [[AID](../courses/AID.md)] Análise e Integração de Dados
 + [[AVT](../courses/AVT.md)] Animação e Visualização Tridimensional
-+ [[BioInf](../courses/BioInf.md)] Bioinformática ~> Biologia Computacional [Pos MEPP]
++ [[BioInf](../courses/BioInf.md)] Bioinformática -> Biologia Computacional [Pos MEPP]
 + [[CSF](../courses/CSF.md)] Ciber Segurança Forense
 + [[CRC](../courses/CRC.md)] Ciência das Redes Complexas
 + [[CC](../courses/CC.md)] Computabilidade e Complexidade (P1 e P2)
@@ -29,7 +29,7 @@
     <summary>P2</summary>
 
 + [[ACIC](../courses/ACIC.md)] Aplicações e Computação para a Internet das Coisas
-+ [[Apre](../courses/Apre.md)] Aprendizagem ~> Aprendizagem Profunda (Dei) [Pos MEPP]
++ [[Apre](../courses/Apre.md)] Aprendizagem -> Aprendizagem Profunda (Dei) [Pos MEPP]
 + [[AS](../courses/AS.md)] Arquitecturas de Software -> Arquitectura de Software [Pos MEPP]
 + [[CD](../courses/CD.md)] Ciência de Dados
 + [[CC](../courses/CC.md)] Computabilidade e Complexidade (P1 e P2)
