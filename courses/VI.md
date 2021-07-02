@@ -2,7 +2,8 @@
 
 Fenix: [Pre-MEPP](https://fenix.tecnico.ulisboa.pt/cursos/meic-a/disciplina-curricular/283003985068058) | [Pos-MEPP](https://fenix.tecnico.ulisboa.pt/cursos/meic-a/disciplina-curricular/564478961778813)
 
---
+---
+
 [Daniel Gonçalves](https://github.com/masterzeus05):
 
 Eu tenho bastante interesse em dados e em visualização de dados, e este cadeira é focada nesses temas, portanto eu estou um bocado biased.
