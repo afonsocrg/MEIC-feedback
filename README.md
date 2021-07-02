@@ -3,13 +3,13 @@
 ## Índice
 
 ### Por especialização
-+ [Algoritmos e Programação -> Algoritmos e Aplicações](#algo)
++ [Algoritmos e Programação -> Algoritmos e Aplicações [Pos MEPP]](#algo)
 + [Bioinformática e Biologia Computacional](#bio)
 + [Ciber-Segurança](#ciber)
 + [Engenharia de Software](#es)
 + [Interação e Visualização](#vis)
 + [Jogos](#jogos)
-+ [Processamento e Análise de Dados ~> Engenharia e Ciência de Dados](#cdados)
++ [Processamento e Análise de Dados -> Engenharia e Ciência de Dados](#cdados)
 + [Robótica Inteligente](#robot)
 + [Sistemas Computacionais -> Sistemas Ciberfísicos](#sisciber)
 + [Sistemas Distribuídos](#sd)
