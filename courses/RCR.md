@@ -7,7 +7,7 @@ A matéria é bastante interessante. Ao longo do semestre são leccionados vári
 
 Basicamente é só isso. Dás modelo atrás de modelo sendo que cada um leccionado resolve prolemas que os anteriormente falados não conseguiam resolver.
 
-Quanto à forma como é leccionado. A cadeira envolve dois testes (o primeiro bem mais teórico que o segundo) e um bónus de um trabalho facultativo. Caso decidas fazer o trabalho podes fazer em grupo de dois ou individualmente e soma um bónus de 10% sobre a nota que tinhas anteriormente (desde que o trabalho esteja 'aceitável'). Por exemplo se com os teste estiveres com 15.6 com o bonús: 15.6 * 1.10 = 17.6.
+Quanto à forma como é leccionado. A cadeira envolve dois testes (o primeiro bem mais teórico que o segundo) e um bónus de um trabalho facultativo. Caso decidas fazer o trabalho podes fazer em grupo de dois ou individualmente e soma um bónus de 10% sobre a nota que tinhas anteriormente (desde que o trabalho esteja 'aceitável'). Por exemplo se com os teste estiveres com 15.6 com o bonús: 15.6 * 1.10 = 17.16.
 
 Os testes são bemmmmmmm longos para o tempo (1h30). Mas em contrapartida a professora dá 30 minutos de tolerância extra (excepto na repescagem for some weird reason).
 
