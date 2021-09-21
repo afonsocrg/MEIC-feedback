@@ -1,5 +1,6 @@
 # Cadeiras por Especialização
 
+  * [[PMEIC](../courses/PMEIC.md)] Projeto de Dissertação de Mestrado em Engenharia Informática e de Computadores -> Projecto Integrador de 2º Ciclo em Engenharia Informática e de Computadores
 
 <details>
     <summary>Algoritmos e Programação -> Algoritmos e Aplicações</summary>
