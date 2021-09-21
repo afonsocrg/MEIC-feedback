@@ -14,3 +14,11 @@ Os testes são bemmmmmmm longos para o tempo (1h30). Mas em contrapartida a prof
 A parte má é que os apontamentos / slides, basicamente todo o material não é suficiente. Tem muito pouco de parte prática, tipo um exercício do ínicio ao fim feito, só mesmo indo às aulas é que se acompanha bem a matéria.
 
 As práticas são utilizadas para resolução de fichas mas, pelo menos no ano remoto, entrávamos e a professora metia-nos logo em breakout rooms, normalmente duas, então estávamos todos um pouco perdido de como se resolvia os exercícios.
+
+---
+Em termos de interesse do que é leccionado gostei mesmo bué, mas em termos de organização deixa um pouco a desejar, mas penso que presencial se adapte melhor.
+Basicamente as teóricas andam relativamente rápido e funcionam em modo de capítulos em que em cada um aborda uma nova forma de representação de conhecimento e que resolve um ou mais dos problemas da forma abordada no capítulo anterior.
+Os pontos maus é que as práticas é para tu e os outros alunos tentarem resolver exercícios with little to none exemplos práticos e o mesmo para o teste.
+Em contrapartida podes apresentar um trabalho de tipo 15-20 minutos para subir a tua nota final por 10%.
+
+TLDR: Se fores a quase todas as aulas e apresentares o trabalho para subir a nota acabas bem, senão pode-se complicar mas bastante interessante)
