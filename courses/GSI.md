@@ -17,3 +17,17 @@ No fim há um "teste" que é basicamente mais um relatório. São 3 horas para o
 
 Overall a cadeira faz-se bastante bem. Na primeira semana passei os dias todos a ler e a tentar ao máximo ter o relatório bem. Acabou por ser a minha pior nota dos relatórios. A partir daí comecei a fazer as coisas mais nas calmas e funcionou. Os alunos que corrigem são bastante chill e só querem saber da quantidade de texto que escreves e da quantidade de bold que o teu texto tem.
 É a dica mais importante .. usem bold.
+
+
+---
+Pos Mepp:
+A adpatação foi um shitshow no sentido em que o professor alterou muita coisa em relacao ao pre mepp. 6 horas de aulas semanais . 6 essays + um final essay. 6 entregas de projeto. 6 reviews
+
+Depende do teu objetivo a fazer a cadeira. Eu só queria os creditos não fui a uma unica aula e Fiz os essays sem ler um unico texto apenas juntava as palavras e mandava pão tive sempre de 4 para cima (de 0 a 5) nas entregas. Se o objetivo for aprender alguma coisa por essay era cerca de 600 paginas para ler. Demorei cerca de meia hora para cada essay e meia hora para cada pergunta do final essay(4 perguntas).
+As reviews era um for para dar rank mandei smp random demorava 5 minutos.
+
+O projeto há entregas que dão mais trabalho que outras. Os grupos são random de 5 ou 10 pessoas. No meu caso todos trabalharam por isso cada pessoa fez o minimo e não deu muito trabalho overall (mas se calhares em grupo q ning trabalha fudeu).
+
+Não tem exame.
+
+TDLR: Não aprendi nada mas também não tinha interesse e passei facilmente. Se objetivo for aprender não me parece muito util a forma como o borbinha dá a cadeira.

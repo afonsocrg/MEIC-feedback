@@ -11,3 +11,10 @@ O exame é bastante fácil, tem a mesma estrutura há imensos anos e dá para sa
 
 ---
 A matéria é basicamente uma continuação de SD, é bom se essas coisas te interessarem. Sinceramente não tenho muito a apontar, acho que o projeto é apropriado, a matéria é interessante se gostares da área e achei fácil de se estudar para o exame porque o professor disponibilizou muitos materiais (e também é muito disponível para responder a perguntas)
+
+---
+Pos-Mepp:
+
+Projeto super interessante para quem tem interesse na área de SD. Os maioes problemas foi mais de falta de coordenação entre os professores e o enunciado ser ambíguo.
+
+Aulas teóricas super interessantes e bastante práticas no sentido que vais construindo os algoritmos para os perceberes realmente. Exame era parecido a anos pre mepp.

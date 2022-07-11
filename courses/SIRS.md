@@ -16,3 +16,11 @@ Ignorando isso, o projeto resume-se a:
 - Isto tudo numa arquitetura cliente servidor
 
 E é isso que me chateia, eles inventam os temas para tentar diferenciar e tentar que se aprenda coisas diferentes com as apresentações dos outros grupos, mas na realidade vai dar tudo ao mesmo e tens metade do "curso" a perder a vontade de viver com Mobile só porque o Pardal acha giro ver uma App num telemóvel
+
+---
+Pos Mepp:
+Das cadeiras mais "realistas" que fiz. Foi dos projetos mais interessantes que fiz mas deu um porra de trabalho. Foram 3 semanas para fazer e no enunciado dizia que era esperado 48 semanais de cada elemento. Consoante a tua escolha do tema há projetos mais ou menos extensos. O que quer que faças a discussão é uma apresentação onde os professores tentam destruir tudo o que tu dizes e decisões que tomaste (mesmo para destabilizar) e a tua nota depende do quanto te aguentas e sabes o que o teu sistema garante ou não).
+
+O exame é decorar as aulas teoricas. Pormenores de porcaria e etc.
+
+Pior parte é o projeto valer apenas 40% e dar imenso trabalho.
