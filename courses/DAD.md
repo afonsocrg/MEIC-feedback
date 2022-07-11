@@ -15,6 +15,6 @@ A matéria é basicamente uma continuação de SD, é bom se essas coisas te int
 ---
 Pos-Mepp:
 
-Projeto super interessante para quem tem interesse na área de SD. Os maioes problemas foi mais de falta de coordenação entre os professores e o enunciado ser ambíguo.
+Projeto super interessante para quem tem interesse na área de SD. Os maiores problemas foi mais de falta de coordenação entre os professores e o enunciado ser ambíguo.
 
 Aulas teóricas super interessantes e bastante práticas no sentido que vais construindo os algoritmos para os perceberes realmente. Exame era parecido a anos pre mepp.
