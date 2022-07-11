@@ -11,3 +11,13 @@ Oi Pessoal, LP depende muito do método. Normalmente é com testes teóricos, ma
 Depois a outra parte da avaliação era teórica, esta era com a plataforma de quizzes do Rito :/ por isso aquilo era um bocado mauzito, eram escolhas múltiplas e mais uma vez não era preciso estudar muito porque a matéria não era muita e bastava fazer uns resumos da teórica. Mas por termos pouco tempo e pelas perguntas terem rasteira às vezes era uma questão de sorte
 Há um projeto opcional que quase ninguém faz e que se fizerem dava 10% acho
 Assim em geral o mais complicado era que se uma pessoa faltasse às aulas não percebia nada porque verificação formal e aqueles temas são um bocado esotéricos para estudar sozinhos (mas o prof publicava todos os vídeos das aulas). E o stor é 5 estrelas, muito pronto a ajudar
+
+---
+Pos Mepp:
+Gostei imenso das aulas teóricas o professor é super cativante e foi super aento à transição mudando o rumo da cadeira a meio e tudo. Teve muito precalços de covid e feriados e etc mas overall não deu muito trabalho.
+
+Teoricas são super importantes e super praticas. Labs é mais individual e apoio ao projeto.
+
+Exame é mesmo toda a materia e ter de fazer exercicios à mão, ainda me deu trabalho a estudar mas pequenos typos e isso o stor não desconta desde que ele perceba que tu sabes o que estás a fazer
+
+Projetos são bastante guiados e o professor ajuda imenso. É fácil de ficar preso mas nos labs de projeto o professor ajuda nisso.
