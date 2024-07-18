@@ -25,3 +25,14 @@ No final, a Lynce percebeu que ninguém estava a conseguir ter tempos de menos d
 Apesar do projeto ter sido um pouco painful, para o ano(2022/2023) acredito que seja melhor porque a Lynce percebeu que o projeto foi um pouco puxado e que não houve muito tempo para o fazer. Acho que ela está a pensar fazer o projeto sobre procura (que é mais fácil).
 
 O exame foi bastante fácil. Não havia exames de anos anteriores, mas os exercícios do exame eram bastante semelhantes aos das fichas portanto quem fizesse as fichas tinha boa nota no exame. Além disso, o exame tinha 5 grupos, mas só contava os 4 melhores (portanto podias fazer o exame todo e contava só os 4 melhores ou fazias apenas 4 grupos).
+
+---
+23/24
+
+A matéria da cadeira está bem descrita acima. Diria que é interessante para quem gosta da área mais clássica de IA, mas não terá a maior aplicabilidade para quem não está dentro da área. Nas aulas, a Lynce limita-se essencialmente a ler os slides, que são razoáveis e têm alguns exemplos, mas esclarece bem as dúvidas que colocares. Nas práticas resolves exercícios práticos estilo exame. Cuidado que a Lynce é pouco simpática a disponibilizar materiais, por isso não contes com resoluções dos exercícios ou mais do que 2 exames resolvidos. 
+
+No projeto tinhas que usar uma linguagem chamada MiniZinc em que modelas constraints e ele dá-te as soluções que verificam essas constraints. Para além do enunciado, havia um paper e um capítulo de um livro que dava indicações sobre como modelar o problema. Depois tens uma parte chata de processamento em python que a meu ver era só completamente desnecessária porque não tem nada a ver com a cadeira. Tínhamos que aplicar lógica em python a processar json, e como a avaliação era automática o formato tinha que ser exatamente como eles queriam (e estava mal especificado e ambíguo em muitos pontos). O meu conselho é fazer isso com alguma antecedência porque a avaliação automática é corrida por eles quando lhes apetece, *a la* dailies para quem teve Compiladores e PO em LEIC, para não vos acontecer ter a lógica toda bem e ter o resultado mal formatado. 
+
+O exame era basicamente exercícios do mesmo estilo das aulas práticas. Aprendes os algoritmos, aplicas e a coisa corre bem, sem perguntas teóricas muito  ou escolhas múltiplas.
+
+No geral, é uma cadeira que se faz bem e não dá demasiado trabalho, mas aconselho alguma precaução com a indisponibilidade da Lynce a nível de recursos e de responder a emails, etc.
