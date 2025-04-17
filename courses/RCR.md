@@ -22,3 +22,19 @@ Os pontos maus é que as práticas é para tu e os outros alunos tentarem resolv
 Em contrapartida podes apresentar um trabalho de tipo 15-20 minutos para subir a tua nota final por 10%.
 
 TLDR: Se fores a quase todas as aulas e apresentares o trabalho para subir a nota acabas bem, senão pode-se complicar mas bastante interessante)
+
+---
+## 24/25
+
+Só me inscrevi na cadeira pq precisava dela para completar a especialização e depois de feita sei o mesmo que sabia antes(e sinceramente nao tem grande relevancia para os dias de hoje).
+
+Basicamente a cadeira começa com FOL e alguma lógica "básica" dada na licenciatura, e as seguintes semanas é dar diferentes tipos de famílias que tentam representar o "conhecimento" e inferir sobre o que se trata o conhecimento("raciocínio"). 
+A avaliação tem duas partes 50/50:
+  . 5 maps, feitos nos últimos 15/20 minutos da primeira aula prática da semana, sobre o que foi feito nas aulas práticas da semana anterior. Na última semana é possível repetir os maps que se quiser para melhorar as notas.
+  . 1 Exame que se foca basicamente na teoria das famílias que se estudam em aula, pontos fortes e fracos, decorar uma teoria e espetar no exame, e há um exercicio prático sobre uma das familias não avaliadas nos maps(a stora diz qual é na ultima aula prática)
+
+Nas aulas práticas vocês passam uma hora a tentar fazer um exercicio que nunca viram na vida e com pequenas dicas da stora, e só nos ultimos 30 minutos ela pede a alguem para o resolver e mostra a solução.
+Não vale a pena pedirem por soluções dos exercicios, maps, ou de exames passados(nem mesmo pedir exames, foi um milagre ela ter posto 1 no fenix) porque segundo ela "se vos der as soluções voces perdem o vosso espirito critico e nao sabem fazer um ligeiramente diferente"
+
+Se quiserem uma cadeira só para encher creditos esta nem é má de todo, basta irem a todas as práticas e decorarem a matéria teorica(não são mais de 5 folhas de resumo).
+Para o ano é a ultima vez que vai ser lecionada, pq (confirmem) em 26/27 vai ser fundida com PP.
