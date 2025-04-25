@@ -22,6 +22,12 @@ export interface Feedback {
   createdAt: string
 }
 
+export interface Specialization {
+  id: number
+  name: string
+  courseIds: number[]
+}
+
 interface GetCoursesParams {
   acronym?: string
 }
@@ -64,4 +70,12 @@ export async function getCourseIdFromAcronym(acronym: string): Promise<number> {
     // throw new Error('Multiple courses found for acronym')
   }
   return courses[0].id
+}
+
+export async function getSpecializations(): Promise<Specialization[]> {
+  const response = await fetch(`${API_BASE_URL}/specializations`)
+  if (!response.ok) {
+    throw new Error('Failed to fetch specializations')
+  }
+  return response.json()
 }

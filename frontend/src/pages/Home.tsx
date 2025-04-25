@@ -1,34 +1,48 @@
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import Chip from '../components/Chip'
 import CourseGrid from '../components/CourseGrid'
 import Header from '../components/Header'
-import { getCourses, type Course } from '../services/meicFeedbackAPI'
+import {
+  getCourses,
+  getSpecializations,
+  type Course,
+  type Specialization
+} from '../services/meicFeedbackAPI'
 
 const Home: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([])
+  const [specializations, setSpecializations] = useState<Specialization[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedPeriod, setSelectedPeriod] = useState<string>('')
+  const [selectedSpecialization, setSelectedSpecialization] = useState<
+    number | null
+  >(null)
   const [availablePeriods, setAvailablePeriods] = useState<string[]>([])
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getCourses()
-        setCourses(data)
+        const [coursesData, specializationsData] = await Promise.all([
+          getCourses(),
+          getSpecializations()
+        ])
+        setCourses(coursesData)
+        setSpecializations(specializationsData)
         // Extract unique periods and sort them
-        const periods = [...new Set(data.map((course) => course.period))].sort()
+        const periods = [
+          ...new Set(coursesData.map((course) => course.period))
+        ].sort()
         setAvailablePeriods(periods)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load courses')
+        setError(err instanceof Error ? err.message : 'Failed to load data')
       } finally {
         setIsLoading(false)
       }
     }
 
-    fetchCourses()
+    fetchData()
   }, [])
 
   const filteredCourses = courses.filter((course) => {
@@ -37,7 +51,12 @@ const Home: React.FC = () => {
       course.name.toLowerCase().includes(searchLower) ||
       course.acronym.toLowerCase().includes(searchLower)
     const matchesPeriod = !selectedPeriod || course.period === selectedPeriod
-    return matchesSearch && matchesPeriod
+    const matchesSpecialization =
+      !selectedSpecialization ||
+      specializations
+        .find((s) => s.id === selectedSpecialization)
+        ?.courseIds.includes(course.id)
+    return matchesSearch && matchesPeriod && matchesSpecialization
   })
 
   const containerVariants = {
@@ -77,32 +96,68 @@ const Home: React.FC = () => {
             Wondering which courses to take next semester? Discover what each
             course is truly like through honest feedback from your peers.
           </p>
-          <div className="flex flex-col gap-4 mb-8">
-            <input
-              type="text"
-              placeholder="Search courses by name or acronym..."
-              className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <div className="flex flex-wrap gap-2">
-              <Chip
-                label="All Periods"
-                className={`cursor-pointer ${
-                  !selectedPeriod ? 'bg-[#009de0] text-white' : ''
-                }`}
-                onClick={() => setSelectedPeriod('')}
+          <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-col">
+              <label
+                htmlFor="period"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Period
+              </label>
+              <select
+                id="period"
+                className="w-[120px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                value={selectedPeriod}
+                onChange={(e) => setSelectedPeriod(e.target.value)}
+              >
+                <option value="">All</option>
+                {availablePeriods.map((period) => (
+                  <option key={period} value={period}>
+                    {period}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="specialization"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Specialization
+              </label>
+              <select
+                id="specialization"
+                className="w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                value={selectedSpecialization ?? ''}
+                onChange={(e) =>
+                  setSelectedSpecialization(
+                    e.target.value ? Number(e.target.value) : null
+                  )
+                }
+              >
+                <option value="">All</option>
+                {specializations.map((specialization) => (
+                  <option key={specialization.id} value={specialization.id}>
+                    {specialization.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col flex-1 min-w-[200px]">
+              <label
+                htmlFor="search"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Search
+              </label>
+              <input
+                id="search"
+                type="text"
+                placeholder="Search by name or acronym..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              {availablePeriods.map((period) => (
-                <Chip
-                  key={period}
-                  label={period}
-                  className={`cursor-pointer ${
-                    selectedPeriod === period ? 'bg-[#009de0] text-white' : ''
-                  }`}
-                  onClick={() => setSelectedPeriod(period)}
-                />
-              ))}
             </div>
           </div>
         </motion.div>
