@@ -16,8 +16,9 @@ Other students will thank you for it! ❤️
 
 ## Adding your own feedback
 
-I'm currently adding functionality to let you add your feedback in the [website](https://meic-feedback.afonsocrg.com) itself, but while that's not available, you can either fill [this form](https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=header), create a [PR](https://github.com/afonsocrg/MEIC-feedback/pulls) or send me a message with your feedback!
+You can give your feedback on courses by filling [this form](https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=header).
 
+If you prefer to do it the old way, you can also create a [PR](https://github.com/afonsocrg/MEIC-feedback/pulls) with your feedback!
 
 
 ## Contributing
