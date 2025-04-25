@@ -28,16 +28,18 @@ const CourseCard: React.FC<CourseCardProps> = ({
     <motion.div
       key={courseId}
       variants={itemVariants}
-      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow h-full"
     >
       <Link
         to={`/courses/${acronym}`}
         state={{ courseId }}
-        className="block h-full"
+        className="block h-full flex flex-col justify-between"
       >
-        <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
-        <p className="text-gray-600 mb-4">{acronym}</p>
-        <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
+          <p className="text-gray-600">{acronym}</p>
+        </div>
+        <div className="flex items-center justify-between mt-4">
           <div className="flex items-center">
             <div className="mr-2">
               <StarRating rating={rating} size="sm" />
