@@ -1,10 +1,10 @@
 import { drizzle } from 'drizzle-orm/d1'
-import { courses, feedback } from './schema'
+import * as schemas from './schema'
 
-export type Database = typeof courses | typeof feedback
+export type Database = typeof schemas
 
 export function getDb(env: any) {
-  return drizzle(env.DB, { schema: { courses, feedback } })
+  return drizzle(env.DB, { schema: schemas })
 }
 
-export { courses, feedback }
+export * from './schema'

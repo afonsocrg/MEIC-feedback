@@ -1,6 +1,7 @@
 import { fromIttyRouter } from 'chanfana'
 import { cors, Router, withCookies } from 'itty-router'
 import { GetCourse, GetCourseFeedback, GetCourses } from './courses'
+import { GetSpecializations } from './specializations'
 
 const { preflight, corsify } = cors({
   origin: ['http://localhost:5173', 'https://meic-feedback.afonsocrg.com'],
@@ -22,6 +23,7 @@ export const router = fromIttyRouter(
 router.get('/courses', GetCourses)
 router.get('/courses/:id', GetCourse)
 router.get('/courses/:id/feedback', GetCourseFeedback)
+router.get('/specializations', GetSpecializations)
 
 // ---------------------------------------------------------
 // Authenticated routes

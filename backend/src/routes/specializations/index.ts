@@ -1,0 +1,1 @@
+export { GetSpecializations } from './listSpecializations'
