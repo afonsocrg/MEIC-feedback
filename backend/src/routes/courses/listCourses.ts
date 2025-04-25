@@ -19,6 +19,11 @@ export class GetCourses extends OpenAPIRoute {
     summary: 'Get all courses with aggregated feedback data',
     description:
       'Returns a list of all courses with their average rating and feedback count',
+    request: {
+      query: z.object({
+        acronym: z.string().optional()
+      })
+    },
     responses: {
       '200': {
         description: 'List of courses with aggregated feedback data',
@@ -34,7 +39,8 @@ export class GetCourses extends OpenAPIRoute {
   async handle(request: IRequest, env: any, context: any) {
     const db = getDb(env)
 
-    const result = await db
+    const acronym = request.query.acronym as string | undefined
+    const baseQuery = db
       .select({
         id: courses.id,
         name: courses.name,
@@ -48,6 +54,12 @@ export class GetCourses extends OpenAPIRoute {
       .from(courses)
       .leftJoin(feedback, eq(courses.id, feedback.courseId))
       .groupBy(courses.id)
+
+    const query = acronym
+      ? baseQuery.where(sql`lower(${courses.acronym}) = lower(${acronym})`)
+      : baseQuery
+
+    const result = await query
 
     return Response.json(result)
   }

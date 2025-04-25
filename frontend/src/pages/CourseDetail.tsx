@@ -1,16 +1,18 @@
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import Header from '../components/Header'
 import {
   getCourse,
   getCourseFeedback,
+  getCourseIdFromAcronym,
   type CourseDetail,
   type Feedback
 } from '../services/meicFeedbackAPI'
 
 const CourseDetail: React.FC = () => {
   const location = useLocation()
+  const { acronym } = useParams()
   const courseId = location.state?.courseId
   const [course, setCourse] = useState<CourseDetail | null>(null)
   const [feedback, setFeedback] = useState<Feedback[]>([])
@@ -19,14 +21,21 @@ const CourseDetail: React.FC = () => {
 
   useEffect(() => {
     const fetchCourseData = async () => {
-      if (!courseId) return
-
       try {
         setIsLoading(true)
-        const [courseData, feedbackData] = await Promise.all([
-          getCourse(parseInt(courseId)),
-          getCourseFeedback(parseInt(courseId))
-        ])
+
+        let cid = courseId
+
+        if (!cid) {
+          if (!acronym) {
+            console.error('This code should be unreachable')
+            throw new Error('No course identifier provided')
+          }
+          console.log('Fetching course ID from acronym', acronym)
+          cid = await getCourseIdFromAcronym(acronym)
+        }
+        const courseData = await getCourse(cid)
+        const feedbackData = await getCourseFeedback(cid)
         setCourse(courseData)
         setFeedback(feedbackData)
       } catch (err) {
@@ -39,7 +48,7 @@ const CourseDetail: React.FC = () => {
     }
 
     fetchCourseData()
-  }, [courseId])
+  }, [courseId, acronym])
 
   const containerVariants = {
     hidden: { opacity: 0 },

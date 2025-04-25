@@ -21,8 +21,17 @@ export interface Feedback {
   createdAt: string
 }
 
-export async function getCourses(): Promise<Course[]> {
-  const response = await fetch(`${API_BASE_URL}/courses`)
+interface GetCoursesParams {
+  acronym?: string
+}
+export async function getCourses({ acronym }: GetCoursesParams = {}): Promise<
+  Course[]
+> {
+  const url = new URL(`${API_BASE_URL}/courses`)
+  if (acronym) {
+    url.searchParams.append('acronym', acronym)
+  }
+  const response = await fetch(url.toString())
   if (!response.ok) {
     throw new Error('Failed to fetch courses')
   }
@@ -43,4 +52,15 @@ export async function getCourseFeedback(id: number): Promise<Feedback[]> {
     throw new Error('Failed to fetch course feedback')
   }
   return response.json()
+}
+
+export async function getCourseIdFromAcronym(acronym: string): Promise<number> {
+  const courses = await getCourses({ acronym })
+  if (courses.length === 0) {
+    throw new Error('Course not found')
+  } else if (courses.length > 1) {
+    console.warn('Multiple courses found for acronym', acronym)
+    // throw new Error('Multiple courses found for acronym')
+  }
+  return courses[0].id
 }
