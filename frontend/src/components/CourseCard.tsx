@@ -33,7 +33,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
       <Link
         to={`/courses/${acronym}`}
         state={{ courseId }}
-        className="block h-full flex flex-col justify-between"
+        className="h-full flex flex-col justify-between"
       >
         <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
