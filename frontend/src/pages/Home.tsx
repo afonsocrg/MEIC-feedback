@@ -8,6 +8,7 @@ const Home: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -23,6 +24,14 @@ const Home: React.FC = () => {
 
     fetchCourses()
   }, [])
+
+  const filteredCourses = courses.filter((course) => {
+    const searchLower = searchQuery.toLowerCase()
+    return (
+      course.name.toLowerCase().includes(searchLower) ||
+      course.acronym.toLowerCase().includes(searchLower)
+    )
+  })
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -57,10 +66,19 @@ const Home: React.FC = () => {
           <h1 className="text-3xl font-bold text-[#009de0] mb-2">
             Course Feedback
           </h1>
-          <p className="text-gray-600 mb-8">
+          <p className="text-gray-600 mb-4">
             Wondering which courses to take next semester? Discover what each
             course is truly like through honest feedback from your peers.
           </p>
+          <div className="mb-8">
+            <input
+              type="text"
+              placeholder="Search courses by name or acronym..."
+              className="w-full md:w-96 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </motion.div>
 
         <motion.div variants={itemVariants}>
@@ -79,11 +97,13 @@ const Home: React.FC = () => {
             </div>
           ) : error ? (
             <div className="text-red-500 text-center py-8">{error}</div>
-          ) : courses.length > 0 ? (
-            <CourseGrid courses={courses} />
+          ) : filteredCourses.length > 0 ? (
+            <CourseGrid courses={filteredCourses} />
           ) : (
             <div className="text-gray-600 text-center py-8">
-              No courses loaded yet. Please try again later.
+              {searchQuery
+                ? 'No courses match your search.'
+                : 'No courses loaded yet. Please try again later.'}
             </div>
           )}
         </motion.div>
