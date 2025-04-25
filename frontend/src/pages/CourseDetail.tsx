@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Header from '../components/Header'
 import {
   getCourse,
@@ -151,6 +151,13 @@ const CourseDetail: React.FC = () => {
             <h2 className="text-2xl font-semibold text-gray-800">
               Student Feedback
             </h2>
+            <Link
+              to="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
+              target="_blank"
+              className="text-[#009de0] hover:underline cursor-pointer"
+            >
+              Add Your Feedback
+            </Link>
           </div>
           {feedback.length === 0 ? (
             <p className="text-gray-600">No feedback yet</p>
