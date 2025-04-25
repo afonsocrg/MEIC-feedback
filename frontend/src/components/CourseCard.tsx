@@ -39,29 +39,23 @@ const CourseCard: React.FC<CourseCardProps> = ({
       >
         <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
-          <div className="flex items-center gap-2 mb-2">
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
             <p className="text-gray-600">{acronym}</p>
             {period && <Chip label={period} />}
           </div>
-        </div>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center">
-            <div className="mr-2">
-              <StarRating rating={rating} size="sm" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="mr-2">
+                <StarRating rating={rating} size="sm" />
+              </div>
+              <span className="text-gray-700">{rating.toFixed(1)}</span>
+              <span className="text-gray-500 ml-2">
+                ({feedbackCount} reviews)
+              </span>
             </div>
-            <span className="text-gray-700">{rating.toFixed(1)}</span>
-            <span className="text-gray-500 ml-2">
-              ({feedbackCount} reviews)
-            </span>
           </div>
-          {/* <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#009de0] hover:text-[#007bb5] transition-colors"
-          >
-            View Details
-          </a> */}
         </div>
       </Link>
     </motion.div>
