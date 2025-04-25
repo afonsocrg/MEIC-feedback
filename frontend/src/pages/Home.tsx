@@ -58,7 +58,8 @@ const Home: React.FC = () => {
             Course Feedback
           </h1>
           <p className="text-gray-600 mb-8">
-            Browse and rate your computer science master's courses
+            Wondering which courses to take next semester? Discover what each
+            course is truly like through honest feedback from your peers.
           </p>
         </motion.div>
 
