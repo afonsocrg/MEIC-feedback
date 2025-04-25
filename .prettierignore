@@ -1,0 +1,11 @@
+node_modules
+bun.lockb
+package-lock.json
+
+# Ignore artifacts:
+build
+dist
+coverage
+
+# Ignore all HTML files:
+**/*.html

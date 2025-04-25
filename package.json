@@ -1,0 +1,21 @@
+{
+  "name": "sttt",
+  "private": "true",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "start": "bun run start-b & bun run start-f",
+    "start-f": "cd frontend && bun run dev",
+    "start-b": "cd backend && bun run start",
+    "build": "bun run build-b && bun run build-f",
+    "build-b": "cd backend && bun run build",
+    "build-f": "cd frontend && bun run build",
+    "clean": "find . -name 'node_modules' -type d -prune -exec rm -rf '{}' + && rm -f bun.lockb"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
