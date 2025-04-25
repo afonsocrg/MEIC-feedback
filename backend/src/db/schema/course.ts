@@ -11,7 +11,8 @@ export const courses = sqliteTable('courses', {
   ),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(
     () => new Date()
-  )
+  ),
+  period: text('period')
 })
 
 export type Course = typeof courses.$inferSelect

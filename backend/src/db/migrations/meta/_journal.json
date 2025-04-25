@@ -8,6 +8,13 @@
       "when": 1745518949536,
       "tag": "0000_create_courses_and_feedback",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1745597287286,
+      "tag": "0001_add_period_to_courses",
+      "breakpoints": true
     }
   ]
 }
