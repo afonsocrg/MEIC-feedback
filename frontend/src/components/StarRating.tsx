@@ -26,7 +26,7 @@ const StarRating: React.FC<StarRatingProps> = ({
   }
 
   const stars = Array.from({ length: 5 }, (_, i) => {
-    const filled = i < rating
+    const filled = i < Math.round(rating)
     return (
       <button
         key={i}
