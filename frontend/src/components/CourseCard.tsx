@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Course } from '../services/meicFeedbackAPI'
+import StarRating from './StarRating'
 
 interface CourseCardProps extends Omit<Course, 'id'> {
   courseId: number
@@ -38,7 +39,9 @@ const CourseCard: React.FC<CourseCardProps> = ({
         <p className="text-gray-600 mb-4">{acronym}</p>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <span className="text-yellow-500 mr-1">★</span>
+            <div className="mr-2">
+              <StarRating rating={rating} size="sm" />
+            </div>
             <span className="text-gray-700">{rating.toFixed(1)}</span>
             <span className="text-gray-500 ml-2">
               ({feedbackCount} reviews)
