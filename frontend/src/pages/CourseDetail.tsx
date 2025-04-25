@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
+import Chip from '../components/Chip'
 import Header from '../components/Header'
 import {
   getCourse,
@@ -133,6 +134,7 @@ const CourseDetail: React.FC = () => {
 
           <div className="flex items-center gap-4 mb-6">
             <p className="text-gray-600">{course.acronym}</p>
+            {course.period && <Chip label={course.period} />}
             <div className="flex items-center">
               <span className="text-yellow-500 mr-1">★</span>
               <span className="text-gray-700">

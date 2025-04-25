@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
+import Chip from '../components/Chip'
 import CourseGrid from '../components/CourseGrid'
 import Header from '../components/Header'
 import { getCourses, type Course } from '../services/meicFeedbackAPI'
@@ -9,12 +10,17 @@ const Home: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('')
+  const [availablePeriods, setAvailablePeriods] = useState<string[]>([])
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const data = await getCourses()
         setCourses(data)
+        // Extract unique periods and sort them
+        const periods = [...new Set(data.map((course) => course.period))].sort()
+        setAvailablePeriods(periods)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load courses')
       } finally {
@@ -27,10 +33,11 @@ const Home: React.FC = () => {
 
   const filteredCourses = courses.filter((course) => {
     const searchLower = searchQuery.toLowerCase()
-    return (
+    const matchesSearch =
       course.name.toLowerCase().includes(searchLower) ||
       course.acronym.toLowerCase().includes(searchLower)
-    )
+    const matchesPeriod = !selectedPeriod || course.period === selectedPeriod
+    return matchesSearch && matchesPeriod
   })
 
   const containerVariants = {
@@ -70,7 +77,7 @@ const Home: React.FC = () => {
             Wondering which courses to take next semester? Discover what each
             course is truly like through honest feedback from your peers.
           </p>
-          <div className="mb-8">
+          <div className="flex flex-col gap-4 mb-8">
             <input
               type="text"
               placeholder="Search courses by name or acronym..."
@@ -78,6 +85,25 @@ const Home: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <div className="flex flex-wrap gap-2">
+              <Chip
+                label="All Periods"
+                className={`cursor-pointer ${
+                  !selectedPeriod ? 'bg-[#009de0] text-white' : ''
+                }`}
+                onClick={() => setSelectedPeriod('')}
+              />
+              {availablePeriods.map((period) => (
+                <Chip
+                  key={period}
+                  label={period}
+                  className={`cursor-pointer ${
+                    selectedPeriod === period ? 'bg-[#009de0] text-white' : ''
+                  }`}
+                  onClick={() => setSelectedPeriod(period)}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
 
@@ -101,8 +127,8 @@ const Home: React.FC = () => {
             <CourseGrid courses={filteredCourses} />
           ) : (
             <div className="text-gray-600 text-center py-8">
-              {searchQuery
-                ? 'No courses match your search.'
+              {searchQuery || selectedPeriod
+                ? 'No courses match your filters.'
                 : 'No courses loaded yet. Please try again later.'}
             </div>
           )}

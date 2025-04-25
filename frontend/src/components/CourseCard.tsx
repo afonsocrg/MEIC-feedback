@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Course } from '../services/meicFeedbackAPI'
+import Chip from './Chip'
 import StarRating from './StarRating'
 
 interface CourseCardProps extends Omit<Course, 'id'> {
@@ -13,7 +14,8 @@ const CourseCard: React.FC<CourseCardProps> = ({
   acronym,
   name,
   rating,
-  feedbackCount
+  feedbackCount,
+  period
 }) => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -37,7 +39,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
       >
         <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
-          <p className="text-gray-600">{acronym}</p>
+          <div className="flex items-center gap-2 mb-2">
+            <p className="text-gray-600">{acronym}</p>
+            {period && <Chip label={period} />}
+          </div>
         </div>
         <div className="flex items-center justify-between mt-4">
           <div className="flex items-center">

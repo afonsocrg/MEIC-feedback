@@ -7,6 +7,7 @@ export interface Course {
   url: string
   rating: number
   feedbackCount: number
+  period: string
 }
 
 export interface CourseDetail extends Course {
