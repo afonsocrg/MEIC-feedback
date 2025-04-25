@@ -78,8 +78,12 @@ const Home: React.FC = () => {
             </div>
           ) : error ? (
             <div className="text-red-500 text-center py-8">{error}</div>
-          ) : (
+          ) : courses.length > 0 ? (
             <CourseGrid courses={courses} />
+          ) : (
+            <div className="text-gray-600 text-center py-8">
+              No courses loaded yet. Please try again later.
+            </div>
           )}
         </motion.div>
       </motion.main>
