@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import Chip from '../components/Chip'
 import Header from '../components/Header'
+import SchoolYearSection from '../components/SchoolYearSection'
+import WarningAlert from '../components/WarningAlert'
 import {
   getCourse,
   getCourseFeedback,
@@ -10,6 +12,51 @@ import {
   type CourseDetail,
   type Feedback
 } from '../services/meicFeedbackAPI'
+
+// Helper function to get school year from a date
+const getSchoolYear = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1 // getMonth() returns 0-11
+
+  // If month is September or later, it's the start of the next school year
+  if (month >= 9) {
+    return `${year}/${year + 1}`
+  } else {
+    return `${year - 1}/${year}`
+  }
+}
+
+// Helper function to get current school year
+const getCurrentSchoolYear = (): string => {
+  return getSchoolYear(new Date())
+}
+
+// Helper function to check if a school year is outdated
+const isSchoolYearOutdated = (schoolYear: string): boolean => {
+  const currentYear = getCurrentSchoolYear()
+  const [currentStart] = currentYear.split('/').map(Number)
+  const [, yearEnd] = schoolYear.split('/').map(Number)
+
+  // A school year is outdated if it's more than 2 years behind the current one
+  return yearEnd < currentStart - 1
+}
+
+// Helper function to group feedback by school year
+const groupFeedbackBySchoolYear = (
+  feedback: Feedback[]
+): Map<string, Feedback[]> => {
+  const grouped = new Map<string, Feedback[]>()
+
+  feedback.forEach((f) => {
+    const schoolYear = getSchoolYear(new Date(f.createdAt))
+    if (!grouped.has(schoolYear)) {
+      grouped.set(schoolYear, [])
+    }
+    grouped.get(schoolYear)?.push(f)
+  })
+
+  return grouped
+}
 
 const CourseDetail: React.FC = () => {
   const location = useLocation()
@@ -32,7 +79,6 @@ const CourseDetail: React.FC = () => {
             console.error('This code should be unreachable')
             throw new Error('No course identifier provided')
           }
-          console.log('Fetching course ID from acronym', acronym)
           cid = await getCourseIdFromAcronym(acronym)
         }
         const courseData = await getCourse(cid)
@@ -150,7 +196,7 @@ const CourseDetail: React.FC = () => {
               rel="noopener noreferrer"
               className="text-[#009de0] hover:underline cursor-pointer"
             >
-              Fénix URL
+              Fénix
             </a>
           </div>
 
@@ -174,36 +220,28 @@ const CourseDetail: React.FC = () => {
             <p className="text-gray-600">No feedback yet</p>
           ) : (
             <div className="space-y-4">
-              {feedback.map((f) => (
-                <motion.div
-                  key={f.id}
-                  variants={itemVariants}
-                  className="bg-white rounded-lg shadow-md p-6"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center">
-                      <div className="flex">
-                        {[...Array(5)].map((_, index) => (
-                          <span
-                            key={index}
-                            className={`text-2xl ${
-                              index < f.rating
-                                ? 'text-yellow-500'
-                                : 'text-gray-200'
-                            }`}
-                          >
-                            ★
-                          </span>
-                        ))}
-                      </div>
-                      <span className="text-gray-500 text-sm ml-4">
-                        {new Date(f.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </div>
-                  {f.comment && <p className="text-gray-600">{f.comment}</p>}
-                </motion.div>
-              ))}
+              {Array.from(groupFeedbackBySchoolYear(feedback).entries())
+                .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
+                .map(([schoolYear, yearFeedback], index, array) => {
+                  const isOutdated = isSchoolYearOutdated(schoolYear)
+                  const isFirstOutdated =
+                    isOutdated &&
+                    (index === 0 || !isSchoolYearOutdated(array[index - 1][0]))
+
+                  return (
+                    <>
+                      {isFirstOutdated && (
+                        <WarningAlert message="The feedback below this point may be outdated. Course content, teaching methods, and requirements may have changed since then." />
+                      )}
+                      <SchoolYearSection
+                        key={schoolYear}
+                        schoolYear={schoolYear}
+                        feedback={yearFeedback}
+                        variants={itemVariants}
+                      />
+                    </>
+                  )
+                })}
             </div>
           )}
         </motion.div>

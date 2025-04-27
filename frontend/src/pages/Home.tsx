@@ -112,17 +112,17 @@ const Home: React.FC = () => {
             Wondering which courses to take next semester? Discover what each
             course is truly like through honest feedback from your peers.
           </p>
-          <div className="flex flex-wrap gap-4 mb-8">
-            <div className="flex flex-col">
+          <div className="bg-white rounded-xl shadow-md px-6 py-4 mb-8 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
+            <div className="flex-1 flex flex-col min-w-[120px]">
               <label
                 htmlFor="period"
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-xs font-semibold text-gray-500 mb-1"
               >
                 Period
               </label>
               <select
                 id="period"
-                className="w-[120px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={selectedPeriod}
                 onChange={(e) => setSelectedPeriod(e.target.value)}
               >
@@ -134,16 +134,16 @@ const Home: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className="flex flex-col">
+            <div className="flex-1 flex flex-col min-w-[160px]">
               <label
                 htmlFor="specialization"
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-xs font-semibold text-gray-500 mb-1"
               >
                 Specialization
               </label>
               <select
                 id="specialization"
-                className="w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={selectedSpecialization ?? ''}
                 onChange={(e) =>
                   setSelectedSpecialization(
@@ -159,16 +159,16 @@ const Home: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className="flex flex-col">
+            <div className="flex-1 flex flex-col min-w-[160px]">
               <label
                 htmlFor="sort"
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-xs font-semibold text-gray-500 mb-1"
               >
                 Sort by
               </label>
               <select
                 id="sort"
-                className="w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
               >
@@ -177,10 +177,10 @@ const Home: React.FC = () => {
                 <option value="reviews">Most Reviews</option>
               </select>
             </div>
-            <div className="flex flex-col flex-1 min-w-[200px]">
+            <div className="flex-[2] flex flex-col min-w-[200px]">
               <label
                 htmlFor="search"
-                className="text-sm font-medium text-gray-700 mb-1"
+                className="text-xs font-semibold text-gray-500 mb-1"
               >
                 Search
               </label>
@@ -188,7 +188,7 @@ const Home: React.FC = () => {
                 id="search"
                 type="text"
                 placeholder="Search by name or acronym..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

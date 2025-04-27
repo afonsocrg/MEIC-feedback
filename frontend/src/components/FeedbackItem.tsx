@@ -1,30 +1,36 @@
+import { motion } from 'framer-motion'
 import React from 'react'
-import { Feedback } from '../types'
+import { Feedback } from '../services/meicFeedbackAPI'
 import StarRating from './StarRating'
 
 interface FeedbackItemProps {
   feedback: Feedback
+  variants?: {
+    hidden: { opacity: number; y: number }
+    visible: {
+      opacity: number
+      y: number
+      transition: { type: string; stiffness: number }
+    }
+  }
 }
 
-const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback }) => {
-  const formattedDate = new Date(feedback.createdAt).toLocaleDateString(
-    'en-US',
-    {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }
-  )
-
+const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, variants }) => {
   return (
-    <div className="py-6 first:pt-0">
-      <div className="flex items-center gap-3 mb-3">
-        <StarRating rating={feedback.rating} size="sm" />
-        <span className="text-gray-500 text-sm">{formattedDate}</span>
+    <motion.div
+      variants={variants}
+      className="bg-white rounded-lg shadow-md p-6 mb-4"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center">
+          <StarRating rating={feedback.rating} />
+          <span className="text-gray-500 text-sm ml-4">
+            {new Date(feedback.createdAt).toLocaleDateString()}
+          </span>
+        </div>
       </div>
-      <p className="text-gray-700 whitespace-pre-line">{feedback.comment}</p>
-      <div className="mt-6 border-b border-gray-100 last:border-0" />
-    </div>
+      {feedback.comment && <p className="text-gray-600">{feedback.comment}</p>}
+    </motion.div>
   )
 }
 
