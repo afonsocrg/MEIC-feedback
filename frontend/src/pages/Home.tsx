@@ -105,7 +105,7 @@ const Home: React.FC = () => {
         animate="visible"
       >
         <motion.div variants={itemVariants}>
-          <h1 className="text-3xl font-bold text-[#009de0] mb-2">
+          <h1 className="text-3xl font-bold text-istBlue mb-2">
             Course Feedback
           </h1>
           <p className="text-gray-600 mb-4">
@@ -122,7 +122,7 @@ const Home: React.FC = () => {
               </label>
               <select
                 id="period"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={selectedPeriod}
                 onChange={(e) => setSelectedPeriod(e.target.value)}
               >
@@ -143,7 +143,7 @@ const Home: React.FC = () => {
               </label>
               <select
                 id="specialization"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={selectedSpecialization ?? ''}
                 onChange={(e) =>
                   setSelectedSpecialization(
@@ -168,7 +168,7 @@ const Home: React.FC = () => {
               </label>
               <select
                 id="sort"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
               >
@@ -188,7 +188,7 @@ const Home: React.FC = () => {
                 id="search"
                 type="text"
                 placeholder="Search by name or acronym..."
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent bg-gray-50 text-gray-700 transition"
+                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

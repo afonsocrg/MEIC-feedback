@@ -174,7 +174,7 @@ const CourseDetail: React.FC = () => {
         animate="visible"
       >
         <motion.div variants={itemVariants}>
-          <h1 className="text-3xl font-bold text-[#009de0] mb-4">
+          <h1 className="text-3xl font-bold text-istBlue mb-4">
             {course.name}
           </h1>
 
@@ -194,7 +194,7 @@ const CourseDetail: React.FC = () => {
               href={course.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#009de0] hover:underline cursor-pointer"
+              className="text-istBlue hover:underline cursor-pointer"
             >
               Fénix
             </a>
@@ -211,7 +211,7 @@ const CourseDetail: React.FC = () => {
             <Link
               to="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
               target="_blank"
-              className="text-[#009de0] hover:underline cursor-pointer"
+              className="text-istBlue hover:underline cursor-pointer"
             >
               Add Your Feedback
             </Link>

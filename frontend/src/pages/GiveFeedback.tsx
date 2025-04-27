@@ -59,7 +59,7 @@ const GiveFeedback: React.FC = () => {
       <main className="container mx-auto px-4 py-8 max-w-2xl">
         <Link
           to="/"
-          className="flex items-center text-[#009de0] hover:opacity-80 mb-8"
+          className="flex items-center text-istBlue hover:opacity-80 mb-8"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           <span>Back to all courses</span>
@@ -89,7 +89,7 @@ const GiveFeedback: React.FC = () => {
                   id="course"
                   value={selectedCourseId}
                   onChange={(e) => setSelectedCourseId(e.target.value)}
-                  className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#009de0] focus:border-[#009de0]"
+                  className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-istBlue focus:border-istBlue"
                   disabled={!!initialCourseId || isSubmitting}
                 >
                   <option value="">-- Select a course --</option>
@@ -124,7 +124,7 @@ const GiveFeedback: React.FC = () => {
                   id="comment"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  className="w-full p-3 border border-gray-200 rounded-lg h-32 focus:ring-2 focus:ring-[#009de0] focus:border-[#009de0]"
+                  className="w-full p-3 border border-gray-200 rounded-lg h-32 focus:ring-2 focus:ring-istBlue focus:border-istBlue"
                   placeholder="Share your experience with this course..."
                   disabled={isSubmitting}
                   required
@@ -140,7 +140,7 @@ const GiveFeedback: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#009de0] hover:bg-[#009de0]/90 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition-colors"
+                className="w-full bg-istBlue hover:bg-istBlue/90 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition-colors"
               >
                 {isSubmitting ? (
                   <span>Submitting...</span>

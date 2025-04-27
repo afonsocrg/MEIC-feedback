@@ -17,13 +17,13 @@ export default function NotFound() {
         transition={{ type: 'spring', stiffness: 300 }}
       >
         <div className="text-center">
-          <h1 className="text-6xl font-bold text-[#009de0] mb-4">404</h1>
+          <h1 className="text-6xl font-bold text-istBlue mb-4">404</h1>
           <p className="text-xl text-gray-600 mb-8">
             Oops! The page you're looking for doesn't exist.
           </p>
           <button
             onClick={() => navigate('/')}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#009de0] text-white rounded-lg hover:bg-[#009de0]/90 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-istBlue text-white rounded-lg hover:bg-istBlue/90 transition-colors"
           >
             <Home className="h-5 w-5" />
             <span>Go back home</span>

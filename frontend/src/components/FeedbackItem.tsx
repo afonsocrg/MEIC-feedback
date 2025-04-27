@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 import { Feedback } from '../services/meicFeedbackAPI'
+import Markdown from './Markdown'
 import StarRating from './StarRating'
 
 interface FeedbackItemProps {
@@ -29,7 +30,7 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, variants }) => {
           </span>
         </div>
       </div>
-      {feedback.comment && <p className="text-gray-600">{feedback.comment}</p>}
+      {feedback.comment && <Markdown>{feedback.comment}</Markdown>}
     </motion.div>
   )
 }

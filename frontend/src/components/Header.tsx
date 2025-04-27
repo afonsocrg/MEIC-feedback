@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-[#009de0] text-white">
+    <header className="bg-istBlue text-white">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link
           to="/"
