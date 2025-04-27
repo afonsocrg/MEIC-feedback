@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
 import CourseGrid from '../components/CourseGrid'
 import Header from '../components/Header'
 import {
@@ -11,18 +12,30 @@ import {
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
+const STORAGE_KEYS = {
+  PERIOD: 'meic-feedback-period',
+  SPECIALIZATION: 'meic-feedback-specialization',
+  SORT: 'meic-feedback-sort'
+}
+
 const Home: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([])
   const [specializations, setSpecializations] = useState<Specialization[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedPeriod, setSelectedPeriod] = useState<string>('')
-  const [selectedSpecialization, setSelectedSpecialization] = useState<
+  const [selectedPeriod, setSelectedPeriod] = useLocalStorage<string>(
+    STORAGE_KEYS.PERIOD,
+    ''
+  )
+  const [selectedSpecialization, setSelectedSpecialization] = useLocalStorage<
     number | null
-  >(null)
+  >(STORAGE_KEYS.SPECIALIZATION, null)
   const [availablePeriods, setAvailablePeriods] = useState<string[]>([])
-  const [sortBy, setSortBy] = useState<SortOption>('rating')
+  const [sortBy, setSortBy] = useLocalStorage<SortOption>(
+    STORAGE_KEYS.SORT,
+    'rating'
+  )
 
   useEffect(() => {
     const fetchData = async () => {

@@ -19,7 +19,8 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.23.0",
     "rehype-raw": "^7.0.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
