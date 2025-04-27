@@ -9,6 +9,8 @@ import {
   type Specialization
 } from '../services/meicFeedbackAPI'
 
+type SortOption = 'rating' | 'alphabetical' | 'reviews'
+
 const Home: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([])
   const [specializations, setSpecializations] = useState<Specialization[]>([])
@@ -20,6 +22,7 @@ const Home: React.FC = () => {
     number | null
   >(null)
   const [availablePeriods, setAvailablePeriods] = useState<string[]>([])
+  const [sortBy, setSortBy] = useState<SortOption>('rating')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,19 +48,32 @@ const Home: React.FC = () => {
     fetchData()
   }, [])
 
-  const filteredCourses = courses.filter((course) => {
-    const searchLower = searchQuery.toLowerCase()
-    const matchesSearch =
-      course.name.toLowerCase().includes(searchLower) ||
-      course.acronym.toLowerCase().includes(searchLower)
-    const matchesPeriod = !selectedPeriod || course.period === selectedPeriod
-    const matchesSpecialization =
-      !selectedSpecialization ||
-      specializations
-        .find((s) => s.id === selectedSpecialization)
-        ?.courseIds.includes(course.id)
-    return matchesSearch && matchesPeriod && matchesSpecialization
-  })
+  const filteredCourses = courses
+    .filter((course) => {
+      const searchLower = searchQuery.toLowerCase()
+      const matchesSearch =
+        course.name.toLowerCase().includes(searchLower) ||
+        course.acronym.toLowerCase().includes(searchLower)
+      const matchesPeriod = !selectedPeriod || course.period === selectedPeriod
+      const matchesSpecialization =
+        !selectedSpecialization ||
+        specializations
+          .find((s) => s.id === selectedSpecialization)
+          ?.courseIds.includes(course.id)
+      return matchesSearch && matchesPeriod && matchesSpecialization
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'rating':
+          return (b.rating || 0) - (a.rating || 0)
+        case 'alphabetical':
+          return a.name.localeCompare(b.name)
+        case 'reviews':
+          return (b.feedbackCount || 0) - (a.feedbackCount || 0)
+        default:
+          return 0
+      }
+    })
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -141,6 +157,24 @@ const Home: React.FC = () => {
                     {specialization.name}
                   </option>
                 ))}
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label
+                htmlFor="sort"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Sort by
+              </label>
+              <select
+                id="sort"
+                className="w-[180px] px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#009de0] focus:border-transparent"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as SortOption)}
+              >
+                <option value="rating">Highest Rating</option>
+                <option value="alphabetical">Alphabetical</option>
+                <option value="reviews">Most Reviews</option>
               </select>
             </div>
             <div className="flex flex-col flex-1 min-w-[200px]">
