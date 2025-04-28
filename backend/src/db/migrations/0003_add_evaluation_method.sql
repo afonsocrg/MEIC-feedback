@@ -1,0 +1,1 @@
+ALTER TABLE `courses` ADD `evaluation_method` text;
