@@ -221,7 +221,7 @@ const CourseDetail: React.FC = () => {
               Student Feedback
             </h2>
             <Link
-              to="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
+              to={`https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=pp_url&entry.1483270244=${getCurrentSchoolYear()}&entry.742852873=${course.acronym}+-+${course.name}`}
               target="_blank"
               className="text-istBlue hover:underline cursor-pointer"
             >
