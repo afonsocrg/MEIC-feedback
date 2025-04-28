@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import Chip from '../components/Chip'
 import Header from '../components/Header'
+import Markdown from '../components/Markdown'
 import SchoolYearSection from '../components/SchoolYearSection'
 import WarningAlert from '../components/WarningAlert'
 import {
@@ -199,11 +200,22 @@ const CourseDetail: React.FC = () => {
               Fénix
             </a>
           </div>
-
-          <p className="text-gray-600 mb-8">{course.description}</p>
         </motion.div>
 
         <motion.div variants={itemVariants}>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            What's this course really about?
+          </h2>
+          {course.description ? (
+            <Markdown>{course.description}</Markdown>
+          ) : (
+            <p className="text-gray-600">
+              We don't have information about this course yet.
+            </p>
+          )}
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mt-12">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-800">
               Student Feedback
@@ -213,7 +225,7 @@ const CourseDetail: React.FC = () => {
               target="_blank"
               className="text-istBlue hover:underline cursor-pointer"
             >
-              Add Your Feedback
+              Add your feedback!
             </Link>
           </div>
           {feedback.length === 0 ? (
