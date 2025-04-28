@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion'
+import { Pencil } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import Chip from '../components/Chip'
 import Header from '../components/Header'
 import Markdown from '../components/Markdown'
 import SchoolYearSection from '../components/SchoolYearSection'
+import Tooltip from '../components/Tooltip'
 import WarningAlert from '../components/WarningAlert'
 import {
   getCourse,
@@ -57,6 +59,26 @@ const groupFeedbackBySchoolYear = (
   })
 
   return grouped
+}
+
+const getCourseNameForForm = (course: CourseDetail): string => {
+  return `${course.acronym} - ${course.name}`
+}
+
+const FORM_DESCRIPTION_FIELD_NAME = "What's+this+course+really+about?"
+
+const getFeedbackFormUrl = (course: CourseDetail): string => {
+  return `https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=pp_url&entry.1483270244=${getCurrentSchoolYear()}&entry.742852873=${getCourseNameForForm(course)}`
+}
+
+const getEditDescriptionFormUrl = (course: CourseDetail): string => {
+  let url = `https://docs.google.com/forms/d/e/1FAIpQLSfsGQ0rvC-AG5Ns-eNRM5C7vqfT-5p7p_d62mw-8245GMwwSg/viewform?usp=pp_url&entry.392580474=${getCourseNameForForm(course)}&entry.92044763=${FORM_DESCRIPTION_FIELD_NAME}`
+
+  if (course.description) {
+    url += `&entry.457689664=${encodeURIComponent(course.description)}`
+  }
+
+  return url
 }
 
 const CourseDetail: React.FC = () => {
@@ -203,14 +225,37 @@ const CourseDetail: React.FC = () => {
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            What's this course really about?
-          </h2>
+          <div className="flex items-center gap-2 mb-4">
+            <h2 className="text-2xl font-semibold text-gray-800">
+              What's this course really about?
+            </h2>
+            {course.description && (
+              <Tooltip content="Edit">
+                <button
+                  onClick={() =>
+                    window.open(getEditDescriptionFormUrl(course), '_blank')
+                  }
+                  className="flex items-center justify-center text-gray-400 hover:text-istBlue transition-colors"
+                  aria-label="Edit course description"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+              </Tooltip>
+            )}
+          </div>
           {course.description ? (
             <Markdown>{course.description}</Markdown>
           ) : (
-            <p className="text-gray-600">
-              We don't have information about this course yet.
+            <p className="text-gray-600 italic">
+              We don't have a description for this course yet.{' '}
+              <a
+                href={getEditDescriptionFormUrl(course)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-istBlue underline hover:no-underline"
+              >
+                Be the first to add one!
+              </a>
             </p>
           )}
         </motion.div>
@@ -221,7 +266,7 @@ const CourseDetail: React.FC = () => {
               Student Feedback
             </h2>
             <Link
-              to={`https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=pp_url&entry.1483270244=${getCurrentSchoolYear()}&entry.742852873=${course.acronym}+-+${course.name}`}
+              to={getFeedbackFormUrl(course)}
               target="_blank"
               className="text-istBlue hover:underline cursor-pointer"
             >
