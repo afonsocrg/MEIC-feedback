@@ -11,7 +11,8 @@ export interface Course {
 }
 
 export interface CourseDetail extends Course {
-  description: string
+  description: string | null
+  evaluationMethod: string | null
 }
 
 export interface Feedback {

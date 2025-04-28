@@ -1,13 +1,17 @@
 import { motion } from 'framer-motion'
-import { Pencil } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import Chip from '../components/Chip'
+import EditableSection from '../components/EditableSection'
 import Header from '../components/Header'
 import Markdown from '../components/Markdown'
 import SchoolYearSection from '../components/SchoolYearSection'
-import Tooltip from '../components/Tooltip'
 import WarningAlert from '../components/WarningAlert'
+import {
+  getCourseFeedbackFormUrl,
+  getEditDescriptionFormUrl,
+  getEvaluationMethodFormUrl
+} from '../services/googleForms'
 import {
   getCourse,
   getCourseFeedback,
@@ -15,34 +19,7 @@ import {
   type CourseDetail,
   type Feedback
 } from '../services/meicFeedbackAPI'
-
-// Helper function to get school year from a date
-const getSchoolYear = (date: Date): string => {
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1 // getMonth() returns 0-11
-
-  // If month is September or later, it's the start of the next school year
-  if (month >= 9) {
-    return `${year}/${year + 1}`
-  } else {
-    return `${year - 1}/${year}`
-  }
-}
-
-// Helper function to get current school year
-const getCurrentSchoolYear = (): string => {
-  return getSchoolYear(new Date())
-}
-
-// Helper function to check if a school year is outdated
-const isSchoolYearOutdated = (schoolYear: string): boolean => {
-  const currentYear = getCurrentSchoolYear()
-  const [currentStart] = currentYear.split('/').map(Number)
-  const [, yearEnd] = schoolYear.split('/').map(Number)
-
-  // A school year is outdated if it's more than 2 years behind the current one
-  return yearEnd < currentStart - 1
-}
+import { getSchoolYear, isSchoolYearOutdated } from '../services/schoolYear'
 
 // Helper function to group feedback by school year
 const groupFeedbackBySchoolYear = (
@@ -59,26 +36,6 @@ const groupFeedbackBySchoolYear = (
   })
 
   return grouped
-}
-
-const getCourseNameForForm = (course: CourseDetail): string => {
-  return `${course.acronym} - ${course.name}`
-}
-
-const FORM_DESCRIPTION_FIELD_NAME = "What's+this+course+really+about?"
-
-const getFeedbackFormUrl = (course: CourseDetail): string => {
-  return `https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=pp_url&entry.1483270244=${getCurrentSchoolYear()}&entry.742852873=${getCourseNameForForm(course)}`
-}
-
-const getEditDescriptionFormUrl = (course: CourseDetail): string => {
-  let url = `https://docs.google.com/forms/d/e/1FAIpQLSfsGQ0rvC-AG5Ns-eNRM5C7vqfT-5p7p_d62mw-8245GMwwSg/viewform?usp=pp_url&entry.392580474=${getCourseNameForForm(course)}&entry.92044763=${FORM_DESCRIPTION_FIELD_NAME}`
-
-  if (course.description) {
-    url += `&entry.457689664=${encodeURIComponent(course.description)}`
-  }
-
-  return url
 }
 
 const CourseDetail: React.FC = () => {
@@ -225,39 +182,49 @@ const CourseDetail: React.FC = () => {
         </motion.div>
 
         <motion.div variants={itemVariants}>
-          <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-2xl font-semibold text-gray-800">
-              What's this course really about?
-            </h2>
-            {course.description && (
-              <Tooltip content="Edit">
-                <button
-                  onClick={() =>
-                    window.open(getEditDescriptionFormUrl(course), '_blank')
-                  }
-                  className="flex items-center justify-center text-gray-400 hover:text-istBlue transition-colors"
-                  aria-label="Edit course description"
+          <EditableSection
+            title="What's this course really about?"
+            value={course.description}
+            editTooltip="Edit description"
+            getEditUrl={() => getEditDescriptionFormUrl(course)}
+            renderContent={(value) => <Markdown>{value}</Markdown>}
+            fallback={
+              <p className="text-gray-600 italic">
+                We don't have a description for this course yet.{' '}
+                <a
+                  href={getEditDescriptionFormUrl(course)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-istBlue underline hover:no-underline"
                 >
-                  <Pencil className="w-4 h-4" />
-                </button>
-              </Tooltip>
-            )}
-          </div>
-          {course.description ? (
-            <Markdown>{course.description}</Markdown>
-          ) : (
-            <p className="text-gray-600 italic">
-              We don't have a description for this course yet.{' '}
-              <a
-                href={getEditDescriptionFormUrl(course)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-istBlue underline hover:no-underline"
-              >
-                Be the first to add one!
-              </a>
-            </p>
-          )}
+                  Be the first to add one!
+                </a>
+              </p>
+            }
+          />
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <EditableSection
+            title="Evaluation method"
+            value={course.evaluationMethod}
+            editTooltip="Edit evaluation method"
+            getEditUrl={() => getEvaluationMethodFormUrl(course)}
+            renderContent={(value) => <Markdown>{value}</Markdown>}
+            fallback={
+              <p className="text-gray-600 italic">
+                No evaluation method yet.{' '}
+                <a
+                  href={getEvaluationMethodFormUrl(course)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-istBlue underline hover:no-underline"
+                >
+                  Be the first to add one!
+                </a>
+              </p>
+            }
+          />
         </motion.div>
 
         <motion.div variants={itemVariants} className="mt-12">
@@ -266,7 +233,7 @@ const CourseDetail: React.FC = () => {
               Student Feedback
             </h2>
             <Link
-              to={getFeedbackFormUrl(course)}
+              to={getCourseFeedbackFormUrl(course).toString()}
               target="_blank"
               className="text-istBlue hover:underline cursor-pointer"
             >
