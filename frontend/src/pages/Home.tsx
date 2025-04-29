@@ -117,14 +117,30 @@ const Home: React.FC = () => {
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants}>
-          <h1 className="text-3xl font-bold text-istBlue mb-2">
-            Course Feedback
-          </h1>
-          <p className="text-gray-600 mb-4">
-            Wondering which courses to take next semester? Discover what each
-            course is truly like through honest feedback from your peers.
-          </p>
+        <motion.div variants={itemVariants} className="mb-12">
+          <h4 className="text-2xl font-bold text-istBlue mb-4">
+            Wondering which courses to take next semester?
+          </h4>
+          <div className="max-w-3xl">
+            <p className=" text-gray-700 mb-6">
+              Discover what each course is truly like through{' '}
+              <span className="font-bold">honest feedback</span> from your
+              peers.
+            </p>
+            <p className=" text-gray-700 mb-6">
+              Finding this project useful? Help other students by{' '}
+              <a
+                href="/feedback"
+                className="text-istBlue hover:text-blue-700 font-medium underline"
+              >
+                giving your feedback
+              </a>{' '}
+              on courses you've taken this semester!
+            </p>
+          </div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} id="course-list">
           <div className="bg-white rounded-xl shadow-md px-6 py-4 mb-8 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
             <div className="flex-1 flex flex-col min-w-[120px]">
               <label
