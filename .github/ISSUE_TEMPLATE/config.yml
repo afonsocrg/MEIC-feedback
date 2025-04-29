@@ -1,8 +1,1 @@
 blank_issues_enabled: false
-contact_links:
-  - name: 💬 Ask a Question
-    url: https://github.com/afonsocrg/meic-feedback/discussions
-    about: Have a question? Ask it in our Discussions section!
-  - name: 📚 Documentation
-    url: https://github.com/afonsocrg/meic-feedback/wiki
-    about: Check out our documentation for more information 
