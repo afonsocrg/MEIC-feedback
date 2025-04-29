@@ -134,7 +134,7 @@ const Home: React.FC = () => {
               <p className="text-gray-700 mb-6">
                 Help other students by{' '}
                 <a
-                  href="/feedback"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
                   className="text-istBlue hover:text-istBlueDark font-medium underline"
                 >
                   giving your feedback
