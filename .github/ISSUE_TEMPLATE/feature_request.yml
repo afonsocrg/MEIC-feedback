@@ -2,7 +2,6 @@ name: Feature Request
 description: Suggest an idea for improving the platform
 title: "✨ [FEATURE] "
 labels: ["enhancement"]
-assignees: ""
 body:
   - type: markdown
     attributes:
