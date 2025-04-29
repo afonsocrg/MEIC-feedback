@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import CourseGrid from '../components/CourseGrid'
 import Header from '../components/Header'
+import SearchBar from '../components/SearchBar'
 import {
   getCourses,
   getSpecializations,
@@ -141,88 +142,18 @@ const Home: React.FC = () => {
         </motion.div>
 
         <motion.div variants={itemVariants} id="course-list">
-          <div className="bg-white rounded-xl shadow-md px-6 py-4 mb-8 flex flex-col gap-4 md:flex-row md:items-end md:gap-6">
-            <div className="flex-1 flex flex-col min-w-[120px]">
-              <label
-                htmlFor="period"
-                className="text-xs font-semibold text-gray-500 mb-1"
-              >
-                Period
-              </label>
-              <select
-                id="period"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
-                value={selectedPeriod}
-                onChange={(e) => setSelectedPeriod(e.target.value)}
-              >
-                <option value="">All</option>
-                {availablePeriods.map((period) => (
-                  <option key={period} value={period}>
-                    {period}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex-1 flex flex-col min-w-[160px]">
-              <label
-                htmlFor="specialization"
-                className="text-xs font-semibold text-gray-500 mb-1"
-              >
-                Specialization
-              </label>
-              <select
-                id="specialization"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
-                value={selectedSpecialization ?? ''}
-                onChange={(e) =>
-                  setSelectedSpecialization(
-                    e.target.value ? Number(e.target.value) : null
-                  )
-                }
-              >
-                <option value="">All</option>
-                {specializations.map((specialization) => (
-                  <option key={specialization.id} value={specialization.id}>
-                    {specialization.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="flex-1 flex flex-col min-w-[160px]">
-              <label
-                htmlFor="sort"
-                className="text-xs font-semibold text-gray-500 mb-1"
-              >
-                Sort by
-              </label>
-              <select
-                id="sort"
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-              >
-                <option value="rating">Highest Rating</option>
-                <option value="alphabetical">Alphabetical</option>
-                <option value="reviews">Most Reviews</option>
-              </select>
-            </div>
-            <div className="flex-[2] flex flex-col min-w-[200px]">
-              <label
-                htmlFor="search"
-                className="text-xs font-semibold text-gray-500 mb-1"
-              >
-                Search
-              </label>
-              <input
-                id="search"
-                type="text"
-                placeholder="Search by name or acronym..."
-                className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            selectedPeriod={selectedPeriod}
+            setSelectedPeriod={setSelectedPeriod}
+            selectedSpecialization={selectedSpecialization}
+            setSelectedSpecialization={setSelectedSpecialization}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
+            availablePeriods={availablePeriods}
+            specializations={specializations}
+          />
         </motion.div>
 
         <motion.div variants={itemVariants}>
