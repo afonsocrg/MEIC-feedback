@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import React, { useEffect, useState } from 'react'
 import { useLocalStorage } from 'usehooks-ts'
 import CourseGrid from '../components/CourseGrid'
-import Header from '../components/Header'
 import SearchBar from '../components/SearchBar'
 import {
   getCourses,
@@ -109,9 +108,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
+    <div>
       <motion.main
         className="container mx-auto px-4 py-8"
         variants={containerVariants}
@@ -138,7 +135,7 @@ const Home: React.FC = () => {
                 Help other students by{' '}
                 <a
                   href="/feedback"
-                  className="text-istBlue hover:text-blue-700 font-medium underline"
+                  className="text-istBlue hover:text-istBlueDark font-medium underline"
                 >
                   giving your feedback
                 </a>{' '}

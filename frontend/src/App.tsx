@@ -1,22 +1,25 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { AppProvider } from './context/AppContext'
 import CourseDetail from './pages/CourseDetail'
 // import GiveFeedback from './pages/GiveFeedback'
+import Layout from './components/Layout'
 import Home from './pages/Home'
 import NotFound from './pages/NotFound'
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <AppProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/courses/:acronym" element={<CourseDetail />} />
-          {/* <Route path="/feedback/new" element={<GiveFeedback />} /> */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses/:acronym" element={<CourseDetail />} />
+            {/* <Route path="/feedback/new" element={<GiveFeedback />} /> */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Layout>
       </AppProvider>
-    </BrowserRouter>
+    </Router>
   )
 }
 

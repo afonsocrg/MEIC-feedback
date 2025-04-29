@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        istBlue: '#009de0'
+        istBlue: '#009de0',
+        istBlueDark: '#0072A3'
       }
     }
   },

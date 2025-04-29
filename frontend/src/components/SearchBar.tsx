@@ -59,7 +59,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             className={`self-end px-4 py-2 text-sm font-medium focus:outline-none flex items-center gap-2 ${
               hasActiveFilters
                 ? 'text-istBlue bg-blue-50 rounded-lg border border-blue-100'
-                : 'text-istBlue hover:text-blue-700'
+                : 'text-istBlue hover:text-istBlueDark'
             }`}
           >
             <span>
