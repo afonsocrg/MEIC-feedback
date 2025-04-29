@@ -1,4 +1,4 @@
-import { Github, GraduationCap, MessageSquare } from 'lucide-react'
+import { GraduationCap } from 'lucide-react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -15,7 +15,7 @@ const Header: React.FC = () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <Link
+          {/* <Link
             // to="/feedback/new"
             to="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
             target="_blank"
@@ -23,9 +23,9 @@ const Header: React.FC = () => {
           >
             <MessageSquare className="h-5 w-5" />
             <span>Give Feedback</span>
-          </Link>
+          </Link> */}
 
-          <a
+          {/* <a
             href="https://github.com/afonsocrg/MEIC-feedback"
             target="_blank"
             rel="noopener noreferrer"
@@ -33,7 +33,7 @@ const Header: React.FC = () => {
             aria-label="GitHub Repository"
           >
             <Github className="h-5 w-5" />
-          </a>
+          </a> */}
         </div>
       </div>
     </header>
