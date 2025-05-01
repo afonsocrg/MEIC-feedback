@@ -36,9 +36,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   }
 
   const hasActiveFilters =
-    selectedPeriod !== '' ||
-    selectedSpecialization !== null ||
-    sortBy !== 'rating'
+    selectedPeriod !== '' || selectedSpecialization !== null
 
   return (
     <div className="bg-white rounded-xl shadow-md px-6 py-4 mb-8">
@@ -72,8 +70,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
             {hasActiveFilters && !isExpanded && (
               <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium bg-istBlue text-white rounded-full">
                 {(selectedPeriod !== '' ? 1 : 0) +
-                  (selectedSpecialization !== null ? 1 : 0) +
-                  (sortBy !== 'rating' ? 1 : 0)}
+                  (selectedSpecialization !== null ? 1 : 0)}
               </span>
             )}
           </button>
