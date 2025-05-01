@@ -10,7 +10,10 @@ export const feedback = sqliteTable('feedback', {
   comment: text('comment'),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(
     () => new Date()
-  )
+  ),
+
+  // This column is just used internally to store the original comment, in case we need to review something
+  originalComment: text('original_comment')
 })
 
 export type Feedback = typeof feedback.$inferSelect

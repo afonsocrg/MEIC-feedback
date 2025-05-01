@@ -1,0 +1,1 @@
+ALTER TABLE `feedback` ADD `original_comment` text;
