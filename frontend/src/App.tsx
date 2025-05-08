@@ -1,7 +1,7 @@
 import { Layout } from '@components'
+import { AppProvider } from '@context'
 import { CourseDetail, Home, NotFound } from '@pages'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-import { AppProvider } from './context/AppContext'
 
 function App() {
   return (

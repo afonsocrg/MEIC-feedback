@@ -2,10 +2,18 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ESNext",
     "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@pages": ["./src/pages"],
       "@components": ["./src/components"],
+      "@context": ["./src/context"],
+      "@hooks": ["./src/hooks"],
+      "@pages": ["./src/pages"],
       "@services/*": ["./src/services/*"]
     }
   },
