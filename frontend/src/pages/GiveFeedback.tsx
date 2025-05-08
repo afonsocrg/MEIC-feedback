@@ -1,12 +1,11 @@
+import { Header, StarRating } from '@components'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Send } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import Header from '../components/Header'
-import StarRating from '../components/StarRating'
 import { useApp } from '../context/AppContext'
 
-const GiveFeedback: React.FC = () => {
+export function GiveFeedback() {
   const { courses, addFeedback } = useApp()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -158,5 +157,3 @@ const GiveFeedback: React.FC = () => {
     </div>
   )
 }
-
-export default GiveFeedback

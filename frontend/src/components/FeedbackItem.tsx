@@ -1,8 +1,6 @@
+import { Markdown, StarRating } from '@components'
+import { Feedback } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
-import React from 'react'
-import { Feedback } from '../services/meicFeedbackAPI'
-import Markdown from './Markdown'
-import StarRating from './StarRating'
 
 interface FeedbackItemProps {
   feedback: Feedback
@@ -16,7 +14,7 @@ interface FeedbackItemProps {
   }
 }
 
-const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, variants }) => {
+export function FeedbackItem({ feedback, variants }: FeedbackItemProps) {
   return (
     <motion.div
       variants={variants}
@@ -59,5 +57,3 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ feedback, variants }) => {
     </motion.div>
   )
 }
-
-export default FeedbackItem

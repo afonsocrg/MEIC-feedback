@@ -1,24 +1,26 @@
-import { motion } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
-import Chip from '../components/Chip'
-import EditableSection from '../components/EditableSection'
-import Markdown from '../components/Markdown'
-import SchoolYearSection from '../components/SchoolYearSection'
-import WarningAlert from '../components/WarningAlert'
+import {
+  Chip,
+  EditableSection,
+  Markdown,
+  SchoolYearSection,
+  WarningAlert
+} from '@components'
 import {
   getCourseFeedbackFormUrl,
   getEditDescriptionFormUrl,
   getEvaluationMethodFormUrl
-} from '../services/googleForms'
+} from '@services/googleForms'
 import {
   getCourse,
   getCourseFeedback,
   getCourseIdFromAcronym,
   type CourseDetail,
   type Feedback
-} from '../services/meicFeedbackAPI'
-import { getSchoolYear, isSchoolYearOutdated } from '../services/schoolYear'
+} from '@services/meicFeedbackAPI'
+import { getSchoolYear, isSchoolYearOutdated } from '@services/schoolYear'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom'
 
 // Helper function to group feedback by school year
 const groupReviewsBySchoolYear = (
@@ -37,7 +39,7 @@ const groupReviewsBySchoolYear = (
   return grouped
 }
 
-const CourseDetail: React.FC = () => {
+export function CourseDetail() {
   const location = useLocation()
   const { acronym } = useParams()
   const courseId = location.state?.courseId
@@ -269,5 +271,3 @@ const CourseDetail: React.FC = () => {
     </motion.main>
   )
 }
-
-export default CourseDetail

@@ -1,22 +1,20 @@
+import { Chip, StarRating } from '@components'
+import { Course } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
-import React from 'react'
 import { Link } from 'react-router-dom'
-import { Course } from '../services/meicFeedbackAPI'
-import Chip from './Chip'
-import StarRating from './StarRating'
 
 interface CourseCardProps extends Omit<Course, 'id'> {
   courseId: number
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({
+export function CourseCard({
   courseId,
   acronym,
   name,
   rating,
   feedbackCount,
   period
-}) => {
+}: CourseCardProps) {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -61,5 +59,3 @@ const CourseCard: React.FC<CourseCardProps> = ({
     </motion.div>
   )
 }
-
-export default CourseCard

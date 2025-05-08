@@ -1,10 +1,8 @@
-import React from 'react'
-
 interface WarningAlertProps {
   message: string
 }
 
-const WarningAlert: React.FC<WarningAlertProps> = ({ message }) => {
+export function WarningAlert({ message }: WarningAlertProps) {
   return (
     <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
       <div className="flex">
@@ -28,5 +26,3 @@ const WarningAlert: React.FC<WarningAlertProps> = ({ message }) => {
     </div>
   )
 }
-
-export default WarningAlert

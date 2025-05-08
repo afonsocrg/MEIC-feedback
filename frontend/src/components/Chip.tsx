@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface ChipProps {
   label: string
   className?: string
@@ -31,7 +29,13 @@ const getColorForLabel = (label: string) => {
   return CHIP_COLORS[index]
 }
 
-const Chip: React.FC<ChipProps> = ({ label, className = '', onClick }) => {
+interface ChipProps {
+  label: string
+  className?: string
+  onClick?: () => void
+}
+
+export function Chip({ label, className = '', onClick }: ChipProps) {
   const { bg, text } = getColorForLabel(label)
 
   return (
@@ -44,5 +48,3 @@ const Chip: React.FC<ChipProps> = ({ label, className = '', onClick }) => {
     </span>
   )
 }
-
-export default Chip

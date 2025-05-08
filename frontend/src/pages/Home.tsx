@@ -1,14 +1,13 @@
-import { motion } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
-import { useLocalStorage } from 'usehooks-ts'
-import CourseGrid from '../components/CourseGrid'
-import SearchBar from '../components/SearchBar'
+import { CourseGrid, SearchBar } from '@components'
 import {
   getCourses,
   getSpecializations,
   type Course,
   type Specialization
-} from '../services/meicFeedbackAPI'
+} from '@services/meicFeedbackAPI'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { useLocalStorage } from 'usehooks-ts'
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
@@ -18,7 +17,7 @@ const STORAGE_KEYS = {
   SORT: 'meic-feedback-sort'
 }
 
-const Home: React.FC = () => {
+export function Home() {
   const [courses, setCourses] = useState<Course[]>([])
   const [specializations, setSpecializations] = useState<Specialization[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -205,5 +204,3 @@ const Home: React.FC = () => {
     </div>
   )
 }
-
-export default Home

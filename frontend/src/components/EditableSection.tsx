@@ -1,6 +1,6 @@
+import { Tooltip } from '@components'
 import { Pencil } from 'lucide-react'
 import React from 'react'
-import Tooltip from './Tooltip'
 
 interface EditableSectionProps {
   title: string
@@ -11,14 +11,14 @@ interface EditableSectionProps {
   fallback: React.ReactNode
 }
 
-const EditableSection: React.FC<EditableSectionProps> = ({
+export function EditableSection({
   title,
   value,
   editTooltip,
   getEditUrl,
   renderContent,
   fallback
-}) => {
+}: EditableSectionProps) {
   return (
     <div className="mb-8">
       <div className="flex items-center gap-2 mb-4">
@@ -47,5 +47,3 @@ const EditableSection: React.FC<EditableSectionProps> = ({
     </div>
   )
 }
-
-export default EditableSection

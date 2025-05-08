@@ -1,4 +1,3 @@
-import React from 'react'
 import type { Components } from 'react-markdown'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
@@ -33,11 +32,11 @@ const defaultComponents: Components = {
   p: ({ ...props }) => <p {...props} className="mb-2" />
 }
 
-const Markdown: React.FC<MarkdownProps> = ({
+export function Markdown({
   children,
   className = '',
   components = {}
-}) => {
+}: MarkdownProps) {
   const mergedComponents = {
     ...defaultComponents,
     ...components
@@ -55,5 +54,3 @@ const Markdown: React.FC<MarkdownProps> = ({
     </div>
   )
 }
-
-export default Markdown

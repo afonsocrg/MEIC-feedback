@@ -1,8 +1,7 @@
 import { GraduationCap } from 'lucide-react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Header: React.FC = () => {
+export function Header() {
   return (
     <header className="bg-istBlue text-white">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -39,5 +38,3 @@ const Header: React.FC = () => {
     </header>
   )
 }
-
-export default Header

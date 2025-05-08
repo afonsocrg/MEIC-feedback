@@ -1,7 +1,13 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "paths": {
+      "@pages": ["./src/pages"],
+      "@components": ["./src/components"],
+      "@services/*": ["./src/services/*"]
+    }
+  },
+  "include": ["src/**/*"]
 }

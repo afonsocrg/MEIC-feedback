@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
@@ -16,7 +16,7 @@ interface SearchBarProps {
   specializations: Array<{ id: number; name: string }>
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({
+export function SearchBar({
   searchQuery,
   setSearchQuery,
   selectedPeriod,
@@ -27,7 +27,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   setSortBy,
   availablePeriods,
   specializations
-}) => {
+}: SearchBarProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const handleClearFilters = () => {
@@ -169,5 +169,3 @@ const SearchBar: React.FC<SearchBarProps> = ({
     </div>
   )
 }
-
-export default SearchBar

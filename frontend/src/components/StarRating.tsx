@@ -1,11 +1,9 @@
-import React from 'react'
-
 interface StarRatingProps {
   rating: number
   size?: 'sm' | 'md' | 'lg'
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, size = 'md' }) => {
+export function StarRating({ rating, size = 'md' }: StarRatingProps) {
   const sizeClasses = {
     sm: 'text-lg',
     md: 'text-2xl',
@@ -27,5 +25,3 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, size = 'md' }) => {
     </div>
   )
 }
-
-export default StarRating

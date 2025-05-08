@@ -1,12 +1,16 @@
-import React, { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext } from 'react'
 
-interface AppContextType {}
+interface AppContextType {
+  // intentionally left blank
+}
 
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
-export const AppProvider: React.FC<{ children: ReactNode }> = ({
-  children
-}) => {
+interface AppProviderProps {
+  children: ReactNode
+}
+
+export function AppProvider({ children }: AppProviderProps) {
   return <AppContext.Provider value={{}}>{children}</AppContext.Provider>
 }
 

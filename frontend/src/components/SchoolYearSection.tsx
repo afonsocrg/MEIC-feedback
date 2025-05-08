@@ -1,6 +1,5 @@
-import React from 'react'
-import { Feedback } from '../services/meicFeedbackAPI'
-import FeedbackItem from './FeedbackItem'
+import { FeedbackItem } from '@components'
+import { Feedback } from '@services/meicFeedbackAPI'
 
 interface SchoolYearSectionProps {
   schoolYear: string
@@ -15,11 +14,11 @@ interface SchoolYearSectionProps {
   }
 }
 
-const SchoolYearSection: React.FC<SchoolYearSectionProps> = ({
+export function SchoolYearSection({
   schoolYear,
   feedback,
   variants
-}) => {
+}: SchoolYearSectionProps) {
   return (
     <div>
       <div className="text-lg font-semibold text-gray-700 mb-4">
@@ -31,5 +30,3 @@ const SchoolYearSection: React.FC<SchoolYearSectionProps> = ({
     </div>
   )
 }
-
-export default SchoolYearSection

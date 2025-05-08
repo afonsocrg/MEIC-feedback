@@ -1,10 +1,7 @@
+import { Layout } from '@components'
+import { CourseDetail, Home, NotFound } from '@pages'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { AppProvider } from './context/AppContext'
-import CourseDetail from './pages/CourseDetail'
-// import GiveFeedback from './pages/GiveFeedback'
-import Layout from './components/Layout'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
 
 function App() {
   return (

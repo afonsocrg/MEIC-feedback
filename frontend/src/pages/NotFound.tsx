@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Home } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
-export default function NotFound() {
+export function NotFound() {
   const navigate = useNavigate()
 
   return (
