@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
 
+type SortOption = 'rating' | 'alphabetical' | 'reviews'
+
 interface SearchBarProps {
   searchQuery: string
   setSearchQuery: (query: string) => void
@@ -8,8 +10,8 @@ interface SearchBarProps {
   setSelectedPeriod: (period: string) => void
   selectedSpecialization: number | null
   setSelectedSpecialization: (specialization: number | null) => void
-  sortBy: 'rating' | 'alphabetical' | 'reviews'
-  setSortBy: (sort: 'rating' | 'alphabetical' | 'reviews') => void
+  sortBy: SortOption
+  setSortBy: (sort: SortOption) => void
   availablePeriods: string[]
   specializations: Array<{ id: number; name: string }>
 }
@@ -143,11 +145,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     id="sort"
                     className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
                     value={sortBy}
-                    onChange={(e) =>
-                      setSortBy(
-                        e.target.value as 'rating' | 'alphabetical' | 'reviews'
-                      )
-                    }
+                    onChange={(e) => setSortBy(e.target.value as SortOption)}
                   >
                     <option value="rating">Highest Rating</option>
                     <option value="alphabetical">Alphabetical</option>

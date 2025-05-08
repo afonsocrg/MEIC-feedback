@@ -21,12 +21,12 @@ import {
 import { getSchoolYear, isSchoolYearOutdated } from '../services/schoolYear'
 
 // Helper function to group feedback by school year
-const groupFeedbackBySchoolYear = (
-  feedback: Feedback[]
+const groupReviewsBySchoolYear = (
+  reviews: Feedback[]
 ): Map<string, Feedback[]> => {
   const grouped = new Map<string, Feedback[]>()
 
-  feedback.forEach((f) => {
+  reviews.forEach((f) => {
     const schoolYear = getSchoolYear(new Date(f.createdAt))
     if (!grouped.has(schoolYear)) {
       grouped.set(schoolYear, [])
@@ -215,21 +215,33 @@ const CourseDetail: React.FC = () => {
       <motion.div variants={itemVariants} className="mt-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-gray-800">
-            Student Feedback
+            Student Reviews
           </h2>
-          <Link
-            to={getCourseFeedbackFormUrl(course).toString()}
-            target="_blank"
-            className="text-istBlue hover:underline cursor-pointer"
-          >
-            Add your feedback!
-          </Link>
+          {course.feedbackCount > 0 && (
+            <Link
+              to={getCourseFeedbackFormUrl(course).toString()}
+              target="_blank"
+              className="text-istBlue hover:underline cursor-pointer"
+            >
+              Add your review!
+            </Link>
+          )}
         </div>
         {feedback.length === 0 ? (
-          <p className="text-gray-600">No feedback yet</p>
+          <p className="text-gray-600">
+            No reviews yet . Be the first to{' '}
+            <Link
+              to={getCourseFeedbackFormUrl(course).toString()}
+              target="_blank"
+              className="text-istBlue hover:underline cursor-pointer"
+            >
+              add one
+            </Link>{' '}
+            😁!
+          </p>
         ) : (
           <div className="space-y-4">
-            {Array.from(groupFeedbackBySchoolYear(feedback).entries())
+            {Array.from(groupReviewsBySchoolYear(feedback).entries())
               .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
               .map(([schoolYear, yearFeedback], index, array) => {
                 const isOutdated = isSchoolYearOutdated(schoolYear)
@@ -240,7 +252,7 @@ const CourseDetail: React.FC = () => {
                 return (
                   <>
                     {isFirstOutdated && (
-                      <WarningAlert message="The feedback below this point may be outdated. Course content, teaching methods, and requirements may have changed since then." />
+                      <WarningAlert message="The reviews below this point may be outdated. Course content, teaching methods, and requirements may have changed since then." />
                     )}
                     <SchoolYearSection
                       key={schoolYear}

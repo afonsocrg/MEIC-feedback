@@ -76,7 +76,7 @@ const Home: React.FC = () => {
       return matchesSearch && matchesPeriod && matchesSpecialization
     })
     .sort((a, b) => {
-      switch (sortBy) {
+      switch (sortBy as SortOption) {
         case 'rating':
           return (b.rating || 0) - (a.rating || 0)
         case 'alphabetical':
@@ -143,7 +143,7 @@ const Home: React.FC = () => {
                 rel="noopener noreferrer"
                 className="bg-white border-2 border-istBlue text-istBlue hover:bg-istBlue hover:text-white font-semibold py-3 w-full max-w-[180px] rounded-lg shadow transition-all text-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:ring-offset-2"
               >
-                Give Feedback
+                Give a review
               </a>
               <span className="text-gray-400 text-xs md:text-sm font-medium w-full max-w-[180px] text-center mt-2 break-words">
                 Help your peers by sharing your honest review!
