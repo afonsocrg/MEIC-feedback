@@ -109,42 +109,57 @@ const Home: React.FC = () => {
 
   return (
     <div>
+      {/* Hero Section */}
+      <div className="bg-blue-50 py-12 px-4 md:px-0 mb-10 rounded-b-3xl shadow-sm">
+        <div className="container mx-auto flex flex-col items-center text-center">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-istBlue mb-4">
+            Find the best MEIC courses
+          </h1>
+          <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-2xl">
+            Honest, anonymous student reviews to help you choose the right
+            courses.
+          </p>
+          <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-2 items-center justify-center">
+            {/* Button 1 + Desc 1 */}
+            <div className="flex flex-col items-center w-full max-w-[180px]">
+              <button
+                className="bg-istBlue hover:bg-istBlueDark text-white font-semibold py-3 w-full max-w-[180px] rounded-lg shadow transition-all text-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:ring-offset-2"
+                onClick={() => {
+                  const el = document.getElementById('course-list')
+                  if (el) el.scrollIntoView({ behavior: 'smooth' })
+                }}
+              >
+                Browse Courses
+              </button>
+              <span className="text-gray-400 text-xs md:text-sm font-medium w-full max-w-[180px] text-center mt-2 break-words">
+                See what students really think about each course.
+              </span>
+            </div>
+            {/* Button 2 + Desc 2 */}
+            <div className="flex flex-col items-center w-full max-w-[180px]">
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white border-2 border-istBlue text-istBlue hover:bg-istBlue hover:text-white font-semibold py-3 w-full max-w-[180px] rounded-lg shadow transition-all text-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:ring-offset-2"
+              >
+                Give Feedback
+              </a>
+              <span className="text-gray-400 text-xs md:text-sm font-medium w-full max-w-[180px] text-center mt-2 break-words">
+                Help your peers by sharing your honest review!
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search Bar and Course List */}
       <motion.main
         className="container mx-auto px-4 py-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants} className="mb-12">
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-1">
-              <h4 className="text-2xl font-bold text-istBlue mb-4">
-                Wondering which courses to take next semester?
-              </h4>
-              <p className="text-gray-700 mb-6">
-                Discover what each course is truly like through{' '}
-                <span className="font-bold">honest feedback</span> from your
-                peers.
-              </p>
-            </div>
-            <div className="flex-1">
-              <h4 className="text-2xl font-bold text-istBlue mb-4">
-                Finding this project useful?
-              </h4>
-              <p className="text-gray-700 mb-6">
-                Help other students by{' '}
-                <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog"
-                  className="text-istBlue hover:text-istBlueDark font-medium underline"
-                >
-                  giving your feedback
-                </a>{' '}
-                on courses you've already taken!
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
         <motion.div variants={itemVariants} id="course-list">
           <SearchBar
             searchQuery={searchQuery}
