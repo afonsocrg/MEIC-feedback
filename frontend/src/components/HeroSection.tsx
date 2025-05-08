@@ -1,3 +1,5 @@
+import posthog from 'posthog-js'
+
 type ActionButtonProps = {
   label: string
   description: string
@@ -56,6 +58,9 @@ export function HeroSection() {
             label="Give a review"
             description="Help your peers by sharing your honest review!"
             onClick={() => {
+              posthog.capture('review_form_open', {
+                source: 'hero_section'
+              })
               window.open(
                 'https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog',
                 '_blank',

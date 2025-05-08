@@ -19,8 +19,9 @@ import {
 } from '@services/meicFeedbackAPI'
 import { getSchoolYear, isSchoolYearOutdated } from '@services/schoolYear'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import posthog from 'posthog-js'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 
 // Helper function to group feedback by school year
 const groupReviewsBySchoolYear = (
@@ -47,6 +48,11 @@ export function CourseDetail() {
   const [feedback, setFeedback] = useState<Feedback[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const reviewFormUrl = useMemo(
+    () => (course === null ? '' : getCourseFeedbackFormUrl(course).toString()),
+    [course]
+  )
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -220,25 +226,35 @@ export function CourseDetail() {
             Student Reviews
           </h2>
           {course.feedbackCount > 0 && (
-            <Link
-              to={getCourseFeedbackFormUrl(course).toString()}
-              target="_blank"
-              className="text-istBlue hover:underline cursor-pointer"
+            <button
+              onClick={() => {
+                posthog.capture('review_form_open', {
+                  source: 'course_detail_page.add_review',
+                  course_id: course.id
+                })
+                window.open(reviewFormUrl, '_blank')
+              }}
+              className="text-istBlue hover:underline cursor-pointer bg-transparent border-none p-0"
             >
               Add your review!
-            </Link>
+            </button>
           )}
         </div>
         {feedback.length === 0 ? (
           <p className="text-gray-600">
             No reviews yet . Be the first to{' '}
-            <Link
-              to={getCourseFeedbackFormUrl(course).toString()}
-              target="_blank"
+            <button
+              onClick={() => {
+                posthog.capture('review_form_open', {
+                  source: 'course_detail_page.add_first_review',
+                  course_id: course.id
+                })
+                window.open(reviewFormUrl, '_blank')
+              }}
               className="text-istBlue hover:underline cursor-pointer"
             >
               add one
-            </Link>{' '}
+            </button>{' '}
             😁!
           </p>
         ) : (
