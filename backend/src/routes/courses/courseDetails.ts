@@ -1,6 +1,6 @@
 import { courses, feedback, getDb } from '@db'
 import { OpenAPIRoute } from 'chanfana'
-import { eq, sql } from 'drizzle-orm'
+import { and, eq, isNotNull, sql } from 'drizzle-orm'
 import { IRequest } from 'itty-router'
 import { z } from 'zod'
 
@@ -61,7 +61,10 @@ export class GetCourse extends OpenAPIRoute {
         evaluationMethod: courses.evaluationMethod
       })
       .from(courses)
-      .leftJoin(feedback, eq(courses.id, feedback.courseId))
+      .leftJoin(
+        feedback,
+        and(eq(courses.id, feedback.courseId), isNotNull(feedback.approvedAt))
+      )
       .where(eq(courses.id, courseId))
       .groupBy(courses.id)
 

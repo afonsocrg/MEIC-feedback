@@ -1,6 +1,6 @@
 import { feedback, getDb } from '@db'
 import { OpenAPIRoute } from 'chanfana'
-import { desc, eq } from 'drizzle-orm'
+import { and, desc, eq, isNotNull } from 'drizzle-orm'
 import { IRequest } from 'itty-router'
 import { z } from 'zod'
 
@@ -50,7 +50,9 @@ export class GetCourseFeedback extends OpenAPIRoute {
         createdAt: feedback.createdAt
       })
       .from(feedback)
-      .where(eq(feedback.courseId, courseId))
+      .where(
+        and(eq(feedback.courseId, courseId), isNotNull(feedback.approvedAt))
+      )
       .orderBy(desc(feedback.createdAt))
 
     return Response.json(result)
