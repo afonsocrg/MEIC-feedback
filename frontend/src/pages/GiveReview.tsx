@@ -10,23 +10,29 @@ import { Course } from '../services/meicFeedbackAPI'
 export function GiveReview() {
   const [courses, setCourses] = useState<Course[]>([])
   const [searchParams] = useSearchParams()
-  // const initialCourseId = parseInt(searchParams.get('courseId')) || null
-  const initialCourseId = 0
-
-  const [email, setEmail] = useState(searchParams.get('email') || '')
-  const [schoolYear, setSchoolYear] = useState(getCurrentSchoolYear())
-  const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId)
-  const [rating, setRating] = useState(3)
-  const [workloadRating, setWorkloadRating] = useState(3)
-  const [comment, setComment] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState('')
 
   // Generate last 5 school years
   const schoolYears = Array.from(
     { length: 5 },
     (_, i) => getCurrentSchoolYear() - i
   )
+
+  // Get initial values from search params
+  const initialValues = getInitialValues(searchParams, schoolYears)
+
+  console.log(initialValues)
+
+  // Form fields
+  const [email,            setEmail]            = useState<string>(initialValues.email ?? '') // prettier-ignore
+  const [schoolYear,       setSchoolYear]       = useState<number>(initialValues.schoolYear ?? getCurrentSchoolYear()) // prettier-ignore
+  const [selectedCourseId, setSelectedCourseId] = useState<number>(initialValues.courseId ?? 0) // prettier-ignore
+  const [rating,           setRating]           = useState<number>(initialValues.rating ?? 0) // prettier-ignore
+  const [workloadRating,   setWorkloadRating]   = useState<number>(initialValues.workloadRating ?? 0) // prettier-ignore
+  const [comment,          setComment]          = useState<string>(initialValues.comment ?? '') // prettier-ignore
+
+  // Form state
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,12 +49,13 @@ export function GiveReview() {
 
   useEffect(() => {
     if (
-      initialCourseId &&
-      !courses.some((c: Course) => c.id === initialCourseId)
+      initialValues.courseId &&
+      courses.length > 0 &&
+      !courses.some((c: Course) => c.id === initialValues.courseId)
     ) {
       setError('Selected course not found')
     }
-  }, [initialCourseId, courses])
+  }, [initialValues.courseId, courses])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,6 +63,16 @@ export function GiveReview() {
 
     if (!selectedCourseId) {
       setError('Please select a course')
+      return
+    }
+
+    if (!schoolYear) {
+      setError('Please select a school year')
+      return
+    }
+
+    if (!rating) {
+      setError('Please select a rating')
       return
     }
 
@@ -173,7 +190,6 @@ export function GiveReview() {
                   setSelectedCourseId(Number(e.target.value))
                 }
                 className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-istBlue focus:border-istBlue"
-                disabled={!!initialCourseId || isSubmitting}
               >
                 <option value="">-- Select a course --</option>
                 {courses.map((course: Course) => (
@@ -243,4 +259,36 @@ export function GiveReview() {
       </motion.div>
     </main>
   )
+}
+
+function getRatingValue(searchValue: string | null) {
+  if (!searchValue) return null
+  const value = Number(searchValue)
+  if (isNaN(value)) return undefined
+  return 1 <= value && value <= 5 ? value : undefined
+}
+
+function getInitialValues(
+  searchParams: URLSearchParams,
+  schoolYears: number[]
+) {
+  const email = searchParams.get('email') || undefined
+  const schoolYear = (() => {
+    const year = Number(searchParams.get('schoolYear'))
+    return schoolYears.includes(year) ? year : getCurrentSchoolYear()
+  })()
+  const courseId = Number(searchParams.get('courseId')) || 0
+  const rating = getRatingValue(searchParams.get('rating'))
+  const workloadRating = getRatingValue(searchParams.get('workloadRating'))
+  const comment =
+    decodeURIComponent(searchParams.get('comment') || '') || undefined
+
+  return {
+    email,
+    schoolYear,
+    courseId,
+    rating,
+    workloadRating,
+    comment
+  }
 }
