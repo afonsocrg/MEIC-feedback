@@ -51,7 +51,11 @@ export class GetCourseFeedback extends OpenAPIRoute {
       })
       .from(feedback)
       .where(
-        and(eq(feedback.courseId, courseId), isNotNull(feedback.approvedAt))
+        and(
+          eq(feedback.courseId, courseId),
+          isNotNull(feedback.approvedAt),
+          isNotNull(feedback.comment)
+        )
       )
       .orderBy(desc(feedback.createdAt))
 
