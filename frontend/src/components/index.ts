@@ -14,6 +14,7 @@ import { SearchBar } from './SearchBar'
 import { StarRating } from './StarRating'
 import { Tooltip } from './Tooltip'
 import { WarningAlert } from './WarningAlert'
+import { WorkloadRating } from './WorkloadRating'
 
 export {
   Chip,
@@ -31,5 +32,6 @@ export {
   SearchBar,
   StarRating,
   Tooltip,
-  WarningAlert
+  WarningAlert,
+  WorkloadRating
 }

@@ -14,8 +14,9 @@
       "@context": ["./src/context"],
       "@hooks": ["./src/hooks"],
       "@pages": ["./src/pages"],
-      "@services/*": ["./src/services/*"]
+      "@services/*": ["./src/services/*"],
+      "@lib/*": ["../lib/src/*"]
     }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../lib/src/**/*"]
 }
