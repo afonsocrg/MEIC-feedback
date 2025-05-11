@@ -72,6 +72,9 @@ export class SubmitFeedback extends OpenAPIRoute {
         )
       }
 
+      // Ignore empty comments
+      const comment = body.comment?.trim() || null
+
       // Insert feedback
       const feedbackData = {
         email: body.email,
@@ -79,8 +82,8 @@ export class SubmitFeedback extends OpenAPIRoute {
         courseId: courseId,
         rating: body.rating,
         workloadRating: body.workloadRating,
-        comment: body.comment,
-        originalComment: body.comment,
+        comment: comment,
+        originalComment: comment,
         approvedAt: null
       }
 
