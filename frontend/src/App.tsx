@@ -1,6 +1,6 @@
 import { Layout } from '@components'
 import { AppProvider } from '@context'
-import { CourseDetail, GiveFeedback, Home, NotFound } from '@pages'
+import { CourseDetail, GiveReview, Home, NotFound } from '@pages'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses/:acronym" element={<CourseDetail />} />
-            <Route path="/feedback/new" element={<GiveFeedback />} />
+            <Route path="/give-review" element={<GiveReview />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>

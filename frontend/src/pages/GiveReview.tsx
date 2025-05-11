@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Course } from '../services/meicFeedbackAPI'
 
-export function GiveFeedback() {
+export function GiveReview() {
   const [courses, setCourses] = useState<Course[]>([])
   const [searchParams] = useSearchParams()
   // const initialCourseId = parseInt(searchParams.get('courseId')) || null
@@ -109,11 +109,14 @@ export function GiveFeedback() {
             Give a Review
           </h1>
           <Markdown>
-            Thank you for taking the time to provide feedback on a MEIC course!
-            To ensure we have quality feedback on the website, we review every
-            comment, one by one, before posting them. We ask for your email in
-            case we need to get back to you regarding your feedback. **All
-            comments will be kept anonymous forever!**
+            Thank you for taking the time to leave your review on a MEIC course!
+            To ensure we have quality reviews on the website, we review every
+            comment, one by one, before posting them.
+          </Markdown>
+
+          <Markdown>
+            We ask for your email in case we need to get back to you regarding
+            your feedback. **All comments will be kept anonymous forever!**
           </Markdown>
 
           <form onSubmit={handleSubmit} className="space-y-6 mt-8">
@@ -166,7 +169,9 @@ export function GiveFeedback() {
               <select
                 id="course"
                 value={selectedCourseId}
-                onChange={(e) => setSelectedCourseId(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setSelectedCourseId(Number(e.target.value))
+                }
                 className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-istBlue focus:border-istBlue"
                 disabled={!!initialCourseId || isSubmitting}
               >
