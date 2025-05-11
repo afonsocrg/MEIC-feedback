@@ -6,7 +6,6 @@ import {
   WarningAlert
 } from '@components'
 import {
-  getCourseFeedbackFormUrl,
   getEditDescriptionFormUrl,
   getEvaluationMethodFormUrl
 } from '@services/googleForms'
@@ -21,7 +20,7 @@ import { getSchoolYear, isSchoolYearOutdated } from '@services/schoolYear'
 import { motion } from 'framer-motion'
 import posthog from 'posthog-js'
 import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 // Helper function to group feedback by school year
 const groupReviewsBySchoolYear = (
@@ -48,9 +47,10 @@ export function CourseDetail() {
   const [feedback, setFeedback] = useState<Feedback[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   const reviewFormUrl = useMemo(
-    () => (course === null ? '' : getCourseFeedbackFormUrl(course).toString()),
+    () => `/give-review${course ? `?courseId=${course.id}` : ''}`,
     [course]
   )
 
@@ -223,7 +223,7 @@ export function CourseDetail() {
       <motion.div variants={itemVariants} className="mt-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold text-gray-800">
-            Student Comments
+            Student Reviews
           </h2>
           {course.feedbackCount > 0 && (
             <button
@@ -232,7 +232,7 @@ export function CourseDetail() {
                   source: 'course_detail_page.add_review',
                   course_id: course.id
                 })
-                window.open(reviewFormUrl, '_blank')
+                navigate(reviewFormUrl)
               }}
               className="text-istBlue hover:underline cursor-pointer bg-transparent border-none p-0"
             >
@@ -249,7 +249,7 @@ export function CourseDetail() {
                   source: 'course_detail_page.add_first_review',
                   course_id: course.id
                 })
-                window.open(reviewFormUrl, '_blank')
+                navigate(reviewFormUrl)
               }}
               className="text-istBlue hover:underline cursor-pointer"
             >

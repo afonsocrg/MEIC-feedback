@@ -1,4 +1,5 @@
 import posthog from 'posthog-js'
+import { useNavigate } from 'react-router-dom'
 
 type ActionButtonProps = {
   label: string
@@ -34,6 +35,8 @@ function ActionButton({
 }
 
 export function HeroSection() {
+  const navigate = useNavigate()
+
   return (
     <div className="bg-blue-50 py-12 px-4 md:px-0 mb-10 rounded-b-3xl shadow-sm">
       <div className="container mx-auto flex flex-col items-center text-center">
@@ -61,11 +64,7 @@ export function HeroSection() {
               posthog.capture('review_form_open', {
                 source: 'hero_section'
               })
-              window.open(
-                'https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=dialog',
-                '_blank',
-                'noopener,noreferrer'
-              )
+              navigate('/give-review')
             }}
             variant="secondary"
           />
