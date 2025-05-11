@@ -3,7 +3,8 @@
   "private": "true",
   "workspaces": [
     "backend",
-    "frontend"
+    "frontend",
+    "lib"
   ],
   "scripts": {
     "start": "bun run start-b & bun run start-f",

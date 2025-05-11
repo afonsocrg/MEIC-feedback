@@ -17,9 +17,10 @@
       "@services": ["./src/services"],
       "@services/*": ["./src/services/*"],
       "@utils": ["./src/utils"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@lib/*": ["../lib/src/*"]
     }
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "../lib/**/*.ts"],
   "exclude": ["node_modules"]
 }
