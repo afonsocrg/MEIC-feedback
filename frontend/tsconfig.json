@@ -10,12 +10,16 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
+      "@/*": ["./src/*"],
       "@components": ["./src/components"],
       "@context": ["./src/context"],
       "@hooks": ["./src/hooks"],
       "@pages": ["./src/pages"],
       "@services/*": ["./src/services/*"],
-      "@lib/*": ["../lib/src/*"]
+      "@lib/*": ["../lib/src/*"],
+      "@utils": ["./src/utils"],
+      "@ui": ["./src/components/ui"],
+      "@ui/*": ["./src/components/ui/*"]
     }
   },
   "include": ["src/**/*", "../lib/src/**/*"]

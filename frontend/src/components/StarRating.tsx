@@ -1,23 +1,22 @@
-import { useState } from 'react'
-
 interface StarRatingProps {
-  rating: number
+  value: number
+  onChange?: (value: number) => void
+  onHover?: (value: number | null) => void
+  hoverValue?: number | null
   size?: 'sm' | 'md' | 'lg'
-  setRating?: (rating: number) => void
 }
 
 export function StarRating({
-  rating,
-  size = 'md',
-  setRating
+  value,
+  onChange,
+  onHover,
+  hoverValue,
+  size = 'md'
 }: StarRatingProps) {
-  const sizeClasses = {
-    sm: 'text-lg',
-    md: 'text-2xl',
-    lg: 'text-3xl'
-  }
-
-  const [hoverRating, setHoverRating] = useState<number | null>(null)
+  const sizeClasses = { sm: 'text-lg', md: 'text-2xl', lg: 'text-3xl' }
+  const displayValue = hoverValue ?? value
+  const yellowTone =
+    hoverValue === null ? 'text-yellow-500' : 'text-yellow-500/80'
 
   return (
     <div className="flex">
@@ -25,13 +24,11 @@ export function StarRating({
         <span
           key={index}
           className={`${sizeClasses[size]} ${
-            index < (hoverRating ?? rating)
-              ? 'text-yellow-500'
-              : 'text-gray-200'
-          } ${setRating ? 'cursor-pointer hover:text-yellow-400' : ''}`}
-          onClick={() => setRating?.(index + 1)}
-          onMouseEnter={() => setRating && setHoverRating(index + 1)}
-          onMouseLeave={() => setHoverRating(null)}
+            index < displayValue ? yellowTone : 'text-gray-200'
+          } ${onChange ? 'cursor-pointer' : ''}`}
+          onClick={() => onChange?.(index + 1)}
+          onMouseEnter={() => onHover?.(index + 1)}
+          onMouseLeave={() => onHover?.(null)}
         >
           ★
         </span>

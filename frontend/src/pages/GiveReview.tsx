@@ -1,13 +1,29 @@
 import {
-  Markdown,
+  CourseCombobox,
   ReviewSubmittedMessage,
-  StarRating,
-  WorkloadRating
+  StarRatingWithLabel
 } from '@components'
 import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import { getCourses, submitFeedback } from '@services/meicFeedbackAPI'
+import {
+  Button,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Textarea
+} from '@ui'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@ui/tooltip'
 import { motion } from 'framer-motion'
-import { Send } from 'lucide-react'
+import { HelpCircle, Send } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Course } from '../services/meicFeedbackAPI'
@@ -28,12 +44,14 @@ export function GiveReview() {
   const initialValues = getInitialValues(searchParams, schoolYears)
 
   // Form fields
-  const [email,            setEmail]            = useState<string>(initialValues.email ?? '') // prettier-ignore
-  const [schoolYear,       setSchoolYear]       = useState<number>(initialValues.schoolYear ?? getCurrentSchoolYear()) // prettier-ignore
-  const [selectedCourseId, setSelectedCourseId] = useState<number>(initialValues.courseId ?? 0) // prettier-ignore
-  const [rating,           setRating]           = useState<number>(initialValues.rating ?? 0) // prettier-ignore
-  const [workloadRating,   setWorkloadRating]   = useState<number>(initialValues.workloadRating ?? 0) // prettier-ignore
-  const [comment,          setComment]          = useState<string>(initialValues.comment ?? '') // prettier-ignore
+  const [email,               setEmail]               = useState<string>(initialValues.email ?? '') // prettier-ignore
+  const [schoolYear,          setSchoolYear]          = useState<number>(initialValues.schoolYear ?? getCurrentSchoolYear()) // prettier-ignore
+  const [selectedCourseId,    setSelectedCourseId]    = useState<number>(initialValues.courseId ?? 0) // prettier-ignore
+  const [rating,              setRating]              = useState<number>(0) // prettier-ignore
+  const [hoverRating,         setHoverRating]         = useState<number | null>(null) // prettier-ignore
+  const [workloadRating,      setWorkloadRating]      = useState<number>(initialValues.workloadRating ?? 0) // prettier-ignore
+  const [hoverWorkloadRating, setHoverWorkloadRating] = useState<number | null>(null) // prettier-ignore
+  const [comment,             setComment]             = useState<string>(initialValues.comment ?? '') // prettier-ignore
 
   // Form state
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -106,7 +124,7 @@ export function GiveReview() {
       })
       setIsSuccess(true)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to submit feedback')
+      setError(err instanceof Error ? err.message : 'Failed to submit review')
     }
 
     setIsSubmitting(false)
@@ -118,6 +136,7 @@ export function GiveReview() {
 
     setSelectedCourseId(0)
     setRating(0)
+    setHoverRating(null)
     setWorkloadRating(0)
     setComment('')
   }
@@ -144,137 +163,146 @@ export function GiveReview() {
       >
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Give a Review
+            Leave your Review
           </h1>
-          <Markdown>
+          {/* <Markdown>
             Thank you for taking the time to leave your review on a MEIC course!
             To ensure we have quality reviews on the website, we review every
             comment, one by one, before posting them.
-          </Markdown>
-
-          <Markdown>
-            We ask for your email in case we need to get back to you regarding
-            your feedback. **All comments will be kept anonymous forever!**
-          </Markdown>
+          </Markdown> */}
 
           <form onSubmit={handleSubmit} className="space-y-6 mt-8">
             <div>
-              <label
-                htmlFor="email"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                Email
-              </label>
-              <input
+              <div className="flex items-center gap-2">
+                <Label htmlFor="email">Email</Label>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        tabIndex={0}
+                        aria-label="Email info"
+                      >
+                        <HelpCircle className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" className="max-w-xs text-sm">
+                      We ask for your email in case we need to get back to you
+                      regarding your review.
+                      <br />
+                      Every submission will be kept anonymous forever!
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+              <Input
                 type="email"
                 id="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-istBlue focus:border-istBlue"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
                 placeholder="your.email@example.com"
                 required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="schoolYear"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                School Year
-              </label>
-              <select
-                id="schoolYear"
-                value={schoolYear}
-                onChange={(e) => setSchoolYear(Number(e.target.value))}
-                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-istBlue focus:border-istBlue"
-              >
-                {schoolYears.map((year) => (
-                  <option key={year} value={year}>
-                    {formatSchoolYearString(year, { yearFormat: 'long' })}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label
-                htmlFor="course"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                Select Course
-              </label>
-              <select
-                id="course"
-                value={selectedCourseId}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setSelectedCourseId(Number(e.target.value))
-                }
-                className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-istBlue focus:border-istBlue"
-              >
-                <option value="">-- Select a course --</option>
-                {courses.map((course: Course) => (
-                  <option key={course.id} value={course.id}>
-                    {course.acronym} - {course.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Overall Rating
-              </label>
-              <StarRating rating={rating} size="lg" setRating={setRating} />
-            </div>
-
-            <div>
-              <label className="block text-gray-700 font-medium mb-2">
-                Workload Rating
-              </label>
-              <WorkloadRating
-                rating={workloadRating}
-                onChange={setWorkloadRating}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="comment"
-                className="block text-gray-700 font-medium mb-2"
-              >
-                Your Comments (optional)
-              </label>
-              <textarea
-                id="comment"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                className="w-full p-3 border border-gray-200 rounded-lg h-32 focus:ring-2 focus:ring-istBlue focus:border-istBlue"
-                placeholder="Share your experience with this course..."
+                autoComplete="email"
                 disabled={isSubmitting}
               />
             </div>
 
+            <div className="flex gap-4">
+              <div className="flex-none w-36">
+                {/* <Label htmlFor="schoolYear">School Year</Label> */}
+                <Select
+                  value={schoolYear.toString()}
+                  onValueChange={(val: string) => setSchoolYear(Number(val))}
+                  disabled={isSubmitting}
+                >
+                  <SelectTrigger id="schoolYear">
+                    <SelectValue placeholder="Select a school year" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {schoolYears.map((year) => (
+                      <SelectItem key={year} value={year.toString()}>
+                        {formatSchoolYearString(year, { yearFormat: 'long' })}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex-1">
+                {/* <Label htmlFor="course">Select Course</Label> */}
+                <CourseCombobox
+                  courses={courses}
+                  value={selectedCourseId || undefined}
+                  onChange={setSelectedCourseId}
+                  disabled={isSubmitting}
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label>Overall Rating</Label>
+              <StarRatingWithLabel
+                value={rating}
+                hoverValue={hoverRating}
+                onChange={setRating}
+                onHover={setHoverRating}
+                size="lg"
+              />
+            </div>
+
+            <div>
+              <Label>Workload Rating</Label>
+              <StarRatingWithLabel
+                value={workloadRating}
+                hoverValue={hoverWorkloadRating}
+                onChange={setWorkloadRating}
+                onHover={setHoverWorkloadRating}
+                size="lg"
+                labels={[
+                  'No work-life balance possible',
+                  'Difficult to balance with other courses',
+                  'Balanced with other commitments',
+                  'Easy to balance with other courses',
+                  'Barely impacted my schedule'
+                ]}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="comment">Your Comments (optional)</Label>
+              <Textarea
+                id="comment"
+                value={comment}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setComment(e.target.value)
+                }
+                placeholder="Share your experience with this course..."
+                disabled={isSubmitting}
+                rows={5}
+              />
+            </div>
+
             {error && (
-              <div className="p-3 bg-red-50 text-red-700 rounded-lg">
+              <div className="p-3 bg-red-50 text-red-700 rounded-lg border border-red-200 text-sm">
                 {error}
               </div>
             )}
 
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-istBlue hover:bg-istBlue/90 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition-colors"
+              className="w-full flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <span>Submitting...</span>
               ) : (
                 <>
-                  <Send className="mr-2 h-4 w-4" />
-                  <span>Submit Feedback</span>
+                  <Send className="h-4 w-4" />
+                  <span>Submit</span>
                 </>
               )}
-            </button>
+            </Button>
           </form>
         </div>
       </motion.div>
