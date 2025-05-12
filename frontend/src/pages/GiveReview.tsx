@@ -112,12 +112,19 @@ export function GiveReview() {
     setIsSubmitting(false)
   }
 
-  const handleNewReview = () => {
-    setIsSuccess(false)
+  const resetForm = () => {
+    // Intentionally not resetting email and school year
+    // because most likely they will be the same
+
     setSelectedCourseId(0)
     setRating(0)
     setWorkloadRating(0)
     setComment('')
+  }
+
+  const handleNewReview = () => {
+    setIsSuccess(false)
+    resetForm()
   }
 
   if (isSuccess) {
