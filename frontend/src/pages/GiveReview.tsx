@@ -1,15 +1,22 @@
-import { Markdown, StarRating, WorkloadRating } from '@components'
+import {
+  Markdown,
+  ReviewSubmittedMessage,
+  StarRating,
+  WorkloadRating
+} from '@components'
 import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import { getCourses, submitFeedback } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Send } from 'lucide-react'
+import { Send } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Course } from '../services/meicFeedbackAPI'
 
 export function GiveReview() {
   const [courses, setCourses] = useState<Course[]>([])
   const [searchParams] = useSearchParams()
+  const [isSuccess, setIsSuccess] = useState(false)
+  const navigate = useNavigate()
 
   // Generate last 5 school years
   const schoolYears = Array.from(
@@ -19,8 +26,6 @@ export function GiveReview() {
 
   // Get initial values from search params
   const initialValues = getInitialValues(searchParams, schoolYears)
-
-  console.log(initialValues)
 
   // Form fields
   const [email,            setEmail]            = useState<string>(initialValues.email ?? '') // prettier-ignore
@@ -34,6 +39,7 @@ export function GiveReview() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
+  // Fetch courses
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,15 +53,16 @@ export function GiveReview() {
     fetchData()
   }, [])
 
+  // Validate course selection
   useEffect(() => {
     if (
-      initialValues.courseId &&
+      selectedCourseId &&
       courses.length > 0 &&
-      !courses.some((c: Course) => c.id === initialValues.courseId)
+      !courses.some((c: Course) => c.id === selectedCourseId)
     ) {
-      setError('Selected course not found')
+      setSelectedCourseId(0)
     }
-  }, [initialValues.courseId, courses])
+  }, [selectedCourseId, courses])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -97,26 +104,33 @@ export function GiveReview() {
         workloadRating,
         comment
       })
+      setIsSuccess(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to submit feedback')
     }
 
-    setTimeout(() => {
-      setIsSubmitting(false)
-      // navigate(`/course/${selectedCourseId}`)
-    }, 500)
+    setIsSubmitting(false)
+  }
+
+  const handleNewReview = () => {
+    setIsSuccess(false)
+    setSelectedCourseId(0)
+    setRating(0)
+    setWorkloadRating(0)
+    setComment('')
+  }
+
+  if (isSuccess) {
+    return (
+      <ReviewSubmittedMessage
+        onNewReview={handleNewReview}
+        onBackToCourses={() => navigate('/')}
+      />
+    )
   }
 
   return (
     <main className="container mx-auto px-4 py-8 max-w-2xl">
-      <Link
-        to="/"
-        className="flex items-center text-istBlue hover:opacity-80 mb-8"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        <span>Back to all courses</span>
-      </Link>
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

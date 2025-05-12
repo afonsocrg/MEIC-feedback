@@ -9,6 +9,7 @@ import { Header } from './Header'
 import { HeroSection } from './HeroSection'
 import { Layout } from './Layout'
 import { Markdown } from './Markdown'
+import { ReviewSubmittedMessage } from './ReviewSubmittedMessage'
 import { SchoolYearSection } from './SchoolYearSection'
 import { SearchBar } from './SearchBar'
 import { StarRating } from './StarRating'
@@ -28,6 +29,7 @@ export {
   HeroSection,
   Layout,
   Markdown,
+  ReviewSubmittedMessage,
   SchoolYearSection,
   SearchBar,
   StarRating,
