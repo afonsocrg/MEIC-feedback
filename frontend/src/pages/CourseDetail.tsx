@@ -5,6 +5,7 @@ import {
   SchoolYearSection,
   WarningAlert
 } from '@components'
+import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import {
   getEditDescriptionFormUrl,
   getEvaluationMethodFormUrl
@@ -16,7 +17,6 @@ import {
   type CourseDetail,
   type Feedback
 } from '@services/meicFeedbackAPI'
-import { getSchoolYear, isSchoolYearOutdated } from '@services/schoolYear'
 import { motion } from 'framer-motion'
 import posthog from 'posthog-js'
 import { useEffect, useMemo, useState } from 'react'
@@ -25,11 +25,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 // Helper function to group feedback by school year
 const groupReviewsBySchoolYear = (
   reviews: Feedback[]
-): Map<string, Feedback[]> => {
-  const grouped = new Map<string, Feedback[]>()
+): Map<number, Feedback[]> => {
+  const grouped = new Map<number, Feedback[]>()
 
   reviews.forEach((f) => {
-    const schoolYear = getSchoolYear(new Date(f.createdAt))
+    const schoolYear = f.schoolYear
     if (!grouped.has(schoolYear)) {
       grouped.set(schoolYear, [])
     }
@@ -37,6 +37,13 @@ const groupReviewsBySchoolYear = (
   })
 
   return grouped
+}
+
+function isSchoolYearOutdated(schoolYear: number) {
+  const currentSchoolYear = getCurrentSchoolYear()
+
+  // A school year is outdated if it's more than 2 years behind the current one
+  return schoolYear < currentSchoolYear - 2
 }
 
 export function CourseDetail() {
@@ -260,7 +267,7 @@ export function CourseDetail() {
         ) : (
           <div className="space-y-4">
             {Array.from(groupReviewsBySchoolYear(feedback).entries())
-              .sort(([yearA], [yearB]) => yearB.localeCompare(yearA))
+              .sort(([yearA], [yearB]) => yearB - yearA)
               .map(([schoolYear, yearFeedback], index, array) => {
                 const isOutdated = isSchoolYearOutdated(schoolYear)
                 const isFirstOutdated =
@@ -274,7 +281,9 @@ export function CourseDetail() {
                     )}
                     <SchoolYearSection
                       key={schoolYear}
-                      schoolYear={schoolYear}
+                      schoolYear={formatSchoolYearString(schoolYear, {
+                        yearFormat: 'long'
+                      })}
                       feedback={yearFeedback}
                       variants={itemVariants}
                     />

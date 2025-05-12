@@ -1,5 +1,5 @@
+import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import { CourseDetail } from './meicFeedbackAPI'
-import { getCurrentSchoolYear } from './schoolYear'
 
 export const getCourseNameForForm = (course: CourseDetail): string => {
   return `${course.acronym} - ${course.name}`
@@ -9,7 +9,10 @@ export const getCourseFeedbackFormUrl = (course: CourseDetail): string => {
   const url = new URL(
     'https://docs.google.com/forms/d/e/1FAIpQLSe3ptJwi8uyQfXI8DUmi03dwRL0m7GJa1bMU_6mJpobmXl8NQ/viewform?usp=pp_url'
   )
-  url.searchParams.set('entry.1483270244', getCurrentSchoolYear())
+  url.searchParams.set(
+    'entry.1483270244',
+    formatSchoolYearString(getCurrentSchoolYear(), { yearFormat: 'long' })
+  )
   url.searchParams.set('entry.742852873', getCourseNameForForm(course))
   return url.toString()
 }
