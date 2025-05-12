@@ -1,5 +1,54 @@
 # Some notes about D1 and Drizzle
 
+## Decision log / reasoning
+
+### School year
+
+The school year is stored as a single number, representing the year the school year started.
+For example, the school year 2024/2025 is stored as 2024.
+
+### Ratings
+
+👉 Ratings range from 1 to 5, and **higher means better**, always!
+
+Using "high means better" across the whole platform has some advantages:
+ - **Reduces cognitive load** when comparing multiple metrics -
+  If different metrics pointed in different directions, students would need to analyze the metric itself to understand if the rating is good or bad.
+  This introduces cognitive load that decreases user experience.
+  If every metric follows "higher is better", students don't really need to know if the metric should have a higher or lower rating: `"High number good, uga!"`
+ - Easier to process and collect statistics
+ - Easier to create cool charts and visualizations
+
+This rule may present some challenges:
+Certain metrics that naturally point in the direction of "lower is better" should be reframed in a way that follows the "higher is better" rule.
+
+The "workload" metric is an example of this.
+One could argue that a workload rating of 1 is good, because it means the course has a low workload.
+To prevent this, we need to make sure the UI (especially the forms) is clear about what the numbers mean.
+We should probably reframe "workload" as "Workload manageability", or "Schedule friendlyness".
+We can also use labels near the rating scale to help the student understand what the numbers mean.
+
+E.g.
+
+```
+Workload
+
+[ ] 1 - Overwhelming! I lived in the library
+[ ] 2
+[ ] 3
+[ ] 4
+[ ] 5 - Manageable with plenty of time for other courses
+```
+
+
+### Storing author email in feedback table
+
+One of the core principles of this platform is that feedback will always be anonymous!
+However, it is important for us to store the email in the database, so that
+ - We can reach out to the feedback author, if needed
+ - The author can update/edit their feedback
+
+
 ## Connecting to databases
 
 - We can use drizzle-kit to connect to a local or remote database.
