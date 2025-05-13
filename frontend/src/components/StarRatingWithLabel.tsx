@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { StarRating } from './StarRating'
 
 type RatingLabel = [string, string, string, string, string]
@@ -12,37 +13,35 @@ const RATING_LABELS: RatingLabel = [
 
 interface StarRatingWithLabelProps {
   value: number
-  hoverValue?: number | null
   onChange?: (value: number) => void
-  onHover?: (value: number | null) => void
   size?: 'sm' | 'md' | 'lg'
   labels?: RatingLabel
+  displayHover?: boolean
 }
 
 export function StarRatingWithLabel({
   value,
-  hoverValue,
   onChange,
-  onHover,
   size,
-  labels
+  labels,
+  displayHover = true
 }: StarRatingWithLabelProps) {
+  const [hoverValue, setHoverValue] = useState<number | null>(null)
+
   if (!labels) {
     labels = RATING_LABELS
   }
 
-  const displayValue = hoverValue ?? value
+  const displayValue = displayHover && hoverValue ? hoverValue : value
   const label =
-    displayValue >= 1 && displayValue <= 5
-      ? (labels?.[displayValue - 1] ?? RATING_LABELS[displayValue - 1])
-      : ''
+    displayValue >= 1 && displayValue <= 5 ? labels[displayValue - 1] : null
 
   return (
     <div className="flex items-center gap-3">
       <StarRating
         value={value}
         onChange={onChange}
-        onHover={onHover}
+        onHover={setHoverValue}
         hoverValue={hoverValue}
         size={size}
       />

@@ -11,7 +11,11 @@ interface MarkdownProps {
 
 const defaultComponents: Components = {
   a: ({ ...props }) => (
-    <a {...props} className="text-istBlue hover:underline" target="_blank" />
+    <a
+      {...props}
+      className="text-istBlue hover:underline hover:text-istBlue/80"
+      target="_blank"
+    />
   ),
   h1: ({ ...props }) => (
     <h1 {...props} className="text-2xl font-bold text-gray-900 mt-4 mb-4" />

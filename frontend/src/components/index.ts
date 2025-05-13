@@ -10,6 +10,7 @@ import { Header } from './Header'
 import { HeroSection } from './HeroSection'
 import { Layout } from './Layout'
 import { Markdown } from './Markdown'
+import { MarkdownTextarea } from './MarkdownTextArea'
 import { ReviewSubmittedMessage } from './ReviewSubmittedMessage'
 import { SchoolYearSection } from './SchoolYearSection'
 import { SearchBar } from './SearchBar'
@@ -32,6 +33,7 @@ export {
   HeroSection,
   Layout,
   Markdown,
+  MarkdownTextarea,
   ReviewSubmittedMessage,
   SchoolYearSection,
   SearchBar,
