@@ -65,6 +65,7 @@ import { motion } from 'framer-motion'
 import { Check, ChevronsUpDown, Send } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Link, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -73,32 +74,40 @@ const formSchema = z.object({
   courseId: z.number().min(0),
   rating: z.number().min(0).max(5),
   workloadRating: z.number().min(0).max(5),
-  comment: z.string().min(0).max(1000),
+  comment: z.string().min(0).max(1000).optional(),
   confirm: z.boolean().refine((val) => val, {
     message: 'You must check this box to submit your review'
   })
 })
 
 export function GiveReview() {
-  const [courses, setCourses] = useState<Course[]>([])
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      schoolYear: getCurrentSchoolYear(),
-      courseId: 0,
-      rating: 0,
-      workloadRating: 0,
-      comment: ''
-    }
-  })
-
   const schoolYears = useMemo(
     () => Array.from({ length: 5 }, (_, i) => getCurrentSchoolYear() - i),
     []
   )
 
+  const [searchParams] = useSearchParams()
+  const [courses, setCourses] = useState<Course[]>([])
+  const initialValues = getInitialValues(searchParams, schoolYears)
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: initialValues.email,
+      schoolYear: initialValues.schoolYear,
+      courseId: initialValues.courseId,
+      rating: initialValues.rating,
+      workloadRating: initialValues.workloadRating,
+      comment: initialValues.comment,
+      confirm: false
+    }
+  })
+
+  const selectedCourse = form.watch('courseId')
+  const selectedSchoolYear = form.watch('schoolYear')
+
   function onSubmit(values: z.infer<typeof formSchema>) {
+    // Store email in local storage
+    localStorage.setItem('lastFeedbackEmail', values.email)
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
@@ -136,6 +145,26 @@ export function GiveReview() {
           </Markdown> */}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="your.email@example.com"
+                        {...field}
+                        className="bg-white"
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      We'll never share your email with anyone.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <div className="flex gap-2">
                 <FormField
                   name="schoolYear"
@@ -148,7 +177,7 @@ export function GiveReview() {
                           onValueChange={(val) => field.onChange(Number(val))}
                           defaultValue={field.value.toString()}
                         >
-                          <SelectTrigger className="w-[180px]">
+                          <SelectTrigger className="w-[180px] bg-white">
                             <SelectValue placeholder="Select a school year" />
                           </SelectTrigger>
                           <SelectContent>
@@ -208,14 +237,13 @@ export function GiveReview() {
                               <CommandGroup>
                                 {courses.map((c) => (
                                   <CommandItem
-                                    value={c.id.toString()}
+                                    value={`${c.acronym}`}
                                     key={c.id}
                                     onSelect={() => {
                                       form.setValue('courseId', c.id)
                                     }}
                                   >
-                                    {/* {`${c.acronym} - ${c.name}`} */}
-                                    {c.acronym}
+                                    {c.acronym} - {c.name}
                                     <Check
                                       className={cn(
                                         'ml-auto',
@@ -236,53 +264,55 @@ export function GiveReview() {
                   )}
                 />
               </div>
+              <div className="flex gap-2">
+                <FormField
+                  control={form.control}
+                  name="rating"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Overall Rating</FormLabel>
+                      <FormControl>
+                        <StarRatingWithLabel
+                          value={field.value}
+                          onChange={field.onChange}
+                          size="lg"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="workloadRating"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Workload Rating</FormLabel>
+                      <FormControl>
+                        <StarRatingWithLabel
+                          value={field.value}
+                          onChange={field.onChange}
+                          size="lg"
+                          labels={[
+                            'No work-life balance possible',
+                            'Difficult to balance with other courses',
+                            'Balanced with other commitments',
+                            'Easy to balance with other courses',
+                            'Barely impacted my schedule'
+                          ]}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
               <FormField
-                control={form.control}
-                name="rating"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Overall Rating</FormLabel>
-                    <FormControl>
-                      <StarRatingWithLabel
-                        value={field.value}
-                        onChange={field.onChange}
-                        size="lg"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="workloadRating"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Workload Rating</FormLabel>
-                    <FormControl>
-                      <StarRatingWithLabel
-                        value={field.value}
-                        onChange={field.onChange}
-                        size="lg"
-                        labels={[
-                          'No work-life balance possible',
-                          'Difficult to balance with other courses',
-                          'Balanced with other commitments',
-                          'Easy to balance with other courses',
-                          'Barely impacted my schedule'
-                        ]}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="comment"
+                control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Your Comments</FormLabel>
+                    <FormLabel>Tell us more about your experience...</FormLabel>
                     <FormControl>
                       <MarkdownTextarea
                         placeholder="Share your experience with this course..."
@@ -290,26 +320,20 @@ export function GiveReview() {
                       />
                     </FormControl>
                     <FormMessage />
+                    <FormDescription>
+                      You can use Markdown to format your comment!!{' '}
+                      <Link
+                        to="https://www.markdownguide.org/basic-syntax/"
+                        target="_blank"
+                        className="underline text-istBlue hover:text-istBlue/80"
+                      >
+                        Learn more
+                      </Link>
+                    </FormDescription>
                   </FormItem>
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="your.email@example.com" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      We'll never share your email with anyone.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="confirm"
@@ -323,16 +347,22 @@ export function GiveReview() {
                     </FormControl>
                     <div className="">
                       <FormLabel>
-                        I confirm that I have taken this course in this school
-                        year.
+                        I confirm that I had{' '}
+                        {courses.find((c) => c.id === selectedCourse)
+                          ?.acronym ?? 'this course'}{' '}
+                        in{' '}
+                        {formatSchoolYearString(selectedSchoolYear, {
+                          yearFormat: 'long'
+                        })}
+                        .
                       </FormLabel>
                     </div>
                   </FormItem>
                 )}
               />
 
-              {/* <Button type="submit" className="w-full"> */}
-              <Button type="submit">
+              <Button type="submit" className="w-full">
+                {/* <Button type="submit"> */}
                 <>
                   <Send className="h-4 w-4" />
                   <span>Submit</span>
@@ -665,34 +695,35 @@ export function GiveReview() {
 //   )
 // }
 
-// function getRatingValue(searchValue: string | null) {
-//   if (!searchValue) return null
-//   const value = Number(searchValue)
-//   if (isNaN(value)) return undefined
-//   return 1 <= value && value <= 5 ? value : undefined
-// }
+function getRatingValue(searchValue: string | null) {
+  if (!searchValue) return undefined
+  const value = Number(searchValue)
+  if (isNaN(value)) return undefined
+  return 1 <= value && value <= 5 ? value : undefined
+}
 
-// function getInitialValues(
-//   searchParams: URLSearchParams,
-//   schoolYears: number[]
-// ) {
-//   const email = searchParams.get('email') || undefined
-//   const schoolYear = (() => {
-//     const year = Number(searchParams.get('schoolYear'))
-//     return schoolYears.includes(year) ? year : getCurrentSchoolYear()
-//   })()
-//   const courseId = Number(searchParams.get('courseId')) || 0
-//   const rating = getRatingValue(searchParams.get('rating'))
-//   const workloadRating = getRatingValue(searchParams.get('workloadRating'))
-//   const comment =
-//     decodeURIComponent(searchParams.get('comment') || '') || undefined
+function getInitialValues(
+  searchParams: URLSearchParams,
+  schoolYears: number[]
+) {
+  const email =
+    searchParams.get('email') || localStorage.getItem('lastFeedbackEmail') || ''
+  const schoolYear = (() => {
+    const year = Number(searchParams.get('schoolYear'))
+    return schoolYears.includes(year) ? year : getCurrentSchoolYear()
+  })()
+  const courseId = Number(searchParams.get('courseId')) || 0
+  const rating = getRatingValue(searchParams.get('rating'))
+  const workloadRating = getRatingValue(searchParams.get('workloadRating'))
+  const comment =
+    decodeURIComponent(searchParams.get('comment') || '') || undefined
 
-//   return {
-//     email,
-//     schoolYear,
-//     courseId,
-//     rating,
-//     workloadRating,
-//     comment
-//   }
-// }
+  return {
+    email,
+    schoolYear,
+    courseId,
+    rating,
+    workloadRating,
+    comment
+  }
+}

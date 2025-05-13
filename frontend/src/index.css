@@ -120,3 +120,18 @@
         @apply bg-background text-foreground;
     }
 }
+
+.markdown-compact {
+    font-size: 0.85rem;
+}
+.markdown-compact h1,
+.markdown-compact h2,
+.markdown-compact h3 {
+    font-size: 1rem !important;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+.markdown-compact p,
+.markdown-compact li {
+    font-size: 0.85rem !important;
+}
