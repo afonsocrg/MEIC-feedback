@@ -22,7 +22,7 @@ export function FeedbackItem({ feedback, variants }: FeedbackItemProps) {
     >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center">
-          <StarRating rating={feedback.rating} />
+          <StarRating value={feedback.rating} />
           <span className="text-gray-500 text-sm ml-4">
             {new Date(feedback.createdAt).toLocaleDateString()}
           </span>

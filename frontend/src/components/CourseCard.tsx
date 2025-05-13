@@ -46,7 +46,7 @@ export function CourseCard({
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <div className="mr-2">
-                <StarRating rating={rating} size="sm" />
+                <StarRating value={rating} size="sm" />
               </div>
               <span className="text-gray-700">{rating.toFixed(1)}</span>
               <span className="text-gray-500 ml-2">
