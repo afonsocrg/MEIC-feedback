@@ -1,5 +1,6 @@
 import { courses, feedback, getDb } from '@db'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
+import { sendCourseReviewReceived } from '@services/telegram'
 import { contentJson, OpenAPIRoute } from 'chanfana'
 import { eq } from 'drizzle-orm'
 import { IRequest } from 'itty-router'
@@ -57,13 +58,13 @@ export class SubmitFeedback extends OpenAPIRoute {
       }
 
       // Check if course exists
-      const course = await db
+      const courseResult = await db
         .select()
         .from(courses)
         .where(eq(courses.id, courseId))
         .limit(1)
 
-      if (course.length === 0) {
+      if (courseResult.length === 0) {
         return Response.json(
           {
             error: 'Course not found'
@@ -71,6 +72,8 @@ export class SubmitFeedback extends OpenAPIRoute {
           { status: 404 }
         )
       }
+
+      const course = courseResult[0]
 
       // Ignore empty comments
       const comment = body.comment?.trim() || null
@@ -88,6 +91,14 @@ export class SubmitFeedback extends OpenAPIRoute {
       }
 
       await db.insert(feedback).values(feedbackData)
+
+      await sendCourseReviewReceived(env, {
+        schoolYear: body.schoolYear,
+        acronym: course.acronym,
+        rating: body.rating,
+        workloadRating: body.workloadRating,
+        comment: comment
+      })
 
       return Response.json(
         {

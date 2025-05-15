@@ -15,6 +15,8 @@ declare global {
     FORCE_SEND_EMAIL?: string
     POSTHOG_API_KEY: string
     POSTHOG_HOST: string
+    TELEGRAM_BOT_TOKEN: string
+    TELEGRAM_CHAT_ID: string
   }
 }
 
