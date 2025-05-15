@@ -11,7 +11,7 @@ import { HeroSection } from './HeroSection'
 import { Layout } from './Layout'
 import { Markdown } from './Markdown'
 import { MarkdownTextarea } from './MarkdownTextArea'
-import { ReviewSubmittedMessage } from './ReviewSubmittedMessage'
+import { ReviewSubmitSuccess } from './ReviewSubmitSuccess'
 import { SchoolYearSection } from './SchoolYearSection'
 import { SearchBar } from './SearchBar'
 import { StarRating } from './StarRating'
@@ -34,7 +34,7 @@ export {
   Layout,
   Markdown,
   MarkdownTextarea,
-  ReviewSubmittedMessage,
+  ReviewSubmitSuccess,
   SchoolYearSection,
   SearchBar,
   StarRating,

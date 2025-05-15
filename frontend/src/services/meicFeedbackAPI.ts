@@ -1,5 +1,12 @@
 const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`
 
+export class MeicFeedbackAPIError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'MeicFeedbackAPIError'
+  }
+}
+
 export interface Course {
   id: number
   name: string
@@ -99,7 +106,8 @@ export async function submitFeedback({
     body: JSON.stringify({ email, schoolYear, rating, workloadRating, comment })
   })
   if (!response.ok) {
-    throw new Error('Failed to submit feedback')
+    const { error } = await response.json()
+    throw new MeicFeedbackAPIError(`Failed to submit feedback: ${error}`)
   }
   return response.json()
 }

@@ -14,13 +14,13 @@ export function MarkdownTextarea({
           <TabsList className="flex space-x-1 rounded-none bg-transparent">
             <TabsTrigger
               value="markdown"
-              className="px-4 py-2 font-medium rounded-full data-[state=active]:bg-gray-100"
+              className="px-4 py-2 font-medium rounded-full data-[state=active]:bg-gray-100 cursor-pointer  hover:border-gray-200"
             >
               Write
             </TabsTrigger>
             <TabsTrigger
               value="preview"
-              className="px-4 py-2 font-medium rounded-full data-[state=active]:bg-gray-100"
+              className="px-4 py-2 font-medium rounded-full data-[state=active]:bg-gray-100 cursor-pointer  hover:border-gray-200"
             >
               Preview
             </TabsTrigger>

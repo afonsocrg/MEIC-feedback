@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion'
 import { CheckCircle, Home, PlusCircle } from 'lucide-react'
 
-interface ReviewSubmittedMessageProps {
+interface ReviewSubmitSuccessProps {
   onNewReview: () => void
   onBackToCourses: () => void
 }
 
-export function ReviewSubmittedMessage({
+export function ReviewSubmitSuccess({
   onNewReview,
   onBackToCourses
-}: ReviewSubmittedMessageProps) {
+}: ReviewSubmitSuccessProps) {
   return (
     <main className="container mx-auto px-4 py-8 max-w-2xl">
       <motion.div

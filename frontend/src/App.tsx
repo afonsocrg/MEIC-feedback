@@ -1,6 +1,7 @@
 import { Layout } from '@components'
 import { AppProvider } from '@context'
 import { CourseDetail, GiveReview, Home, NotFound } from '@pages'
+import { Toaster } from '@ui'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
+        <Toaster position="top-right" />
       </AppProvider>
     </Router>
   )
