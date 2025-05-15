@@ -7,6 +7,10 @@ account_id = "6775eddc96fc027d1dca7762dfd44efa"
 [placement]
 mode = "smart"
 
+[observability]
+enabled = true
+head_sampling_rate = 1 # optional. default = 1.
+
 [vars]
 WORKER_ENV = "prod"
 
