@@ -33,12 +33,18 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': [
             '@radix-ui/react-dialog',
             '@radix-ui/react-slot',
-            '@radix-ui/react-toast'
-          ]
+            '@radix-ui/react-toast',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tooltip'
+          ],
+          'form-vendor': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          'animation-vendor': ['framer-motion'],
+          'utils-vendor': ['sonner', 'lucide-react']
         }
       }
     },
