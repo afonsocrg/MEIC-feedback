@@ -167,60 +167,8 @@ export function GiveReview() {
         animate={{ opacity: 1, y: 0 }}
       >
         <div>
-          {/* <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Leave your Review
-          </h1>
-          <Markdown>
-            Thank you for taking the time to leave your review on a MEIC course!
-            To ensure we have quality reviews on the website, we review every
-            comment, one by one, before posting them.
-          </Markdown> */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                name="email"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <>
-                        <span>Email</span>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button
-                                type="button"
-                                tabIndex={0}
-                                aria-label="Email info"
-                              >
-                                <HelpCircle className="w-4 h-4 text-gray-400 hover:text-gray-600" />
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                              side="top"
-                              className="max-w-xs text-sm"
-                            >
-                              We ask for your email in case we need to get back
-                              to you regarding your review.
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="your.email@example.com"
-                        {...field}
-                        className="bg-white"
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      We'll never share your email with anyone.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="flex items-center gap-2 font-normal text-sm">
                 <span>Your feedback for:</span>
 
@@ -380,32 +328,51 @@ export function GiveReview() {
                 )}
               />
 
-              {/* <FormField
+              <FormField
+                name="email"
                 control={form.control}
-                name="confirm"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row space-x-3 space-y-0">
+                  <FormItem>
+                    <FormLabel>
+                      <>
+                        <span>Email</span>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <button
+                                type="button"
+                                tabIndex={0}
+                                aria-label="Email info"
+                              >
+                                <HelpCircle className="w-4 h-4 text-gray-400 hover:text-gray-600" />
+                              </button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                              side="top"
+                              className="max-w-xs text-sm"
+                            >
+                              We ask for your email in case we need to get back
+                              to you regarding your review. Your feedback will
+                              always be kept anonymous.
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </>
+                    </FormLabel>
                     <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
+                      <Input
+                        placeholder="your.email@example.com"
+                        {...field}
+                        className="bg-white"
                       />
                     </FormControl>
-                    <div className="">
-                      <FormLabel>
-                        I confirm that I had{' '}
-                        {courses.find((c) => c.id === selectedCourse)
-                          ?.acronym ?? 'this course'}{' '}
-                        in{' '}
-                        {formatSchoolYearString(selectedSchoolYear, {
-                          yearFormat: 'long'
-                        })}
-                        .
-                      </FormLabel>
-                    </div>
+                    <FormDescription>
+                      We'll never share your email with anyone.
+                    </FormDescription>
+                    <FormMessage />
                   </FormItem>
                 )}
-              /> */}
+              />
 
               <Button type="submit" className="w-full">
                 <>

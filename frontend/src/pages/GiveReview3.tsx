@@ -16,6 +16,12 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
   Form,
   FormControl,
   FormDescription,
@@ -33,15 +39,11 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
+  SelectValue
 } from '@ui'
 import { cn } from '@utils'
 import { motion } from 'framer-motion'
-import { Check, ChevronDown, HelpCircle, Loader2, Send } from 'lucide-react'
+import { Check, ChevronDown, Loader2, Send } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
@@ -55,13 +57,11 @@ const formSchema = z.object({
   rating: z.number().min(0).max(5),
   workloadRating: z.number().min(0).max(5),
   comment: z.string().min(0).max(1000).optional()
-  // confirm: z.boolean().refine((val) => val, {
-  //   message: 'You must check this box to submit your review'
-  // })
 })
 
 export function GiveReview() {
   const navigate = useNavigate()
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false)
 
   const schoolYears = useMemo(
     () => Array.from({ length: 5 }, (_, i) => getCurrentSchoolYear() - i),
@@ -89,9 +89,6 @@ export function GiveReview() {
   const [isSuccess, setIsSuccess] = useState(false)
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Store email in local storage for next time
-    localStorage.setItem('lastFeedbackEmail', values.email)
-
     // Check if courseId is a valid course
     if (!courses.some((c) => c.id === values.courseId)) {
       form.setError('courseId', {
@@ -102,9 +99,9 @@ export function GiveReview() {
 
     setIsSubmitting(true)
     try {
-      await submitFeedback({
-        ...values
-      })
+      await submitFeedback(values)
+      // Store email in local storage for next time
+      localStorage.setItem('lastFeedbackEmail', values.email)
       setIsSuccess(true)
       toast.success('Feedback submitted successfully')
     } catch (err) {
@@ -117,6 +114,7 @@ export function GiveReview() {
     }
 
     setIsSubmitting(false)
+    setIsEmailDialogOpen(false)
   }
 
   // Fetch courses
@@ -167,60 +165,23 @@ export function GiveReview() {
         animate={{ opacity: 1, y: 0 }}
       >
         <div>
-          {/* <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Leave your Review
-          </h1>
-          <Markdown>
-            Thank you for taking the time to leave your review on a MEIC course!
-            To ensure we have quality reviews on the website, we review every
-            comment, one by one, before posting them.
-          </Markdown> */}
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                name="email"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <>
-                        <span>Email</span>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <button
-                                type="button"
-                                tabIndex={0}
-                                aria-label="Email info"
-                              >
-                                <HelpCircle className="w-4 h-4 text-gray-400 hover:text-gray-600" />
-                              </button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                              side="top"
-                              className="max-w-xs text-sm"
-                            >
-                              We ask for your email in case we need to get back
-                              to you regarding your review.
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="your.email@example.com"
-                        {...field}
-                        className="bg-white"
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      We'll never share your email with anyone.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                form.handleSubmit((values) => {
+                  // Check if courseId is a valid course
+                  if (!courses.some((c) => c.id === values.courseId)) {
+                    form.setError('courseId', {
+                      message: 'Please select a valid course'
+                    })
+                    return
+                  }
+                  setIsEmailDialogOpen(true)
+                })(e)
+              }}
+              className="space-y-6"
+            >
               <div className="flex items-center gap-2 font-normal text-sm">
                 <span>Your feedback for:</span>
 
@@ -380,49 +341,64 @@ export function GiveReview() {
                 )}
               />
 
-              {/* <FormField
-                control={form.control}
-                name="confirm"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="">
-                      <FormLabel>
-                        I confirm that I had{' '}
-                        {courses.find((c) => c.id === selectedCourse)
-                          ?.acronym ?? 'this course'}{' '}
-                        in{' '}
-                        {formatSchoolYearString(selectedSchoolYear, {
-                          yearFormat: 'long'
-                        })}
-                        .
-                      </FormLabel>
-                    </div>
-                  </FormItem>
-                )}
-              /> */}
-
               <Button type="submit" className="w-full">
                 <>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="size-4 animate-spin" />
-                      <span>Submitting...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="size-4" />
-                      <span>Submit</span>
-                    </>
-                  )}
+                  <Send className="size-4" />
+                  <span>Submit</span>
                 </>
               </Button>
             </form>
+            <Dialog
+              open={isEmailDialogOpen}
+              onOpenChange={setIsEmailDialogOpen}
+            >
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>One last thing!</DialogTitle>
+                  <DialogDescription>
+                    We need your email to follow up on your feedback if needed.
+                    Your review will always be kept anonymous.
+                  </DialogDescription>
+                </DialogHeader>
+                <FormField
+                  name="email"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="your.email@example.com"
+                          {...field}
+                          className="bg-white"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        We'll never share your email with anyone.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <DialogFooter>
+                  <Button
+                    onClick={form.handleSubmit(onSubmit)}
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="size-4 animate-spin" />
+                        <span>Submitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="size-4" />
+                        <span>Submit Review</span>
+                      </>
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </Form>
         </div>
       </motion.div>
