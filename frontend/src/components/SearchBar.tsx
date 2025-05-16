@@ -1,3 +1,10 @@
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
@@ -95,19 +102,24 @@ export function SearchBar({
                   >
                     Period
                   </label>
-                  <select
-                    id="period"
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
-                    value={selectedPeriod}
-                    onChange={(e) => setSelectedPeriod(e.target.value)}
+                  <Select
+                    value={selectedPeriod || 'all'}
+                    onValueChange={(value) =>
+                      setSelectedPeriod(value === 'all' ? '' : value)
+                    }
                   >
-                    <option value="">All</option>
-                    {availablePeriods.map((period) => (
-                      <option key={period} value={period}>
-                        {period}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="All" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      {availablePeriods.map((period) => (
+                        <SelectItem key={period} value={period}>
+                          {period}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="flex-1 flex flex-col min-w-[160px]">
                   <label
@@ -116,23 +128,29 @@ export function SearchBar({
                   >
                     Specialization
                   </label>
-                  <select
-                    id="specialization"
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
-                    value={selectedSpecialization ?? ''}
-                    onChange={(e) =>
+                  <Select
+                    value={selectedSpecialization?.toString() || 'all'}
+                    onValueChange={(value) =>
                       setSelectedSpecialization(
-                        e.target.value ? Number(e.target.value) : null
+                        value === 'all' ? null : Number(value)
                       )
                     }
                   >
-                    <option value="">All</option>
-                    {specializations.map((specialization) => (
-                      <option key={specialization.id} value={specialization.id}>
-                        {specialization.name}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="All" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      {specializations.map((specialization) => (
+                        <SelectItem
+                          key={specialization.id}
+                          value={specialization.id.toString()}
+                        >
+                          {specialization.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="flex-1 flex flex-col min-w-[160px]">
                   <label
@@ -141,16 +159,19 @@ export function SearchBar({
                   >
                     Sort by
                   </label>
-                  <select
-                    id="sort"
-                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:border-transparent bg-gray-50 text-gray-700 transition"
+                  <Select
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortOption)}
+                    onValueChange={(value) => setSortBy(value as SortOption)}
                   >
-                    <option value="rating">Highest Rating</option>
-                    <option value="alphabetical">Alphabetical</option>
-                    <option value="reviews">Most Reviews</option>
-                  </select>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="rating">Highest Rating</SelectItem>
+                      <SelectItem value="alphabetical">Alphabetical</SelectItem>
+                      <SelectItem value="reviews">Most Reviews</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="flex flex-col justify-end min-w-[120px] mt-2 md:mt-0">
                   <button
