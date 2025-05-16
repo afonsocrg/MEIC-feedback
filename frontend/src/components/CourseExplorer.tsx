@@ -7,34 +7,37 @@ import {
 } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
-import { useLocalStorage } from 'usehooks-ts'
+import { useSearchParams } from 'react-router-dom'
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
-const STORAGE_KEYS = {
-  PERIOD: 'meic-feedback-period',
-  SPECIALIZATION: 'meic-feedback-specialization',
-  SORT: 'meic-feedback-sort'
-}
+// For now not persisting in local storage
+// const STORAGE_KEYS = {
+//   PERIOD: 'meic-feedback-period',
+//   SPECIALIZATION: 'meic-feedback-specialization',
+//   SORT: 'meic-feedback-sort'
+// }
 
 export function CourseExplorer() {
-  const [courses, setCourses] = useState<Course[]>([])
-  const [specializations, setSpecializations] = useState<Specialization[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedPeriod, setSelectedPeriod] = useLocalStorage<string>(
-    STORAGE_KEYS.PERIOD,
-    ''
-  )
-  const [selectedSpecialization, setSelectedSpecialization] = useLocalStorage<
-    number | null
-  >(STORAGE_KEYS.SPECIALIZATION, null)
+
+  const [courses, setCourses] = useState<Course[]>([])
+  const [specializations, setSpecializations] = useState<Specialization[]>([])
   const [availablePeriods, setAvailablePeriods] = useState<string[]>([])
-  const [sortBy, setSortBy] = useLocalStorage<SortOption>(
-    STORAGE_KEYS.SORT,
-    'rating'
-  )
+
+  // Get initial values from URL parameters
+  const [searchParams] = useSearchParams()
+
+  const initialValues = getInitialValues(searchParams)
+  const [searchQuery, setSearchQuery] = useState(initialValues.searchQuery)
+  const [selectedPeriod, setSelectedPeriod] = useState(initialValues.period)
+  const [selectedSpecialization, setSelectedSpecialization] = useState<
+    number | null
+  >(initialValues.specialization)
+  const [sortBy, setSortBy] = useState<SortOption>(initialValues.sortBy)
+
+  console.log({ searchQuery, selectedPeriod, selectedSpecialization, sortBy })
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +62,21 @@ export function CourseExplorer() {
 
     fetchData()
   }, [])
+
+  useEffect(() => {
+    // Chrome converts search parameters to lowercase
+    // So we need to do a case insensitive search
+    // and then use the found period
+    const period = searchParams.get('period')
+    if (!period) return
+
+    const foundPeriod = availablePeriods.find(
+      (p) => p.toLowerCase() === period.toLowerCase()
+    )
+    if (foundPeriod) {
+      setSelectedPeriod(foundPeriod)
+    }
+  }, [availablePeriods, searchParams])
 
   const filteredCourses = useMemo(
     () =>
@@ -167,4 +185,27 @@ export function CourseExplorer() {
       </motion.div>
     </motion.main>
   )
+}
+
+function getInitialValues(searchParams: URLSearchParams) {
+  const searchQuery = searchParams.get('q') || ''
+  const period = searchParams.get('period') || ''
+  const specialization = null
+  // const specialization = searchParams.get('specialization')
+  //   ? Number(searchParams.get('specialization'))
+  //   : null
+
+  const sortValue = searchParams.get('sort')
+  const sortBy = (
+    sortValue && ['rating', 'alphabetical', 'reviews'].includes(sortValue)
+      ? sortValue
+      : 'alphabetical'
+  ) as SortOption
+
+  return {
+    searchQuery,
+    period,
+    specialization,
+    sortBy
+  }
 }
