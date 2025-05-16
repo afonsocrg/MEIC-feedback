@@ -11,7 +11,6 @@ import { HeroSection } from './HeroSection'
 import { Layout } from './Layout'
 import { Markdown } from './Markdown'
 import { MarkdownTextarea } from './MarkdownTextarea'
-import { ReviewSubmitSuccess } from './ReviewSubmitSuccess'
 import { SchoolYearSection } from './SchoolYearSection'
 import { SearchBar } from './SearchBar'
 import { StarRating } from './StarRating'
@@ -19,6 +18,7 @@ import { StarRatingWithLabel } from './StarRatingWithLabel'
 import { Tooltip } from './Tooltip'
 import { WarningAlert } from './WarningAlert'
 import { WorkloadRating } from './WorkloadRating'
+export * from './forms'
 
 export {
   Chip,
@@ -34,7 +34,6 @@ export {
   Layout,
   Markdown,
   MarkdownTextarea,
-  ReviewSubmitSuccess,
   SchoolYearSection,
   SearchBar,
   StarRating,
