@@ -57,6 +57,13 @@
       "when": 1747467762896,
       "tag": "0007_add_external_id_to_course",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1747479344895,
+      "tag": "0008_add_courses_degrees",
+      "breakpoints": true
     }
   ]
 }
