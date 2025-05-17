@@ -43,6 +43,13 @@
       "when": 1746876868156,
       "tag": "0005_add_more_data_to_feedback",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1747463755974,
+      "tag": "0006_add_degrees",
+      "breakpoints": true
     }
   ]
 }
