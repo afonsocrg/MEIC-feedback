@@ -12,6 +12,7 @@ export interface AppContextType {
   specializations: Specialization[]
   selectedDegree: Degree | null
   setSelectedDegreeId: (degreeId: number | null) => void
+  isLoading: boolean
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined)
@@ -27,6 +28,7 @@ const STORAGE_KEYS = {
 export function AppProvider({ children }: AppProviderProps) {
   const [degrees, setDegrees] = useState<Degree[]>([])
   const [specializations, setSpecializations] = useState<Specialization[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const [selectedDegreeId, setSelectedDegreeId] = useLocalStorage<
     number | null
@@ -34,12 +36,18 @@ export function AppProvider({ children }: AppProviderProps) {
 
   useEffect(() => {
     const fetchDegrees = async () => {
-      const [degreesData, specializationsData] = await Promise.all([
-        getDegrees(),
-        getSpecializations()
-      ])
-      setDegrees(degreesData)
-      setSpecializations(specializationsData)
+      try {
+        const [degreesData, specializationsData] = await Promise.all([
+          getDegrees(),
+          getSpecializations()
+        ])
+        setDegrees(degreesData)
+        setSpecializations(specializationsData)
+      } catch (error) {
+        console.error('Failed to fetch initial data:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchDegrees()
   }, [])
@@ -54,7 +62,8 @@ export function AppProvider({ children }: AppProviderProps) {
         degrees,
         specializations,
         selectedDegree,
-        setSelectedDegreeId
+        setSelectedDegreeId,
+        isLoading
       }}
     >
       {children}
