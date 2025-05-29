@@ -2,6 +2,7 @@ import { CourseGrid, DegreeSelector, SearchBar } from '@components'
 import { useApp } from '@hooks'
 import { getCourses, type Course } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
+import { Loader2 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -132,6 +133,16 @@ export function CourseExplorer() {
       transition: { type: 'spring', stiffness: 300 }
     }
   }
+
+  if (isAppLoading) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-[200px] gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        <p className="text-gray-400">Loading courses...</p>
+      </div>
+    )
+  }
+
   return (
     <motion.main
       className="container mx-auto px-4 py-8"
@@ -139,70 +150,62 @@ export function CourseExplorer() {
       initial="hidden"
       animate="visible"
     >
-      {isAppLoading ? (
-        <div className="flex justify-center items-center min-h-[200px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-        </div>
-      ) : (
+      <div className="text-sm text-gray-500 mb-4">
+        Currently viewing courses for{' '}
+        <button
+          onClick={() => setIsDegreeSelectorOpen(true)}
+          className="hover:text-gray-700 transition-colors underline decoration-dotted cursor-pointer"
+        >
+          {selectedDegree ? selectedDegree.acronym : 'all degrees'}
+        </button>
+      </div>
+      <DegreeSelector
+        isOpen={isDegreeSelectorOpen || selectedDegree === null}
+        onClose={() => setIsDegreeSelectorOpen(false)}
+      />
+      {selectedDegree && (
         <>
-          <div className="text-sm text-gray-500 mb-4">
-            Currently viewing courses for{' '}
-            <button
-              onClick={() => setIsDegreeSelectorOpen(true)}
-              className="hover:text-gray-700 transition-colors underline decoration-dotted cursor-pointer"
-            >
-              {selectedDegree ? selectedDegree.acronym : 'all degrees'}
-            </button>
-          </div>
-          <DegreeSelector
-            isOpen={isDegreeSelectorOpen || selectedDegree === null}
-            onClose={() => setIsDegreeSelectorOpen(false)}
-          />
-          {selectedDegree && (
-            <>
-              <motion.div variants={itemVariants} id="course-list">
-                <SearchBar
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  selectedPeriod={selectedPeriod}
-                  setSelectedPeriod={setSelectedPeriod}
-                  selectedSpecialization={selectedSpecialization}
-                  setSelectedSpecialization={setSelectedSpecialization}
-                  sortBy={sortBy}
-                  setSortBy={setSortBy}
-                  availablePeriods={availablePeriods}
-                  specializations={specializations}
-                />
-              </motion.div>
+          <motion.div variants={itemVariants} id="course-list">
+            <SearchBar
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              selectedPeriod={selectedPeriod}
+              setSelectedPeriod={setSelectedPeriod}
+              selectedSpecialization={selectedSpecialization}
+              setSelectedSpecialization={setSelectedSpecialization}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              availablePeriods={availablePeriods}
+              specializations={specializations}
+            />
+          </motion.div>
 
-              <motion.div variants={itemVariants}>
-                {isLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[...Array(6)].map((_, index) => (
-                      <div
-                        key={index}
-                        className="bg-white rounded-lg shadow-md p-6 animate-pulse"
-                      >
-                        <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-                        <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                        <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                      </div>
-                    ))}
+          <motion.div variants={itemVariants}>
+            {isLoading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg shadow-md p-6 animate-pulse"
+                  >
+                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/4"></div>
                   </div>
-                ) : error ? (
-                  <div className="text-red-500 text-center py-8">{error}</div>
-                ) : filteredCourses.length > 0 ? (
-                  <CourseGrid courses={filteredCourses} />
-                ) : (
-                  <div className="text-gray-600 text-center py-8">
-                    {searchQuery || selectedPeriod
-                      ? 'No courses match your filters.'
-                      : 'No courses loaded yet. Please try again later.'}
-                  </div>
-                )}
-              </motion.div>
-            </>
-          )}
+                ))}
+              </div>
+            ) : error ? (
+              <div className="text-red-500 text-center py-8">{error}</div>
+            ) : filteredCourses.length > 0 ? (
+              <CourseGrid courses={filteredCourses} />
+            ) : (
+              <div className="text-gray-600 text-center py-8">
+                {searchQuery || selectedPeriod
+                  ? 'No courses match your filters.'
+                  : 'No courses loaded yet. Please try again later.'}
+              </div>
+            )}
+          </motion.div>
         </>
       )}
     </motion.main>
