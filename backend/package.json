@@ -14,26 +14,26 @@
   "dependencies": {
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
-    "@types/better-sqlite3": "^7.6.12",
-    "@types/node": "^22.13.9",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.15.24",
     "@uidotdev/usehooks": "^2.4.1",
-    "better-sqlite3": "^11.8.1",
-    "chanfana": "^2.6.3",
+    "better-sqlite3": "^11.10.0",
+    "chanfana": "^2.8.0",
     "dayjs": "^1.11.13",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "drizzle-orm": "^0.38.4",
     "itty-router": "^5.0.18",
-    "posthog-node": "^4.17.1",
-    "resend": "^4.1.2",
+    "posthog-node": "^4.18.0",
+    "resend": "^4.5.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250204.0",
+    "@cloudflare/workers-types": "^4.20250529.0",
     "@types/speakeasy": "latest",
     "@types/uuid": "^10.0.0",
-    "drizzle-kit": "^0.30.2",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2",
-    "wrangler": "^4.14.4"
+    "drizzle-kit": "^0.30.6",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.17.0"
   }
 }
