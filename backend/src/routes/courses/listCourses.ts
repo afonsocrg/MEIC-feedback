@@ -48,7 +48,7 @@ export class GetCourses extends OpenAPIRoute {
 
     const conditions = []
     if (acronym) {
-      conditions.push(eq(courses.acronym, acronym))
+      conditions.push(sql`lower(${courses.acronym}) = lower(${acronym})`)
     }
 
     if (degreeId) {
