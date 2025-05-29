@@ -24,9 +24,9 @@ export function DegreeCard({ degree, onClick }: DegreeCardProps) {
     >
       <div>
         <h2 className="text-xl font-semibold text-gray-800 mb-2">
-          {degree.name}
+          {degree.acronym}
         </h2>
-        <p className="text-gray-600">{degree.acronym}</p>
+        <p className="text-gray-600">{degree.name}</p>
       </div>
     </motion.div>
   )

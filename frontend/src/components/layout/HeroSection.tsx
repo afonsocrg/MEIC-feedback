@@ -1,3 +1,4 @@
+import { useApp } from '@/hooks'
 import posthog from 'posthog-js'
 import { useNavigate } from 'react-router-dom'
 
@@ -36,12 +37,13 @@ function ActionButton({
 
 export function HeroSection() {
   const navigate = useNavigate()
+  const { selectedDegree } = useApp()
 
   return (
-    <div className="bg-blue-50 py-12 px-4 md:px-0 mb-10 rounded-b-3xl shadow-sm">
+    <div className="bg-blue-50 py-12 px-4 md:px-0 shadow-sm">
       <div className="container mx-auto flex flex-col items-center text-center">
         <h1 className="text-3xl md:text-4xl font-extrabold text-istBlue mb-4">
-          Find the best MEIC courses
+          Find the best {selectedDegree?.acronym ?? 'IST'} courses
         </h1>
         <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-2xl">
           Honest, anonymous student reviews to help you choose the right

@@ -144,71 +144,77 @@ export function CourseExplorer() {
   }
 
   return (
-    <motion.main
-      className="container mx-auto px-4 py-8"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
-      <div className="text-sm text-gray-500 mb-4">
-        Currently viewing courses for{' '}
-        <button
-          onClick={() => setIsDegreeSelectorOpen(true)}
-          className="hover:text-gray-700 transition-colors underline decoration-dotted cursor-pointer"
-        >
-          {selectedDegree ? selectedDegree.acronym : 'all degrees'}
-        </button>
-      </div>
+    <>
       <DegreeSelector
         isOpen={isDegreeSelectorOpen || selectedDegree === null}
         onClose={() => setIsDegreeSelectorOpen(false)}
       />
-      {selectedDegree && (
-        <>
-          <motion.div variants={itemVariants} id="course-list">
-            <SearchBar
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              selectedPeriod={selectedPeriod}
-              setSelectedPeriod={setSelectedPeriod}
-              selectedSpecialization={selectedSpecialization}
-              setSelectedSpecialization={setSelectedSpecialization}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              availablePeriods={availablePeriods}
-              specializations={specializations}
-            />
-          </motion.div>
+      <motion.main
+        className="container mx-auto px-4 py-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {selectedDegree && (
+          <>
+            <motion.div
+              variants={itemVariants}
+              id="course-list"
+              className="space-y-2"
+            >
+              <SearchBar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                selectedPeriod={selectedPeriod}
+                setSelectedPeriod={setSelectedPeriod}
+                selectedSpecialization={selectedSpecialization}
+                setSelectedSpecialization={setSelectedSpecialization}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                availablePeriods={availablePeriods}
+                specializations={specializations}
+              />
+              <div className="text-sm text-gray-500 mb-4 pl-4">
+                Currently viewing courses for{' '}
+                <button
+                  onClick={() => setIsDegreeSelectorOpen(true)}
+                  className="hover:text-gray-700 transition-colors underline decoration-dotted cursor-pointer"
+                >
+                  {selectedDegree ? selectedDegree.acronym : 'all degrees'}
+                </button>
+              </div>
+            </motion.div>
 
-          <motion.div variants={itemVariants}>
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, index) => (
-                  <div
-                    key={index}
-                    className="bg-white rounded-lg shadow-md p-6 animate-pulse"
-                  >
-                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                    <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                  </div>
-                ))}
-              </div>
-            ) : error ? (
-              <div className="text-red-500 text-center py-8">{error}</div>
-            ) : filteredCourses.length > 0 ? (
-              <CourseGrid courses={filteredCourses} />
-            ) : (
-              <div className="text-gray-600 text-center py-8">
-                {searchQuery || selectedPeriod
-                  ? 'No courses match your filters.'
-                  : 'No courses loaded yet. Please try again later.'}
-              </div>
-            )}
-          </motion.div>
-        </>
-      )}
-    </motion.main>
+            <motion.div variants={itemVariants}>
+              {isLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[...Array(6)].map((_, index) => (
+                    <div
+                      key={index}
+                      className="bg-white rounded-lg shadow-md p-6 animate-pulse"
+                    >
+                      <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : error ? (
+                <div className="text-red-500 text-center py-8">{error}</div>
+              ) : filteredCourses.length > 0 ? (
+                <CourseGrid courses={filteredCourses} />
+              ) : (
+                <div className="text-gray-600 text-center py-8">
+                  {searchQuery || selectedPeriod
+                    ? 'No courses match your filters.'
+                    : 'No courses loaded yet. Please try again later.'}
+                </div>
+              )}
+            </motion.div>
+          </>
+        )}
+      </motion.main>
+    </>
   )
 }
 

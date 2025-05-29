@@ -48,7 +48,7 @@ export function SearchBar({
     selectedPeriod !== '' || selectedSpecialization !== null
 
   return (
-    <div className="bg-white rounded-xl shadow-md px-6 py-4 mb-8">
+    <div className="bg-white rounded-xl shadow-md px-6 py-4">
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">
           <div className="flex-1">
