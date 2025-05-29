@@ -1,6 +1,6 @@
+import { useApp } from '@/hooks/useApp'
 import {
   Course,
-  getCourses,
   MeicFeedbackAPIError,
   submitFeedback
 } from '@/services/meicFeedbackAPI'
@@ -35,9 +35,10 @@ export type GiveReviewFormValues = z.infer<typeof formSchema>
 export function GiveReview() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const [courses, setCourses] = useState<Course[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+
+  const { courses } = useApp()
 
   const formVersion = searchParams.get('version') || '4'
 
@@ -88,25 +89,6 @@ export function GiveReview() {
 
     setIsSubmitting(false)
   }
-
-  // Fetch courses
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const coursesData = await getCourses()
-        setCourses(coursesData)
-      } catch (err) {
-        if (err instanceof MeicFeedbackAPIError) {
-          toast.error(err.message)
-        } else {
-          console.error(err)
-          toast.error('Failed to load data')
-        }
-      }
-    }
-
-    fetchData()
-  }, [])
 
   // Validate course selection
   useEffect(() => {

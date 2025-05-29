@@ -22,16 +22,17 @@ export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+      <DialogContent className="!max-w-[900px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Select a Degree</DialogTitle>
         </DialogHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {degrees.map((degree) => (
             <DegreeCard
               key={degree.id}
               degree={degree}
               onClick={() => handleDegreeSelect(degree.id)}
+              className="min-w-[320px]"
             />
           ))}
         </div>

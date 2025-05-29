@@ -1,8 +1,6 @@
 import { CourseGrid, DegreeSelector, SearchBar } from '@components'
 import { useApp } from '@hooks'
-import { getCourses, type Course } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
-import { Loader2 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -17,12 +15,9 @@ type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
 export function CourseExplorer() {
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  // const [error, setError] = useState<string | null>(null)
   const [isDegreeSelectorOpen, setIsDegreeSelectorOpen] = useState(false)
 
-  const [courses, setCourses] = useState<Course[]>([])
-
-  // Get initial values from URL parameters
   const [searchParams] = useSearchParams()
 
   const initialValues = getInitialValues(searchParams)
@@ -33,29 +28,12 @@ export function CourseExplorer() {
   >(initialValues.specialization)
   const [sortBy, setSortBy] = useState<SortOption>(initialValues.sortBy)
 
-  const { selectedDegree, specializations, isLoading: isAppLoading } = useApp()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (selectedDegree === null) {
-          return
-        }
-
-        const coursesData = await getCourses({
-          degreeId: selectedDegree.id
-        })
-
-        setCourses(coursesData)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load data')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [selectedDegree])
+  const {
+    selectedDegree,
+    specializations,
+    isLoading: isAppLoading,
+    courses
+  } = useApp()
 
   const availablePeriods = useMemo(() => {
     return [...new Set(courses.map((course) => course.period))].sort()
@@ -134,19 +112,12 @@ export function CourseExplorer() {
     }
   }
 
-  if (isAppLoading) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-[200px] gap-4">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-        <p className="text-gray-400">Loading courses...</p>
-      </div>
-    )
-  }
-
   return (
     <>
       <DegreeSelector
-        isOpen={isDegreeSelectorOpen || selectedDegree === null}
+        isOpen={
+          !isAppLoading && (isDegreeSelectorOpen || selectedDegree === null)
+        }
         onClose={() => setIsDegreeSelectorOpen(false)}
       />
       <motion.main
@@ -186,7 +157,7 @@ export function CourseExplorer() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              {isLoading ? (
+              {isAppLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[...Array(6)].map((_, index) => (
                     <div
@@ -199,8 +170,6 @@ export function CourseExplorer() {
                     </div>
                   ))}
                 </div>
-              ) : error ? (
-                <div className="text-red-500 text-center py-8">{error}</div>
               ) : filteredCourses.length > 0 ? (
                 <CourseGrid courses={filteredCourses} />
               ) : (

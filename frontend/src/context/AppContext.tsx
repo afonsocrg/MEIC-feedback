@@ -1,5 +1,7 @@
 import {
-  Degree,
+  type Course,
+  type Degree,
+  getCourses,
   getDegrees,
   getSpecializations,
   Specialization
@@ -9,6 +11,7 @@ import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
 
 export interface AppContextType {
   degrees: Degree[]
+  courses: Course[]
   specializations: Specialization[]
   selectedDegree: Degree | null
   setSelectedDegreeId: (degreeId: number | null) => void
@@ -26,13 +29,15 @@ const STORAGE_KEYS = {
 }
 
 export function AppProvider({ children }: AppProviderProps) {
-  const [degrees, setDegrees] = useState<Degree[]>([])
-  const [specializations, setSpecializations] = useState<Specialization[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
+  const [degrees, setDegrees] = useState<Degree[]>([])
   const [selectedDegreeId, setSelectedDegreeId] = useLocalStorage<
     number | null
   >(STORAGE_KEYS.SELECTED_DEGREE_ID, null)
+  const selectedDegree = useMemo(() => {
+    return degrees.find((degree) => degree.id === selectedDegreeId) || null
+  }, [degrees, selectedDegreeId])
 
   useEffect(() => {
     const fetchDegrees = async () => {
@@ -52,14 +57,30 @@ export function AppProvider({ children }: AppProviderProps) {
     fetchDegrees()
   }, [])
 
-  const selectedDegree = useMemo(() => {
-    return degrees.find((degree) => degree.id === selectedDegreeId) || null
+  const [specializations, setSpecializations] = useState<Specialization[]>([])
+
+  const [courses, setCourses] = useState<Course[]>([])
+  useEffect(() => {
+    const fetchCourses = async () => {
+      if (degrees.length === 0 || selectedDegreeId === null) {
+        return []
+      }
+
+      const coursesData = await getCourses({
+        degreeId: selectedDegreeId
+      })
+
+      console.log('coursesData', coursesData)
+      setCourses(coursesData)
+    }
+    fetchCourses()
   }, [degrees, selectedDegreeId])
 
   return (
     <AppContext.Provider
       value={{
         degrees,
+        courses,
         specializations,
         selectedDegree,
         setSelectedDegreeId,
