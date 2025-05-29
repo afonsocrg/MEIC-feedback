@@ -64,6 +64,20 @@
       "when": 1747479344895,
       "tag": "0008_add_courses_degrees",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1747904691727,
+      "tag": "0009_one_degree_per_course",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1748349919941,
+      "tag": "0010_fix_courses_degree_id",
+      "breakpoints": true
     }
   ]
 }

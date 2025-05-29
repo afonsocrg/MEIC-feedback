@@ -6,6 +6,7 @@ import {
   GetCourses,
   SubmitFeedback
 } from './courses'
+import { GetDegrees } from './degrees'
 import { GetSpecializations } from './specializations'
 
 const { preflight, corsify } = cors({
@@ -30,11 +31,11 @@ router.get('/courses/:id', GetCourse)
 router.get('/courses/:id/feedback', GetCourseFeedback)
 router.post('/courses/:id/feedback', SubmitFeedback)
 router.get('/specializations', GetSpecializations)
+router.get('/degrees', GetDegrees)
 
 // ---------------------------------------------------------
 // Authenticated routes
 // ---------------------------------------------------------
-
 // router.all('*', authenticateUser)
 
 // 404 for everything else

@@ -1,4 +1,5 @@
 import { drizzle } from 'drizzle-orm/d1'
+
 import * as schemas from './schema'
 
 export type Database = typeof schemas
