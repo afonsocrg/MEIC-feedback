@@ -18,6 +18,8 @@ import { StarRatingWithLabel } from './StarRatingWithLabel'
 import { Tooltip } from './Tooltip'
 import { WarningAlert } from './WarningAlert'
 import { WorkloadRating } from './WorkloadRating'
+export * from './DegreeCard'
+export * from './DegreeSelector'
 export * from './forms'
 
 export {
