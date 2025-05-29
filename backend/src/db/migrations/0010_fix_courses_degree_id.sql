@@ -10,13 +10,14 @@ CREATE TABLE `__new_courses` (
 	`created_at` integer,
 	`updated_at` integer,
 	`period` text,
-	`evaluation_method` text
+	`evaluation_method` text,
 	FOREIGN KEY (`degree_id`) REFERENCES `degrees`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 INSERT INTO `__new_courses`("id", "external_id", "name", "acronym", "degree_id", "description", "url", "created_at", "updated_at", "period", "evaluation_method") SELECT "id", "external_id", "name", "acronym", NULL, "description", "url", "created_at", "updated_at", "period", "evaluation_method" FROM `courses`;--> statement-breakpoint
 
 
+DROP TABLE `__new_feedback`;
 CREATE TABLE `__new_feedback` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`email` text,
