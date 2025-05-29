@@ -14,7 +14,6 @@
       "@components": ["./src/components"],
       "@context": ["./src/context"],
       "@hooks": ["./src/hooks"],
-      "@hooks/*": ["./src/hooks/*"],
       "@pages": ["./src/pages"],
       "@services/*": ["./src/services/*"],
       "@lib/*": ["../lib/src/*"],

@@ -4,7 +4,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog'
-import { useApp } from '@hooks/useApp'
+import { useApp } from '@hooks'
 import { DegreeCard } from './DegreeCard'
 
 interface DegreeSelectorProps {
