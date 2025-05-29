@@ -66,7 +66,7 @@ export function HeroSection() {
               posthog.capture('review_form_open', {
                 source: 'hero_section'
               })
-              navigate('/give-review')
+              navigate('/feedback/new')
             }}
             variant="secondary"
           />

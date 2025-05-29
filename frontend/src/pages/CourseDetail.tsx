@@ -13,14 +13,13 @@ import {
 import {
   getCourse,
   getCourseFeedback,
-  getCourseIdFromAcronym,
   type CourseDetail,
   type Feedback
 } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
 import posthog from 'posthog-js'
 import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // Helper function to group feedback by school year
 const groupReviewsBySchoolYear = (
@@ -47,9 +46,7 @@ function isSchoolYearOutdated(schoolYear: number) {
 }
 
 export function CourseDetail() {
-  const location = useLocation()
-  const { acronym } = useParams()
-  const courseId = location.state?.courseId
+  const { id } = useParams()
   const [course, setCourse] = useState<CourseDetail | null>(null)
   const [feedback, setFeedback] = useState<Feedback[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -57,7 +54,7 @@ export function CourseDetail() {
   const navigate = useNavigate()
 
   const reviewFormUrl = useMemo(
-    () => `/give-review${course ? `?courseId=${course.id}` : ''}`,
+    () => `/feedback/new${course ? `?courseId=${course.id}` : ''}`,
     [course]
   )
 
@@ -65,18 +62,9 @@ export function CourseDetail() {
     const fetchCourseData = async () => {
       try {
         setIsLoading(true)
-
-        let cid = courseId
-
-        if (!cid) {
-          if (!acronym) {
-            console.error('This code should be unreachable')
-            throw new Error('No course identifier provided')
-          }
-          cid = await getCourseIdFromAcronym(acronym)
-        }
-        const courseData = await getCourse(cid)
-        const feedbackData = await getCourseFeedback(cid)
+        const courseId = parseInt(id!, 10)
+        const courseData = await getCourse(courseId)
+        const feedbackData = await getCourseFeedback(courseId)
         setCourse(courseData)
         setFeedback(feedbackData)
       } catch (err) {
@@ -89,7 +77,7 @@ export function CourseDetail() {
     }
 
     fetchCourseData()
-  }, [courseId, acronym])
+  }, [id])
 
   const containerVariants = {
     hidden: { opacity: 0 },

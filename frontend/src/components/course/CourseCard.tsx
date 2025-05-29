@@ -31,8 +31,7 @@ export function CourseCard({
       className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow h-full"
     >
       <Link
-        to={`/courses/${acronym}`}
-        state={{ courseId }}
+        to={`/courses/${courseId}`}
         className="h-full flex flex-col justify-between"
       >
         <div>

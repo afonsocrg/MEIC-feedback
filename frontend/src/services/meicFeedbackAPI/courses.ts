@@ -39,8 +39,11 @@ export async function getCourseFeedback(id: number): Promise<Feedback[]> {
   return response.json()
 }
 
-export async function getCourseIdFromAcronym(acronym: string): Promise<number> {
-  const courses = await getCourses({ acronym })
+export async function getCourseIdFromAcronym(
+  degreeId: number,
+  acronym: string
+): Promise<number> {
+  const courses = await getCourses({ acronym, degreeId })
   if (courses.length === 0) {
     throw new Error('Course not found')
   } else if (courses.length > 1) {

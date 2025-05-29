@@ -14,8 +14,6 @@ type SortOption = 'rating' | 'alphabetical' | 'reviews'
 // }
 
 export function CourseExplorer() {
-  const [isLoading, setIsLoading] = useState(true)
-  // const [error, setError] = useState<string | null>(null)
   const [isDegreeSelectorOpen, setIsDegreeSelectorOpen] = useState(false)
 
   const [searchParams] = useSearchParams()

@@ -1,6 +1,5 @@
-import { CourseDetail } from './CourseDetail'
-import { Home } from './Home'
-import { NotFound } from './NotFound'
+export * from './CourseDetail'
 export * from './GiveReview'
-
-export { CourseDetail, Home, NotFound }
+export * from './Home'
+export * from './NotFound'
+export * from './ShortcutRedirect'

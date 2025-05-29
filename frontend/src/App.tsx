@@ -1,6 +1,12 @@
 import { Layout } from '@components'
 import { AppProvider } from '@context'
-import { CourseDetail, GiveReview, Home, NotFound } from '@pages'
+import {
+  CourseDetail,
+  GiveReview,
+  Home,
+  NotFound,
+  ShortcutRedirect
+} from '@pages'
 import { Toaster } from '@ui'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
@@ -11,8 +17,11 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/courses/:acronym" element={<CourseDetail />} />
-            <Route path="/give-review" element={<GiveReview />} />
+            <Route path="/courses/:id" element={<CourseDetail />} />
+            <Route path="/feedback/new" element={<GiveReview />} />
+
+            {/* Shortcut route for courses */}
+            <Route path="/c/:degree/:course" element={<ShortcutRedirect />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
