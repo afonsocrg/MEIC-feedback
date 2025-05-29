@@ -1,5 +1,4 @@
-import { StarRatingWithLabel } from '@/components/StarRatingWithLabel'
-import { MarkdownTextarea } from '@components'
+import { MarkdownTextarea, StarRatingWithLabel } from '@/components'
 import { formatSchoolYearString } from '@lib/schoolYear'
 import {
   Button,

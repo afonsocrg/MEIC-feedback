@@ -1,5 +1,5 @@
 import { CourseGrid, DegreeSelector, SearchBar } from '@components'
-import { useApp } from '@hooks/useApp'
+import { useApp } from '@hooks'
 import { getCourses, type Course } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'

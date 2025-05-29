@@ -44,8 +44,6 @@ export function AppProvider({ children }: AppProviderProps) {
     fetchDegrees()
   }, [])
 
-  console.log('selectedDegreeId', selectedDegreeId)
-
   const selectedDegree = useMemo(() => {
     return degrees.find((degree) => degree.id === selectedDegreeId) || null
   }, [degrees, selectedDegreeId])
