@@ -53,34 +53,56 @@ However, it is important for us to store the email in the database, so that
 
 - We can use drizzle-kit to connect to a local or remote database.
 - To connect to the local database, we can run `bun db`
-- To connect to the remote staging database, we can run `bun db-stg`
 - To connect to the remote production database, we can run `bun db-prod`
 
 DBeaver would be a good option to connect to the database and run queries, change tables, etc. The problem is that since the database is SQLite, we would need to refresh the connection every time an external change is made to the database... Drizzle Studio automatically refreshes the connection.
 
+## Backups
+
+Getting a backup of the remote database:
+```
+bun wrangler d1 export meic-feedback --remote --output=dump_remote.sql
+```
+
+Getting a backup of the local database:
+```
+bun wrangler d1 export meic-feedback --local --output=dump_local.sql
+```
+
 ## Migrations
 
-To generate a migration file, run
+To create a new migration, run
 
 ```
 bun drizzle-kit generate --name=<migration_name>
 ```
 
-The file should be output in `src/db/migrations`.
+This will output a file in `src/db/migrations`.
 The migration files should be version controlled!
 
-To apply the migrations locally, run
+To apply the migration in the local database, run
 
-```bash
-bun wrangler d1 migrations apply meic-feedback
+```
+bun drizzle-kit migrate
 ```
 
 Before applying the migration to the remote database, create a backup of the remote database, and start by testing the migration on a local copy of the remote database.
+To apply the migration in the remote database, run
 
-To apply the migrations to the remote prod database, run
+```
+DB_REMOTE=true bun drizzle-kit migrate
+```
 
-```bash
-bun wrangler d1 migrations apply meic-feedback --remote
+## Executing SQL files
+
+Locally:
+```
+$ bun wrangler d1 execute <database_name> --local <sql_file>
+```
+
+Remotely:
+```
+$ bun wrangler d1 execute <database_name> --remote <sql_file>
 ```
 
 ---
