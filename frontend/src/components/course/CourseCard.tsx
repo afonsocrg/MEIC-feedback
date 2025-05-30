@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 interface CourseCardProps extends Omit<Course, 'id'> {
   courseId: number
+  useAcronymAsTitle?: boolean
 }
 
 export function CourseCard({
@@ -13,7 +14,8 @@ export function CourseCard({
   name,
   rating,
   feedbackCount,
-  period
+  period,
+  useAcronymAsTitle = false
 }: CourseCardProps) {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -23,6 +25,9 @@ export function CourseCard({
       transition: { type: 'spring', stiffness: 300 }
     }
   }
+
+  const title = useAcronymAsTitle ? acronym : name
+  const desc = useAcronymAsTitle ? name : acronym
 
   return (
     <motion.div
@@ -35,11 +40,11 @@ export function CourseCard({
         className="h-full flex flex-col justify-between"
       >
         <div>
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">{name}</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <p className="text-gray-600">{acronym}</p>
+            <p className="text-gray-600">{desc}</p>
             {period && <Chip label={period} />}
           </div>
           <div className="flex items-center justify-between">

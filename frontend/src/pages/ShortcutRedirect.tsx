@@ -1,4 +1,7 @@
+import { DegreeCard } from '@/components/degree/DegreeCard'
 import { useApp } from '@/hooks'
+import { ActionButton, ErrorPanel } from '@components'
+import { CourseDetailSkeleton } from '@pages'
 import { getCourseIdFromAcronym } from '@services/meicFeedbackAPI'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -8,7 +11,7 @@ export function ShortcutRedirect() {
 
   const { degree: degreeAcronym, course: courseAcronym } = useParams()
   const { isLoading, degrees, courses } = useApp()
-  const [error, setError] = useState<string | null>(null)
+  const [errorType, setErrorType] = useState<'degree' | 'course' | null>(null)
 
   useEffect(() => {
     const redirectToCourse = async () => {
@@ -19,39 +22,99 @@ export function ShortcutRedirect() {
       )
 
       if (!degree) {
-        setError(`Degree ${degreeAcronym} not found`)
+        setErrorType('degree')
         return
       }
 
       if (!courseAcronym) {
-        setError('Course acronym not found')
+        setErrorType('course')
         return
       }
 
       try {
-        // Here you would typically validate the university and degree first
-        // For now, we'll just get the course ID
         const courseId = await getCourseIdFromAcronym(degree.id, courseAcronym!)
         navigate(`/courses/${courseId}`, { replace: true })
       } catch (err) {
         console.error(err)
-        setError('Course not found')
+        setErrorType('course')
       }
     }
 
     redirectToCourse()
   }, [isLoading, degrees, courses, degreeAcronym, courseAcronym, navigate])
 
-  if (error) {
-    return <div className="text-red-500 text-center py-8">{error}</div>
+  switch (errorType) {
+    case 'degree':
+      return <DegreeNotFound acronym={degreeAcronym!} />
+    case 'course':
+      return (
+        <CourseNotFound
+          degreeAcronym={degreeAcronym!}
+          courseAcronym={courseAcronym!}
+        />
+      )
+    default:
+      return <CourseDetailSkeleton />
   }
+}
 
+function DegreeNotFound({ acronym }: { acronym: string }) {
+  const navigate = useNavigate()
+  const { degrees, setSelectedDegreeId } = useApp()
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="animate-pulse">
-        <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
-        <div className="h-4 bg-gray-200 rounded w-1/4 mb-8"></div>
-      </div>
+    <div className="min-h-[60vh] flex flex-col justify-center">
+      <ErrorPanel
+        headline="Degree not found"
+        message={`We couldn't find any degree with the acronym "${acronym}". Select a degree below to browse its courses.`}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          {degrees.map((degree) => (
+            <DegreeCard
+              key={degree.id}
+              degree={degree}
+              onClick={() => {
+                setSelectedDegreeId(degree.id)
+                navigate('/')
+              }}
+            />
+          ))}
+        </div>
+      </ErrorPanel>
+    </div>
+  )
+}
+
+function CourseNotFound({
+  degreeAcronym,
+  courseAcronym
+}: {
+  degreeAcronym?: string
+  courseAcronym?: string
+}) {
+  const navigate = useNavigate()
+  const { degrees, setSelectedDegreeId } = useApp()
+  const degree = degrees.find(
+    (d) => d.acronym.toLowerCase() === degreeAcronym?.toLowerCase()
+  )
+  return (
+    <div className="min-h-[60vh] flex flex-col justify-center">
+      <ErrorPanel
+        headline="Course not found"
+        message={
+          degree && courseAcronym
+            ? `We couldn't find the course "${courseAcronym}" in ${degree.acronym}.`
+            : `We couldn't find the course you were looking for.`
+        }
+      >
+        <ActionButton
+          onClick={() => {
+            if (degree) setSelectedDegreeId(degree.id)
+            navigate('/')
+          }}
+          label={`Browse ${degree?.acronym} courses`}
+          variant="primary"
+        />
+      </ErrorPanel>
     </div>
   )
 }
