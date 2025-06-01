@@ -33,10 +33,21 @@ export function CourseExplorer() {
     courses
   } = useApp()
 
+  // Ensure selected specialization exists!
+  useEffect(() => {
+    if (
+      selectedSpecialization !== null &&
+      specializations.find((s) => s.id === selectedSpecialization) === undefined
+    ) {
+      setSelectedSpecialization(null)
+    }
+  }, [specializations, selectedSpecialization])
+
   const availablePeriods = useMemo(() => {
-    return [...new Set(courses.map((course) => course.period))].sort()
+    return [...new Set(courses.flatMap((course) => course.period))].sort()
   }, [courses])
 
+  // Load filters from search params
   useEffect(() => {
     // Chrome converts search parameters to lowercase
     // So we need to do a case insensitive search
@@ -61,7 +72,7 @@ export function CourseExplorer() {
             course.name.toLowerCase().includes(searchLower) ||
             course.acronym.toLowerCase().includes(searchLower)
           const matchesPeriod =
-            !selectedPeriod || course.period === selectedPeriod
+            !selectedPeriod || course.period.includes(selectedPeriod)
           const matchesSpecialization =
             !selectedSpecialization ||
             specializations

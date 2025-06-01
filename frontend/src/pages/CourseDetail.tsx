@@ -131,7 +131,13 @@ export function CourseDetail() {
 
         <div className="flex items-center gap-4 mb-6">
           <p className="text-gray-600">{course.acronym}</p>
-          {course.period && <Chip label={course.period} />}
+          {course.period && (
+            <div className="flex items-center gap-2">
+              {course.period.map((p) => (
+                <Chip key={p} label={p} />
+              ))}
+            </div>
+          )}
           <div className="flex items-center">
             <span className="text-yellow-500 mr-1">★</span>
             <span className="text-gray-700">

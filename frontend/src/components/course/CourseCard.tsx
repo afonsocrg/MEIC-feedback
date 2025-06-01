@@ -45,7 +45,13 @@ export function CourseCard({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <p className="text-gray-600">{desc}</p>
-            {period && <Chip label={period} />}
+            {period && (
+              <div className="flex items-center gap-2">
+                {period.map((p) => (
+                  <Chip key={p} label={p} />
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center">

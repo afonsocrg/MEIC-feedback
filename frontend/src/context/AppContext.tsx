@@ -42,12 +42,8 @@ export function AppProvider({ children }: AppProviderProps) {
   useEffect(() => {
     const fetchDegrees = async () => {
       try {
-        const [degreesData, specializationsData] = await Promise.all([
-          getDegrees(),
-          getSpecializations()
-        ])
+        const degreesData = await getDegrees()
         setDegrees(degreesData)
-        setSpecializations(specializationsData)
       } catch (error) {
         console.error('Failed to fetch initial data:', error)
       } finally {
@@ -58,20 +54,20 @@ export function AppProvider({ children }: AppProviderProps) {
   }, [])
 
   const [specializations, setSpecializations] = useState<Specialization[]>([])
-
   const [courses, setCourses] = useState<Course[]>([])
   useEffect(() => {
     const fetchCourses = async () => {
       if (degrees.length === 0 || selectedDegreeId === null) {
-        return []
+        return
       }
 
-      const coursesData = await getCourses({
-        degreeId: selectedDegreeId
-      })
+      const [coursesData, specializationsData] = await Promise.all([
+        getCourses({ degreeId: selectedDegreeId }),
+        getSpecializations(selectedDegreeId)
+      ])
 
-      console.log('coursesData', coursesData)
       setCourses(coursesData)
+      setSpecializations(specializationsData)
     }
     fetchCourses()
   }, [degrees, selectedDegreeId])

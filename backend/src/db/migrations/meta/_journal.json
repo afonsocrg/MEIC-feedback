@@ -78,6 +78,20 @@
       "when": 1748349919941,
       "tag": "0010_fix_courses_degree_id",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1748602228142,
+      "tag": "0011_add_degree_id_to_specializations",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "6",
+      "when": 1748606356756,
+      "tag": "0012_specializations_name_not_unique",
+      "breakpoints": true
     }
   ]
 }

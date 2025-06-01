@@ -1,8 +1,10 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { degrees } from './degree'
 
 export const specializations = sqliteTable('specializations', {
   id: integer('id').primaryKey({ autoIncrement: true }),
-  name: text('name').notNull().unique(),
+  name: text('name').notNull(),
+  degreeId: integer('degree_id').references(() => degrees.id),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(
     () => new Date()
   ),
