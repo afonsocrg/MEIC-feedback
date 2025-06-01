@@ -11,7 +11,7 @@ import { useState } from 'react'
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
-interface SearchBarProps {
+interface SearchCoursesProps {
   searchQuery: string
   setSearchQuery: (query: string) => void
   availableTerms: string[]
@@ -23,7 +23,7 @@ interface SearchBarProps {
   setSortBy: (sort: SortOption) => void
 }
 
-export function SearchBar({
+export function SearchCourses({
   searchQuery,
   setSearchQuery,
   availableTerms,
@@ -33,7 +33,7 @@ export function SearchBar({
   setSelectedCourseGroupId,
   sortBy,
   setSortBy
-}: SearchBarProps) {
+}: SearchCoursesProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const { courseGroups } = useApp()

@@ -9,7 +9,11 @@ import {
 import { GetDegreeCourseGroups, GetDegrees } from './degrees'
 
 const { preflight, corsify } = cors({
-  origin: ['http://localhost:5173', 'https://meic-feedback.afonsocrg.com'],
+  origin: [
+    'http://localhost:5173',
+    'https://meic-feedback.afonsocrg.com',
+    'https://ist-feedback.afonsocrg.com'
+  ],
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 })

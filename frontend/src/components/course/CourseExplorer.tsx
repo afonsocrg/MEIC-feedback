@@ -1,4 +1,4 @@
-import { CourseGrid, DegreeSelector, SearchBar } from '@components'
+import { CourseGrid, DegreeSelector, SearchCourses } from '@components'
 import { useApp } from '@hooks'
 import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
@@ -135,7 +135,7 @@ export function CourseExplorer() {
               id="course-list"
               className="space-y-2"
             >
-              <SearchBar
+              <SearchCourses
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 availableTerms={availableTerms}

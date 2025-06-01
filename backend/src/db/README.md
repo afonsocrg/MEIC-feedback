@@ -58,15 +58,9 @@ However, it is important for us to store the email in the database, so that
 DBeaver would be a good option to connect to the database and run queries, change tables, etc. The problem is that since the database is SQLite, we would need to refresh the connection every time an external change is made to the database... Drizzle Studio automatically refreshes the connection.
 
 ## Backups
-
-Getting a backup of the remote database:
+Getting a backup of local and remote databases (check package.json for more options)
 ```
-bun wrangler d1 export meic-feedback --remote --output=dump_remote.sql
-```
-
-Getting a backup of the local database:
-```
-bun wrangler d1 export meic-feedback --local --output=dump_local.sql
+bun backup
 ```
 
 ## Migrations
