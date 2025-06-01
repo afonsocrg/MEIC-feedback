@@ -1,1 +1,1 @@
-export * from './SearchBar'
+export * from './SearchCourses'
