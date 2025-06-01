@@ -21,6 +21,7 @@
     "@radix-ui/react-toast": "^1.2.13",
     "@radix-ui/react-tooltip": "^1.2.6",
     "@tailwindcss/vite": "^4.1.6",
+    "@uidotdev/usehooks": "^2.4.1",
     "caniuse-lite": "^1.0.30001715",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
