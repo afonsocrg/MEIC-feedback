@@ -9,6 +9,7 @@ import {
   GiveReviewForm2,
   GiveReviewForm3,
   GiveReviewForm4,
+  GiveReviewForm5,
   ReviewSubmitSuccess
 } from '@components'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -40,7 +41,7 @@ export function GiveReview() {
 
   const { courses } = useApp()
 
-  const formVersion = searchParams.get('version') || '4'
+  const formVersion = searchParams.get('version')
 
   const schoolYears = useMemo(
     () => Array.from({ length: 5 }, (_, i) => getCurrentSchoolYear() - i),
@@ -123,8 +124,10 @@ export function GiveReview() {
     case '3':
       return <GiveReviewForm3 {...props} />
     case '4':
-    default:
       return <GiveReviewForm4 {...props} />
+    case '5':
+    default:
+      return <GiveReviewForm5 {...props} />
   }
 }
 
