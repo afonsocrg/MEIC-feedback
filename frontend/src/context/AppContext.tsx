@@ -67,6 +67,13 @@ export function AppProvider({ children }: AppProviderProps) {
     fetchDegrees()
   }, [searchParams, setSelectedDegreeId])
 
+  // Update page title based on selected degree
+  useEffect(() => {
+    document.title = selectedDegree
+      ? `${selectedDegree.acronym} Feedback`
+      : 'IST Feedback'
+  }, [selectedDegree])
+
   const [courseGroups, setCourseGroups] = useState<CourseGroup[]>([])
   const [courses, setCourses] = useState<Course[]>([])
   useEffect(() => {
