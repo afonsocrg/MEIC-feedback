@@ -6,13 +6,6 @@ import { useSearchParams } from 'react-router-dom'
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
-// For now not persisting in local storage
-// const STORAGE_KEYS = {
-//   PERIOD: 'meic-feedback-period',
-//   SPECIALIZATION: 'meic-feedback-specialization',
-//   SORT: 'meic-feedback-sort'
-// }
-
 export function CourseExplorer() {
   const [isDegreeSelectorOpen, setIsDegreeSelectorOpen] = useState(false)
 
@@ -20,48 +13,48 @@ export function CourseExplorer() {
 
   const initialValues = getInitialValues(searchParams)
   const [searchQuery, setSearchQuery] = useState(initialValues.searchQuery)
-  const [selectedPeriod, setSelectedPeriod] = useState(initialValues.period)
-  const [selectedSpecialization, setSelectedSpecialization] = useState<
+  const [selectedTerm, setSelectedTerm] = useState(initialValues.term)
+  const [selectedCourseGroupId, setSelectedCourseGroupId] = useState<
     number | null
-  >(initialValues.specialization)
+  >(initialValues.courseGroupId)
   const [sortBy, setSortBy] = useState<SortOption>(initialValues.sortBy)
 
   const {
     selectedDegree,
-    specializations,
+    courseGroups,
     isLoading: isAppLoading,
     courses
   } = useApp()
 
-  // Ensure selected specialization exists!
+  // Ensure selected Course Group exists!
   useEffect(() => {
     if (
-      selectedSpecialization !== null &&
-      specializations.find((s) => s.id === selectedSpecialization) === undefined
+      selectedCourseGroupId !== null &&
+      courseGroups.find((s) => s.id === selectedCourseGroupId) === undefined
     ) {
-      setSelectedSpecialization(null)
+      setSelectedCourseGroupId(null)
     }
-  }, [specializations, selectedSpecialization])
+  }, [courseGroups, selectedCourseGroupId])
 
-  const availablePeriods = useMemo(() => {
-    return [...new Set(courses.flatMap((course) => course.period))].sort()
+  const availableTerms = useMemo(() => {
+    return [...new Set(courses.flatMap((course) => course.terms))].sort()
   }, [courses])
 
   // Load filters from search params
   useEffect(() => {
     // Chrome converts search parameters to lowercase
     // So we need to do a case insensitive search
-    // and then use the found period
-    const period = searchParams.get('period')
-    if (!period) return
+    // and then use the found term
+    const term = searchParams.get('term')
+    if (!term) return
 
-    const foundPeriod = availablePeriods.find(
-      (p) => p.toLowerCase() === period.toLowerCase()
+    const foundTerm = availableTerms.find(
+      (t) => t.toLowerCase() === term.toLowerCase()
     )
-    if (foundPeriod) {
-      setSelectedPeriod(foundPeriod)
+    if (foundTerm) {
+      setSelectedTerm(foundTerm)
     }
-  }, [availablePeriods, searchParams])
+  }, [availableTerms, searchParams])
 
   const filteredCourses = useMemo(
     () =>
@@ -71,14 +64,14 @@ export function CourseExplorer() {
           const matchesSearch =
             course.name.toLowerCase().includes(searchLower) ||
             course.acronym.toLowerCase().includes(searchLower)
-          const matchesPeriod =
-            !selectedPeriod || course.period.includes(selectedPeriod)
-          const matchesSpecialization =
-            !selectedSpecialization ||
-            specializations
-              .find((s) => s.id === selectedSpecialization)
+          const matchesTerm =
+            !selectedTerm || course.terms.includes(selectedTerm)
+          const matchesCourseGroup =
+            !selectedCourseGroupId ||
+            courseGroups
+              .find((s) => s.id === selectedCourseGroupId)
               ?.courseIds.includes(course.id)
-          return matchesSearch && matchesPeriod && matchesSpecialization
+          return matchesSearch && matchesTerm && matchesCourseGroup
         })
         .sort((a, b) => {
           switch (sortBy as SortOption) {
@@ -95,10 +88,10 @@ export function CourseExplorer() {
     [
       courses,
       searchQuery,
-      selectedPeriod,
-      selectedSpecialization,
+      selectedTerm,
+      selectedCourseGroupId,
       sortBy,
-      specializations
+      courseGroups
     ]
   )
 
@@ -145,14 +138,13 @@ export function CourseExplorer() {
               <SearchBar
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                selectedPeriod={selectedPeriod}
-                setSelectedPeriod={setSelectedPeriod}
-                selectedSpecialization={selectedSpecialization}
-                setSelectedSpecialization={setSelectedSpecialization}
+                availableTerms={availableTerms}
+                selectedTerm={selectedTerm}
+                setSelectedTerm={setSelectedTerm}
+                selectedCourseGroupId={selectedCourseGroupId}
+                setSelectedCourseGroupId={setSelectedCourseGroupId}
                 sortBy={sortBy}
                 setSortBy={setSortBy}
-                availablePeriods={availablePeriods}
-                specializations={specializations}
               />
               <div className="text-sm text-gray-500 mb-4 pl-4">
                 Currently viewing courses for{' '}
@@ -183,7 +175,7 @@ export function CourseExplorer() {
                 <CourseGrid courses={filteredCourses} />
               ) : (
                 <div className="text-gray-600 text-center py-8">
-                  {searchQuery || selectedPeriod
+                  {searchQuery || selectedTerm
                     ? 'No courses match your filters.'
                     : 'No courses loaded yet. Please try again later.'}
                 </div>
@@ -198,11 +190,8 @@ export function CourseExplorer() {
 
 function getInitialValues(searchParams: URLSearchParams) {
   const searchQuery = searchParams.get('q') || ''
-  const period = searchParams.get('period') || ''
-  const specialization = null
-  // const specialization = searchParams.get('specialization')
-  //   ? Number(searchParams.get('specialization'))
-  //   : null
+  const term = searchParams.get('term') || ''
+  const courseGroupId = null
 
   const sortValue = searchParams.get('sort')
   const sortBy = (
@@ -213,8 +202,8 @@ function getInitialValues(searchParams: URLSearchParams) {
 
   return {
     searchQuery,
-    period,
-    specialization,
+    term,
+    courseGroupId,
     sortBy
   }
 }

@@ -1,5 +1,4 @@
-import { degrees, getDb } from '@db'
-import { courses } from '@db/schema/course'
+import { courses, degrees, getDb } from '@db'
 import { OpenAPIRoute } from 'chanfana'
 import { eq } from 'drizzle-orm'
 import { IRequest } from 'itty-router'
@@ -7,12 +6,10 @@ import { z } from 'zod'
 
 const DegreeResponseSchema = z.object({
   id: z.number(),
+  externalId: z.string(),
+  type: z.string(),
   name: z.string(),
-  acronym: z.string(),
-  url: z.string(),
-  rating: z.number(),
-  feedbackCount: z.number(),
-  period: z.string()
+  acronym: z.string()
 })
 
 export class GetDegrees extends OpenAPIRoute {

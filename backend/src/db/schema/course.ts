@@ -13,6 +13,7 @@ export const courses = sqliteTable('courses', {
   name: text('name').notNull(),
   acronym: text('acronym').notNull(),
   degreeId: integer('degree_id').references(() => degrees.id),
+  terms: text('terms', { mode: 'json' }),
   description: text('description'),
   url: text('url'),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(
@@ -21,8 +22,7 @@ export const courses = sqliteTable('courses', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(
     () => new Date()
   ),
-  period: text('period', { mode: 'json' }),
-  evaluationMethod: text('evaluation_method')
+  assessment: text('assessment')
 })
 
 export type Course = typeof courses.$inferSelect

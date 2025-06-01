@@ -5,6 +5,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { useApp } from '@/hooks/useApp'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
@@ -13,39 +14,38 @@ type SortOption = 'rating' | 'alphabetical' | 'reviews'
 interface SearchBarProps {
   searchQuery: string
   setSearchQuery: (query: string) => void
-  selectedPeriod: string
-  setSelectedPeriod: (period: string) => void
-  selectedSpecialization: number | null
-  setSelectedSpecialization: (specialization: number | null) => void
+  availableTerms: string[]
+  selectedTerm: string
+  setSelectedTerm: (term: string) => void
+  selectedCourseGroupId: number | null
+  setSelectedCourseGroupId: (courseGroupId: number | null) => void
   sortBy: SortOption
   setSortBy: (sort: SortOption) => void
-  availablePeriods: string[]
-  specializations: Array<{ id: number; name: string }>
 }
 
 export function SearchBar({
   searchQuery,
   setSearchQuery,
-  selectedPeriod,
-  setSelectedPeriod,
-  selectedSpecialization,
-  setSelectedSpecialization,
+  availableTerms,
+  selectedTerm,
+  setSelectedTerm,
+  selectedCourseGroupId,
+  setSelectedCourseGroupId,
   sortBy,
-  setSortBy,
-  availablePeriods,
-  specializations
+  setSortBy
 }: SearchBarProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
+  const { courseGroups } = useApp()
+
   const handleClearFilters = () => {
     setSearchQuery('')
-    setSelectedPeriod('')
-    setSelectedSpecialization(null)
+    setSelectedTerm('')
+    setSelectedCourseGroupId(null)
     setSortBy('rating')
   }
 
-  const hasActiveFilters =
-    selectedPeriod !== '' || selectedSpecialization !== null
+  const hasActiveFilters = selectedTerm !== '' || selectedCourseGroupId !== null
 
   return (
     <div className="bg-white rounded-xl shadow-md px-6 py-4">
@@ -78,8 +78,8 @@ export function SearchBar({
             </span>
             {hasActiveFilters && !isExpanded && (
               <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium bg-istBlue text-white rounded-full">
-                {(selectedPeriod !== '' ? 1 : 0) +
-                  (selectedSpecialization !== null ? 1 : 0)}
+                {(selectedTerm !== '' ? 1 : 0) +
+                  (selectedCourseGroupId !== null ? 1 : 0)}
               </span>
             )}
           </button>
@@ -97,15 +97,15 @@ export function SearchBar({
               <div className="flex flex-col gap-4 md:flex-row md:items-end md:gap-6 pt-4 pb-2 px-2">
                 <div className="flex-1 flex flex-col min-w-[120px]">
                   <label
-                    htmlFor="period"
+                    htmlFor="term"
                     className="text-xs font-semibold text-gray-500 mb-1"
                   >
-                    Period
+                    Term
                   </label>
                   <Select
-                    value={selectedPeriod || 'all'}
+                    value={selectedTerm || 'all'}
                     onValueChange={(value) =>
-                      setSelectedPeriod(value === 'all' ? '' : value)
+                      setSelectedTerm(value === 'all' ? '' : value)
                     }
                   >
                     <SelectTrigger className="w-full">
@@ -113,9 +113,9 @@ export function SearchBar({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All</SelectItem>
-                      {availablePeriods.map((period) => (
-                        <SelectItem key={period} value={period}>
-                          {period}
+                      {availableTerms.map((term) => (
+                        <SelectItem key={term} value={term}>
+                          {term}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -123,15 +123,15 @@ export function SearchBar({
                 </div>
                 <div className="flex-1 flex flex-col min-w-[160px]">
                   <label
-                    htmlFor="specialization"
+                    htmlFor="courseGroup"
                     className="text-xs font-semibold text-gray-500 mb-1"
                   >
-                    Specialization
+                    Course Group
                   </label>
                   <Select
-                    value={selectedSpecialization?.toString() || 'all'}
+                    value={selectedCourseGroupId?.toString() || 'all'}
                     onValueChange={(value) =>
-                      setSelectedSpecialization(
+                      setSelectedCourseGroupId(
                         value === 'all' ? null : Number(value)
                       )
                     }
@@ -141,12 +141,12 @@ export function SearchBar({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All</SelectItem>
-                      {specializations.map((specialization) => (
+                      {courseGroups.map((courseGroup) => (
                         <SelectItem
-                          key={specialization.id}
-                          value={specialization.id.toString()}
+                          key={courseGroup.id}
+                          value={courseGroup.id.toString()}
                         >
-                          {specialization.name}
+                          {courseGroup.name}
                         </SelectItem>
                       ))}
                     </SelectContent>

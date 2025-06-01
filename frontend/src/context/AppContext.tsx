@@ -1,10 +1,10 @@
 import {
   type Course,
+  type CourseGroup,
   type Degree,
+  getCourseGroups,
   getCourses,
-  getDegrees,
-  getSpecializations,
-  Specialization
+  getDegrees
 } from '@services/meicFeedbackAPI'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
@@ -12,7 +12,7 @@ import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
 export interface AppContextType {
   degrees: Degree[]
   courses: Course[]
-  specializations: Specialization[]
+  courseGroups: CourseGroup[]
   selectedDegree: Degree | null
   setSelectedDegreeId: (degreeId: number | null) => void
   isLoading: boolean
@@ -53,7 +53,7 @@ export function AppProvider({ children }: AppProviderProps) {
     fetchDegrees()
   }, [])
 
-  const [specializations, setSpecializations] = useState<Specialization[]>([])
+  const [courseGroups, setCourseGroups] = useState<CourseGroup[]>([])
   const [courses, setCourses] = useState<Course[]>([])
   useEffect(() => {
     const fetchCourses = async () => {
@@ -61,13 +61,13 @@ export function AppProvider({ children }: AppProviderProps) {
         return
       }
 
-      const [coursesData, specializationsData] = await Promise.all([
+      const [coursesData, courseGroupsData] = await Promise.all([
         getCourses({ degreeId: selectedDegreeId }),
-        getSpecializations(selectedDegreeId)
+        getCourseGroups(selectedDegreeId)
       ])
 
       setCourses(coursesData)
-      setSpecializations(specializationsData)
+      setCourseGroups(courseGroupsData)
     }
     fetchCourses()
   }, [degrees, selectedDegreeId])
@@ -77,7 +77,7 @@ export function AppProvider({ children }: AppProviderProps) {
       value={{
         degrees,
         courses,
-        specializations,
+        courseGroups,
         selectedDegree,
         setSelectedDegreeId,
         isLoading

@@ -12,8 +12,8 @@ const CourseDetailSchema = z.object({
   url: z.string(),
   rating: z.number(),
   feedbackCount: z.number(),
-  period: z.string(),
-  evaluationMethod: z.string()
+  terms: z.array(z.string()),
+  assessment: z.string()
 })
 
 export class GetCourse extends OpenAPIRoute {
@@ -57,8 +57,8 @@ export class GetCourse extends OpenAPIRoute {
         feedbackCount: sql<number>`ifnull(count(${feedback.id}), 0)`.as(
           'feedback_count'
         ),
-        period: courses.period,
-        evaluationMethod: courses.evaluationMethod
+        terms: courses.terms,
+        assessment: courses.assessment
       })
       .from(courses)
       .leftJoin(

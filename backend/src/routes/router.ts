@@ -6,7 +6,7 @@ import {
   GetCourses,
   SubmitFeedback
 } from './courses'
-import { GetDegrees, GetDegreeSpecializations } from './degrees'
+import { GetDegreeCourseGroups, GetDegrees } from './degrees'
 
 const { preflight, corsify } = cors({
   origin: ['http://localhost:5173', 'https://meic-feedback.afonsocrg.com'],
@@ -30,7 +30,7 @@ router.get('/courses/:id', GetCourse)
 router.get('/courses/:id/feedback', GetCourseFeedback)
 router.post('/courses/:id/feedback', SubmitFeedback)
 router.get('/degrees', GetDegrees)
-router.get('/degrees/:id/specializations', GetDegreeSpecializations)
+router.get('/degrees/:id/courseGroups', GetDegreeCourseGroups)
 
 // ---------------------------------------------------------
 // Authenticated routes

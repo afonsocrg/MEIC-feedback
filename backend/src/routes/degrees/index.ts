@@ -1,2 +1,2 @@
+export * from './courseGroups'
 export * from './get'
-export * from './specializations'

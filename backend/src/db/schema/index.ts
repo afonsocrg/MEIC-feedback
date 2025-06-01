@@ -1,5 +1,5 @@
 export * from './course'
-export * from './courseSpecializations'
+export * from './courseGroup'
+export * from './courseGroupsCourses'
 export * from './degree'
 export * from './feedback'
-export * from './specializations'

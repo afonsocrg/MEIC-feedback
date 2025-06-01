@@ -1,24 +1,20 @@
-import { degrees, getDb, specializations } from '@db'
+import { courseGroup, degrees, getDb } from '@db'
 import { OpenAPIRoute } from 'chanfana'
 import { eq, sql } from 'drizzle-orm'
 import { IRequest } from 'itty-router'
 import { z } from 'zod'
 
-const DegreeResponseSchema = z.object({
+const CourseGroupResponseSchema = z.object({
   id: z.number(),
   name: z.string(),
-  acronym: z.string(),
-  url: z.string(),
-  rating: z.number(),
-  feedbackCount: z.number(),
-  period: z.string()
+  courseIds: z.array(z.number())
 })
 
-export class GetDegreeSpecializations extends OpenAPIRoute {
+export class GetDegreeCourseGroups extends OpenAPIRoute {
   schema = {
     tags: ['Degrees'],
-    summary: 'Get all specializations of the given degree',
-    description: 'Returns a list of all specializations',
+    summary: 'Get all course groups of the given degree',
+    description: 'Returns a list of all course groups',
     request: {
       params: z.object({
         id: z.number()
@@ -29,7 +25,7 @@ export class GetDegreeSpecializations extends OpenAPIRoute {
         description: 'List of degrees with aggregated feedback data',
         content: {
           'application/json': {
-            schema: DegreeResponseSchema.array()
+            schema: CourseGroupResponseSchema.array()
           }
         }
       },
@@ -60,23 +56,21 @@ export class GetDegreeSpecializations extends OpenAPIRoute {
 
     const result = await db
       .select({
-        id: specializations.id,
-        name: specializations.name,
+        id: courseGroup.id,
+        name: courseGroup.name,
         courseIds: sql<string>`(
           SELECT group_concat(course_id)
-          FROM course_specializations
-          WHERE specialization_id = specializations.id
+          FROM mtm_course_groups__courses
+          WHERE course_group_id = course_groups.id
         )`.as('course_ids')
       })
-      .from(specializations)
-      .where(eq(specializations.degreeId, degreeId))
+      .from(courseGroup)
+      .where(eq(courseGroup.degreeId, degreeId))
 
     // Convert the comma-separated string of IDs to an array of numbers
-    const formattedResult = result.map((specialization) => ({
-      ...specialization,
-      courseIds: specialization.courseIds
-        ? specialization.courseIds.split(',').map(Number)
-        : []
+    const formattedResult = result.map((group) => ({
+      ...group,
+      courseIds: group.courseIds ? group.courseIds.split(',').map(Number) : []
     }))
 
     return Response.json(formattedResult)

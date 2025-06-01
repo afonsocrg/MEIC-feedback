@@ -14,7 +14,7 @@ export function CourseCard({
   name,
   rating,
   feedbackCount,
-  period,
+  terms,
   useAcronymAsTitle = false
 }: CourseCardProps) {
   const itemVariants = {
@@ -45,10 +45,10 @@ export function CourseCard({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <p className="text-gray-600">{desc}</p>
-            {period && (
+            {terms && (
               <div className="flex items-center gap-2">
-                {period.map((p) => (
-                  <Chip key={p} label={p} />
+                {terms.map((t) => (
+                  <Chip key={t} label={t} />
                 ))}
               </div>
             )}

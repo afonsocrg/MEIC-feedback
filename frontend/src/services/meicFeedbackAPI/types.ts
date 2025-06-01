@@ -4,7 +4,7 @@ export interface Degree {
   acronym: string
 }
 
-export interface Specialization {
+export interface CourseGroup {
   id: number
   name: string
   courseIds: number[]
@@ -17,12 +17,12 @@ export interface Course {
   url: string
   rating: number
   feedbackCount: number
-  period: string[]
+  terms: string[]
 }
 
 export interface CourseDetail extends Course {
   description: string | null
-  evaluationMethod: string | null
+  assessment: string | null
 }
 
 export interface Feedback {

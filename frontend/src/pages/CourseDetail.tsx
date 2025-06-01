@@ -7,8 +7,8 @@ import {
 } from '@components'
 import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import {
-  getEditDescriptionFormUrl,
-  getEvaluationMethodFormUrl
+  getAssessmentFormUrl,
+  getEditDescriptionFormUrl
 } from '@services/googleForms'
 import {
   getCourse,
@@ -131,10 +131,10 @@ export function CourseDetail() {
 
         <div className="flex items-center gap-4 mb-6">
           <p className="text-gray-600">{course.acronym}</p>
-          {course.period && (
+          {course.terms && (
             <div className="flex items-center gap-2">
-              {course.period.map((p) => (
-                <Chip key={p} label={p} />
+              {course.terms.map((t) => (
+                <Chip key={t} label={t} />
               ))}
             </div>
           )}
@@ -183,16 +183,16 @@ export function CourseDetail() {
 
       <motion.div variants={itemVariants}>
         <EditableSection
-          title="Evaluation method"
-          value={course.evaluationMethod}
-          editTooltip="Edit evaluation method"
-          getEditUrl={() => getEvaluationMethodFormUrl(course)}
+          title="Assessment"
+          value={course.assessment}
+          editTooltip="Edit assessment"
+          getEditUrl={() => getAssessmentFormUrl(course)}
           renderContent={(value) => <Markdown>{value}</Markdown>}
           fallback={
             <p className="text-gray-600 italic">
-              No evaluation method yet.{' '}
+              No assessment yet.{' '}
               <a
-                href={getEvaluationMethodFormUrl(course)}
+                href={getAssessmentFormUrl(course)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-istBlue underline hover:no-underline"

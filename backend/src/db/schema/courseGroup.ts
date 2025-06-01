@@ -1,7 +1,7 @@
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 import { degrees } from './degree'
 
-export const specializations = sqliteTable('specializations', {
+export const courseGroup = sqliteTable('course_groups', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   name: text('name').notNull(),
   degreeId: integer('degree_id').references(() => degrees.id),
@@ -13,5 +13,5 @@ export const specializations = sqliteTable('specializations', {
   )
 })
 
-export type Specialization = typeof specializations.$inferSelect
-export type NewSpecialization = typeof specializations.$inferInsert
+export type CourseGroup = typeof courseGroup.$inferSelect
+export type NewCourseGroup = typeof courseGroup.$inferInsert

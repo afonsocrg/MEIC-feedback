@@ -58,11 +58,11 @@ export const getEditDescriptionFormUrl = (course: CourseDetail): string => {
   )
 }
 
-const FORM_EVALUATION_METHOD_FIELD_NAME = 'Evaluation+Method'
-export const getEvaluationMethodFormUrl = (course: CourseDetail): string => {
+const FORM_ASSESSMENT_FIELD_NAME = 'Evaluation+Method'
+export const getAssessmentFormUrl = (course: CourseDetail): string => {
   return getEditCourseFormUrl(
     course,
-    FORM_EVALUATION_METHOD_FIELD_NAME,
-    (c) => c.evaluationMethod
+    FORM_ASSESSMENT_FIELD_NAME,
+    (c) => c.assessment
   )
 }
