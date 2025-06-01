@@ -9,7 +9,10 @@
     "db": "bun drizzle-kit studio",
     "db-prod": "DB_REMOTE=true bun drizzle-kit studio",
     "deploy": "wrangler deploy",
-    "tail": "wrangler tail"
+    "tail": "wrangler tail",
+    "backup": "./backup_database.sh",
+    "backup-local": "./backup_database.sh --local",
+    "backup-remote": "./backup_database.sh --remote"
   },
   "dependencies": {
     "@oslojs/crypto": "^1.0.1",
@@ -34,6 +37,6 @@
     "drizzle-kit": "^0.30.6",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "wrangler": "^4.17.0"
+    "wrangler": "^4.18.0"
   }
 }
