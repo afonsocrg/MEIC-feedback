@@ -8,6 +8,7 @@ import {
 } from '@services/meicFeedbackAPI'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { createContext, ReactNode, useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 export interface AppContextType {
   degrees: Degree[]
@@ -30,6 +31,7 @@ const STORAGE_KEYS = {
 
 export function AppProvider({ children }: AppProviderProps) {
   const [isLoading, setIsLoading] = useState(true)
+  const [searchParams] = useSearchParams()
 
   const [degrees, setDegrees] = useState<Degree[]>([])
   const [selectedDegreeId, setSelectedDegreeId] = useLocalStorage<
@@ -44,6 +46,18 @@ export function AppProvider({ children }: AppProviderProps) {
       try {
         const degreesData = await getDegrees()
         setDegrees(degreesData)
+
+        // Check for degree parameter in URL
+        const degreeAcronym = searchParams.get('degree')
+        if (degreeAcronym) {
+          const matchingDegree = degreesData.find(
+            (degree) =>
+              degree.acronym.toLowerCase() === degreeAcronym.toLowerCase()
+          )
+          if (matchingDegree) {
+            setSelectedDegreeId(matchingDegree.id)
+          }
+        }
       } catch (error) {
         console.error('Failed to fetch initial data:', error)
       } finally {
@@ -51,7 +65,7 @@ export function AppProvider({ children }: AppProviderProps) {
       }
     }
     fetchDegrees()
-  }, [])
+  }, [searchParams, setSelectedDegreeId])
 
   const [courseGroups, setCourseGroups] = useState<CourseGroup[]>([])
   const [courses, setCourses] = useState<Course[]>([])
