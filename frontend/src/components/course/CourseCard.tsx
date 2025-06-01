@@ -45,23 +45,37 @@ export function CourseCard({
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <p className="text-gray-600">{desc}</p>
-            {terms && (
-              <div className="flex items-center gap-2">
-                {terms.map((t) => (
-                  <Chip key={t} label={t} />
-                ))}
-              </div>
-            )}
+            <div className="flex items-center gap-2">
+              {/* {feedbackCount === 0 && <Chip label="New!" />} */}
+              {terms && (
+                <>
+                  {terms.map((t) => (
+                    <Chip key={t} label={t} />
+                  ))}
+                </>
+              )}
+            </div>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="mr-2">
-                <StarRating value={rating} size="sm" />
-              </div>
-              <span className="text-gray-700">{rating.toFixed(1)}</span>
-              <span className="text-gray-500 ml-2">
-                ({feedbackCount} reviews)
-              </span>
+              {feedbackCount > 0 ? (
+                <>
+                  <div className="mr-2">
+                    <StarRating value={rating} size="sm" />
+                  </div>
+                  <span className="text-gray-700">{rating.toFixed(1)}</span>
+                  <span className="text-gray-500 ml-2">
+                    ({feedbackCount} reviews)
+                  </span>
+                </>
+              ) : (
+                <Link
+                  to={`/feedback/new?courseId=${courseId}`}
+                  className="text-istBlue italic hover:text-istBlue/80 hover:underline text-sm transition-colors"
+                >
+                  Give the first review!
+                </Link>
+              )}
             </div>
           </div>
         </div>
