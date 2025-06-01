@@ -7,9 +7,9 @@
 - **Know what to expect before enrolling** — avoid bad courses, find the best ones for you.
 - **Share your own experience** — help other students make informed decisions. Your review is always anonymous.
 
-👉 [Explore course ratings and reviews](https://meic-feedback.afonsocrg.com)
+👉 [Explore course ratings and reviews](https://ist-feedback.afonsocrg.com)
 
-![meic-feedback.afonsocrg.com](./website_screenshot.png)
+![ist-feedback.afonsocrg.com](./website_screenshot.png)
 
 ---
 
