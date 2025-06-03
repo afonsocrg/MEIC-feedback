@@ -1,51 +1,29 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/utils'
 import {
-  Chip,
-  EditableSection,
-  Markdown,
-  SchoolYearSection,
-  WarningAlert
+  CourseAssessment,
+  CourseDescription,
+  CourseDetailSkeleton,
+  CourseHeader,
+  CourseReviews
 } from '@components'
-import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
-import {
-  getAssessmentFormUrl,
-  getEditDescriptionFormUrl
-} from '@services/googleForms'
 import {
   getCourse,
   getCourseFeedback,
   type CourseDetail,
   type Feedback
 } from '@services/meicFeedbackAPI'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ui/tabs'
 import { motion } from 'framer-motion'
-import posthog from 'posthog-js'
-import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { CourseDetailSkeleton } from './CourseDetailSkeleton'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-// Helper function to group feedback by school year
-const groupReviewsBySchoolYear = (
-  reviews: Feedback[]
-): Map<number, Feedback[]> => {
-  const grouped = new Map<number, Feedback[]>()
-
-  reviews.forEach((f) => {
-    const schoolYear = f.schoolYear
-    if (!grouped.has(schoolYear)) {
-      grouped.set(schoolYear, [])
-    }
-    grouped.get(schoolYear)?.push(f)
-  })
-
-  return grouped
-}
-
-function isSchoolYearOutdated(schoolYear: number) {
-  const currentSchoolYear = getCurrentSchoolYear()
-
-  // A school year is outdated if it's more than 2 years behind the current one
-  return schoolYear < currentSchoolYear - 2
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 300 }
+  }
 }
 
 export function CourseDetail() {
@@ -54,12 +32,6 @@ export function CourseDetail() {
   const [feedback, setFeedback] = useState<Feedback[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const navigate = useNavigate()
-
-  const reviewFormUrl = useMemo(
-    () => `/feedback/new${course ? `?courseId=${course.id}` : ''}`,
-    [course]
-  )
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -89,15 +61,6 @@ export function CourseDetail() {
       transition: {
         staggerChildren: 0.1
       }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: 'spring', stiffness: 300 }
     }
   }
 
@@ -138,45 +101,17 @@ export function CourseDetail() {
       animate="visible"
     >
       <motion.div variants={itemVariants}>
-        <h1 className="text-3xl font-bold text-istBlue mb-4">{course.name}</h1>
-
-        <div className="flex items-center gap-4 mb-6 flex-wrap">
-          <p className="text-gray-600">{course.acronym}</p>
-          {course.terms && (
-            <div className="flex items-center gap-2">
-              {course.terms.map((t) => (
-                <Chip key={t} label={t} />
-              ))}
-            </div>
-          )}
-          <div className="flex items-center">
-            <span className="text-yellow-500 mr-1">★</span>
-            <span className="text-gray-700">
-              {(course.rating ?? 0).toFixed(1)}
-            </span>
-            <span className="text-gray-500 ml-2">
-              ({course.feedbackCount} reviews)
-            </span>
-          </div>
-          <a
-            href={course.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-istBlue hover:underline cursor-pointer"
-          >
-            Fénix
-          </a>
-        </div>
+        <CourseHeader {...{ course }} />
       </motion.div>
 
       <motion.div variants={itemVariants}>
         <Tabs defaultValue="reviews" className="w-full">
           <TabsList className="inline-flex justify-start bg-transparent border-b border-gray-200 w-full rounded-none">
+            <TabsTrigger value="description" className={tabClasses}>
+              What's this course about?
+            </TabsTrigger>
             <TabsTrigger value="reviews" className={tabClasses}>
               Reviews
-            </TabsTrigger>
-            <TabsTrigger value="description" className={tabClasses}>
-              Description
             </TabsTrigger>
             <TabsTrigger value="assessment" className={tabClasses}>
               Assessment
@@ -184,117 +119,15 @@ export function CourseDetail() {
           </TabsList>
 
           <TabsContent value="description" className="mt-6">
-            <EditableSection
-              title="What's this course really about?"
-              value={course.description}
-              editTooltip="Edit description"
-              getEditUrl={() => getEditDescriptionFormUrl(course)}
-              renderContent={(value) => <Markdown>{value}</Markdown>}
-              fallback={
-                <p className="text-gray-600 italic">
-                  We don't have a description for this course yet.{' '}
-                  <a
-                    href={getEditDescriptionFormUrl(course)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-istBlue underline hover:no-underline"
-                  >
-                    Be the first to add one!
-                  </a>
-                </p>
-              }
-            />
+            <CourseDescription {...{ course }} />
           </TabsContent>
 
           <TabsContent value="assessment" className="mt-6">
-            <EditableSection
-              title="Assessment"
-              value={course.assessment}
-              editTooltip="Edit assessment"
-              getEditUrl={() => getAssessmentFormUrl(course)}
-              renderContent={(value) => <Markdown>{value}</Markdown>}
-              fallback={
-                <p className="text-gray-600 italic">
-                  No assessment yet.{' '}
-                  <a
-                    href={getAssessmentFormUrl(course)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-istBlue underline hover:no-underline"
-                  >
-                    Be the first to add one!
-                  </a>
-                </p>
-              }
-            />
+            <CourseAssessment {...{ course }} />
           </TabsContent>
 
           <TabsContent value="reviews" className="mt-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-semibold text-gray-800">
-                Student Reviews
-              </h2>
-              {course.feedbackCount > 0 && (
-                <button
-                  onClick={() => {
-                    posthog.capture('review_form_open', {
-                      source: 'course_detail_page.add_review',
-                      course_id: course.id
-                    })
-                    navigate(reviewFormUrl)
-                  }}
-                  className="text-istBlue hover:underline cursor-pointer bg-transparent border-none p-0"
-                >
-                  Add your review!
-                </button>
-              )}
-            </div>
-            {feedback.length === 0 ? (
-              <p className="text-gray-600">
-                No reviews yet . Be the first to{' '}
-                <button
-                  onClick={() => {
-                    posthog.capture('review_form_open', {
-                      source: 'course_detail_page.add_first_review',
-                      course_id: course.id
-                    })
-                    navigate(reviewFormUrl)
-                  }}
-                  className="text-istBlue hover:underline cursor-pointer"
-                >
-                  add one
-                </button>{' '}
-                😁!
-              </p>
-            ) : (
-              <div className="space-y-4">
-                {Array.from(groupReviewsBySchoolYear(feedback).entries())
-                  .sort(([yearA], [yearB]) => yearB - yearA)
-                  .map(([schoolYear, yearFeedback], index, array) => {
-                    const isOutdated = isSchoolYearOutdated(schoolYear)
-                    const isFirstOutdated =
-                      isOutdated &&
-                      (index === 0 ||
-                        !isSchoolYearOutdated(array[index - 1][0]))
-
-                    return (
-                      <>
-                        {isFirstOutdated && (
-                          <WarningAlert message="The reviews below this point may be outdated. Course content, teaching methods, and requirements may have changed since then." />
-                        )}
-                        <SchoolYearSection
-                          key={schoolYear}
-                          schoolYear={formatSchoolYearString(schoolYear, {
-                            yearFormat: 'long'
-                          })}
-                          feedback={yearFeedback}
-                          variants={itemVariants}
-                        />
-                      </>
-                    )
-                  })}
-              </div>
-            )}
+            <CourseReviews {...{ course, feedback }} />
           </TabsContent>
         </Tabs>
       </motion.div>

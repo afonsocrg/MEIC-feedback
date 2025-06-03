@@ -1,7 +1,6 @@
 import { DegreeCard } from '@/components/degree/DegreeCard'
 import { useApp } from '@/hooks'
-import { ActionButton, ErrorPanel } from '@components'
-import { CourseDetailSkeleton } from '@pages'
+import { ActionButton, CourseDetailSkeleton, ErrorPanel } from '@components'
 import { getCourseIdFromAcronym } from '@services/meicFeedbackAPI'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'

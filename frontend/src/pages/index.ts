@@ -1,5 +1,4 @@
 export * from './CourseDetail'
-export * from './CourseDetailSkeleton'
 export * from './GiveReview'
 export * from './Home'
 export * from './NotFound'
