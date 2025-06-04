@@ -1,14 +1,13 @@
-import { CourseGrid, DegreeSelector, SearchCourses } from '@components'
+import { CourseGrid, SearchCourses } from '@components'
 import { useApp } from '@hooks'
 import { motion } from 'framer-motion'
+import { Pencil } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
 export function CourseExplorer() {
-  const [isDegreeSelectorOpen, setIsDegreeSelectorOpen] = useState(false)
-
   const [searchParams] = useSearchParams()
 
   const initialValues = getInitialValues(searchParams)
@@ -23,7 +22,8 @@ export function CourseExplorer() {
     selectedDegree,
     courseGroups,
     isLoading: isAppLoading,
-    courses
+    courses,
+    setIsDegreeSelectorOpen
   } = useApp()
 
   // Ensure selected Course Group exists!
@@ -116,12 +116,6 @@ export function CourseExplorer() {
 
   return (
     <>
-      <DegreeSelector
-        isOpen={
-          !isAppLoading && (isDegreeSelectorOpen || selectedDegree === null)
-        }
-        onClose={() => setIsDegreeSelectorOpen(false)}
-      />
       <motion.main
         className="container mx-auto px-4 py-8"
         variants={containerVariants}
@@ -150,9 +144,14 @@ export function CourseExplorer() {
                 Currently viewing courses for{' '}
                 <button
                   onClick={() => setIsDegreeSelectorOpen(true)}
-                  className="hover:text-gray-700 transition-colors underline decoration-dotted cursor-pointer"
+                  className="hover:text-gray-700 text-istBlue transition-colors cursor-pointer"
                 >
-                  {selectedDegree ? selectedDegree.acronym : 'all degrees'}
+                  <div className="flex items-center justify-center gap-1">
+                    <span className="underline decoration-dotted">
+                      {selectedDegree ? selectedDegree.acronym : 'all degrees'}
+                    </span>
+                    <Pencil className="h-3 w-3 inline-block" />
+                  </div>
                 </button>
               </div>
             </motion.div>

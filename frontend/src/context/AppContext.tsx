@@ -1,3 +1,4 @@
+import { DegreeSelector } from '@/components'
 import {
   type Course,
   type CourseGroup,
@@ -16,6 +17,8 @@ export interface AppContextType {
   courseGroups: CourseGroup[]
   selectedDegree: Degree | null
   setSelectedDegreeId: (degreeId: number | null) => void
+  isDegreeSelectorOpen: boolean
+  setIsDegreeSelectorOpen: (isOpen: boolean) => void
   isLoading: boolean
 }
 
@@ -37,6 +40,7 @@ export function AppProvider({ children }: AppProviderProps) {
   const [selectedDegreeId, setSelectedDegreeId] = useLocalStorage<
     number | null
   >(STORAGE_KEYS.SELECTED_DEGREE_ID, null)
+  const [isDegreeSelectorOpen, setIsDegreeSelectorOpen] = useState(false)
   const selectedDegree = useMemo(() => {
     return degrees.find((degree) => degree.id === selectedDegreeId) || null
   }, [degrees, selectedDegreeId])
@@ -101,9 +105,15 @@ export function AppProvider({ children }: AppProviderProps) {
         courseGroups,
         selectedDegree,
         setSelectedDegreeId,
+        isDegreeSelectorOpen,
+        setIsDegreeSelectorOpen,
         isLoading
       }}
     >
+      <DegreeSelector
+        isOpen={!isLoading && (isDegreeSelectorOpen || selectedDegree === null)}
+        onClose={() => setIsDegreeSelectorOpen(false)}
+      />
       {children}
     </AppContext.Provider>
   )
