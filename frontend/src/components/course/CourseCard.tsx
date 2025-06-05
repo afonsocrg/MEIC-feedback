@@ -78,6 +78,7 @@ export function CourseCard({
               ) : (
                 <Link
                   to={`/feedback/new?courseId=${courseId}`}
+                  onClick={(e) => e.stopPropagation()}
                   className="text-istBlue italic hover:text-istBlue/80 hover:underline text-sm transition-colors"
                 >
                   Give the first review!
