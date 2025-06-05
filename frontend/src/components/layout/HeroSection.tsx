@@ -8,16 +8,16 @@ export function HeroSection() {
   const { selectedDegree } = useApp()
 
   return (
-    <div className="bg-blue-50 py-12 px-4 md:px-0 shadow-sm">
+    <div className="bg-blue-50 py-6 md:py-12 px-2 md:px-4 shadow-sm">
       <div className="container mx-auto flex flex-col items-center text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-istBlue mb-4">
+        <h1 className="text-2xl md:text-4xl font-extrabold text-istBlue mb-2 md:mb-4">
           Find the best {selectedDegree?.acronym ?? 'IST'} courses
         </h1>
-        <p className="text-lg md:text-xl text-gray-500 mb-8 max-w-2xl">
+        <p className="text-base md:text-lg text-gray-500 mb-4 md:mb-8 max-w-md md:max-w-2xl">
           Honest, anonymous student reviews to help you choose the right
           courses.
         </p>
-        <div className="flex flex-col md:flex-row gap-4 md:gap-8 mb-2 items-center justify-center">
+        <div className="flex flex-row gap-2 md:gap-8 mb-2 items-center justify-center w-full md:w-auto">
           <ActionButton
             label="Browse Courses"
             description="See what students really think about each course."

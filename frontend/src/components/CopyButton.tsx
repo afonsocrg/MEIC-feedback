@@ -1,5 +1,5 @@
 import { Button, type ButtonProps } from '@ui/button'
-import { Check, Share2 } from 'lucide-react'
+import { Check, Copy } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 export function CopyButton({ onClick, ...props }: ButtonProps) {
@@ -19,7 +19,7 @@ export function CopyButton({ onClick, ...props }: ButtonProps) {
       {copied ? (
         <Check className="size-4 text-green-500" />
       ) : (
-        <Share2 className="size-4" />
+        <Copy className="size-4" />
       )}
       {copied ? 'Copied!' : 'Copy URL'}
     </Button>

@@ -16,7 +16,7 @@ export function ActionButton({
       : 'bg-white border-2 border-istBlue text-istBlue hover:bg-istBlue hover:text-white'
 
   const commonClasses =
-    'font-semibold py-3 w-full max-w-[180px] rounded-lg shadow transition-all text-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:ring-offset-2 cursor-pointer'
+    'font-semibold py-2 md:py-3 w-full max-w-[180px] rounded-lg shadow transition-all text-lg focus:outline-none focus:ring-2 focus:ring-istBlue focus:ring-offset-2 cursor-pointer'
 
   return (
     <div className="flex flex-col items-center w-full max-w-[180px]">
@@ -24,7 +24,7 @@ export function ActionButton({
         {label}
       </button>
       {description && (
-        <span className="text-gray-400 text-xs md:text-sm font-medium w-full max-w-[180px] text-center mt-2 break-words">
+        <span className="hidden md:inline text-gray-400 text-xs md:text-sm font-medium w-full max-w-[180px] text-center mt-2 break-words">
           {description}
         </span>
       )}
