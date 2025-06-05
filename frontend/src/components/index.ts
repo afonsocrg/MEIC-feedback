@@ -1,4 +1,5 @@
 export * from './common'
+export * from './CopyButton'
 export * from './course'
 export * from './degree'
 export * from './feedback'

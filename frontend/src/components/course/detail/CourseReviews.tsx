@@ -1,14 +1,11 @@
-import { getAskForFeedbackMessage, openWhatsapp } from '@/utils/whatsapp'
 import { SchoolYearSection, WarningAlert } from '@components'
 import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import { type CourseDetail, type Feedback } from '@services/meicFeedbackAPI'
-import { Button, type ButtonProps } from '@ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover'
-import { Check, Share2 } from 'lucide-react'
+import { Button } from '@ui/button'
 import posthog from 'posthog-js'
-import { useCallback, useMemo, useState } from 'react'
-import { FaWhatsapp } from 'react-icons/fa'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AskForFeedback } from './AskForFeedback'
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -17,30 +14,6 @@ const itemVariants = {
     y: 0,
     transition: { type: 'spring', stiffness: 300 }
   }
-}
-
-function isSchoolYearOutdated(schoolYear: number) {
-  const currentSchoolYear = getCurrentSchoolYear()
-
-  // A school year is outdated if it's more than 2 years behind the current one
-  return schoolYear < currentSchoolYear - 2
-}
-
-// Helper function to group feedback by school year
-const groupReviewsBySchoolYear = (
-  reviews: Feedback[]
-): Map<number, Feedback[]> => {
-  const grouped = new Map<number, Feedback[]>()
-
-  reviews.forEach((f) => {
-    const schoolYear = f.schoolYear
-    if (!grouped.has(schoolYear)) {
-      grouped.set(schoolYear, [])
-    }
-    grouped.get(schoolYear)?.push(f)
-  })
-
-  return grouped
 }
 
 export interface CourseReviewsProps {
@@ -136,78 +109,26 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
   )
 }
 
-function AskForFeedback({
-  reviewFormUrl,
-  course
-}: {
-  reviewFormUrl: string
-  course: CourseDetail
-}) {
-  const [copied, setCopied] = useState(false)
+function isSchoolYearOutdated(schoolYear: number) {
+  const currentSchoolYear = getCurrentSchoolYear()
 
-  const handleWhatsapp = useCallback(() => {
-    posthog.capture('request_feedback', {
-      medium: 'whatsapp',
-      course_id: course.id,
-      course_acronym: course.acronym
-    })
-
-    openWhatsapp({
-      text: getAskForFeedbackMessage(course)
-    })
-  }, [course])
-
-  const handleCopyUrl = useCallback(() => {
-    posthog.capture('request_feedback', {
-      medium: 'copy_url',
-      course_id: course.id,
-      course_acronym: course.acronym
-    })
-    const url = `${window.location.origin}${reviewFormUrl}`
-    navigator.clipboard.writeText(url)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }, [course, reviewFormUrl])
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className="gap-2 active:bg-gray-100 dark:active:bg-gray-800"
-        >
-          <Share2 className="size-4" />
-          Ask for feedback
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-48 p-2">
-        <div className="flex flex-col gap-2">
-          <PopoverButton onClick={handleWhatsapp}>
-            <FaWhatsapp className="size-4" />
-            WhatsApp
-          </PopoverButton>
-          {navigator.clipboard && (
-            <PopoverButton onClick={handleCopyUrl}>
-              {copied ? (
-                <Check className="size-4 text-green-500" />
-              ) : (
-                <Share2 className="size-4" />
-              )}
-              {copied ? 'Copied!' : 'Copy URL'}
-            </PopoverButton>
-          )}
-        </div>
-      </PopoverContent>
-    </Popover>
-  )
+  // A school year is outdated if it's more than 2 years behind the current one
+  return schoolYear < currentSchoolYear - 2
 }
 
-function PopoverButton({ ...props }: ButtonProps) {
-  return (
-    <Button
-      variant="ghost"
-      className="justify-start gap-2 active:bg-gray-100 dark:active:bg-gray-800"
-      {...props}
-    />
-  )
+// Helper function to group feedback by school year
+const groupReviewsBySchoolYear = (
+  reviews: Feedback[]
+): Map<number, Feedback[]> => {
+  const grouped = new Map<number, Feedback[]>()
+
+  reviews.forEach((f) => {
+    const schoolYear = f.schoolYear
+    if (!grouped.has(schoolYear)) {
+      grouped.set(schoolYear, [])
+    }
+    grouped.get(schoolYear)?.push(f)
+  })
+
+  return grouped
 }
