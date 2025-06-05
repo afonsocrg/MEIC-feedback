@@ -14,7 +14,7 @@ import {
 } from '@services/meicFeedbackAPI'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ui/tabs'
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const itemVariants = {
@@ -32,6 +32,26 @@ export function CourseDetail() {
   const [feedback, setFeedback] = useState<Feedback[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [showLeftFade, setShowLeftFade] = useState(false)
+  const [showRightFade, setShowRightFade] = useState(false)
+  const tabsListRef = useRef<HTMLDivElement>(null)
+
+  const checkFades = () => {
+    const el = tabsListRef.current
+    if (!el) return
+    setShowLeftFade(el.scrollLeft > 0)
+    setShowRightFade(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+  }
+
+  useEffect(() => {
+    checkFades()
+    window.addEventListener('resize', checkFades)
+    return () => window.removeEventListener('resize', checkFades)
+  }, [])
+
+  const handleScroll = () => {
+    checkFades()
+  }
 
   useEffect(() => {
     const fetchCourseData = async () => {
@@ -106,26 +126,41 @@ export function CourseDetail() {
 
       <motion.div variants={itemVariants}>
         <Tabs defaultValue="reviews" className="w-full">
-          <TabsList className="inline-flex justify-start bg-transparent border-b border-gray-200 w-full rounded-none">
-            <TabsTrigger value="description" className={tabClasses}>
-              What's this course about?
-            </TabsTrigger>
-            <TabsTrigger value="reviews" className={tabClasses}>
-              Reviews
-            </TabsTrigger>
-            <TabsTrigger value="assessment" className={tabClasses}>
-              Assessment
-            </TabsTrigger>
-          </TabsList>
-
+          <div className="relative">
+            {/* Left gradient fade (opacity transitions) */}
+            <div
+              className="pointer-events-none absolute left-0 top-0 h-full w-6 bg-gradient-to-r from-gray-200 to-transparent z-10 md:hidden transition-opacity duration-300"
+              style={{ opacity: showLeftFade ? 1 : 0 }}
+            />
+            {/* Right gradient fade (opacity transitions) */}
+            <div
+              className="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-gray-200 to-transparent z-10 md:hidden transition-opacity duration-300"
+              style={{ opacity: showRightFade ? 1 : 0 }}
+            />
+            <div
+              ref={tabsListRef}
+              onScroll={handleScroll}
+              className="overflow-x-auto scrollbar-none"
+            >
+              <TabsList className="inline-flex justify-start bg-transparent border-b border-gray-200 w-full rounded-none min-w-max">
+                <TabsTrigger value="description" className={tabClasses}>
+                  What's this course about?
+                </TabsTrigger>
+                <TabsTrigger value="reviews" className={tabClasses}>
+                  Reviews
+                </TabsTrigger>
+                <TabsTrigger value="assessment" className={tabClasses}>
+                  Assessment
+                </TabsTrigger>
+              </TabsList>
+            </div>
+          </div>
           <TabsContent value="description" className="mt-6">
             <CourseDescription {...{ course }} />
           </TabsContent>
-
           <TabsContent value="assessment" className="mt-6">
             <CourseAssessment {...{ course }} />
           </TabsContent>
-
           <TabsContent value="reviews" className="mt-6">
             <CourseReviews {...{ course, feedback }} />
           </TabsContent>
