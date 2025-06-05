@@ -18,6 +18,7 @@
       "@services/*": ["./src/services/*"],
       "@lib/*": ["../lib/src/*"],
       "@utils": ["./src/utils"],
+      "@utils/*": ["./src/utils/*"],
       "@ui": ["./src/components/ui"],
       "@ui/*": ["./src/components/ui/*"]
     }

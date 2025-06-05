@@ -9,9 +9,14 @@ export function getReviewPath({ courseId }: ReviewPathParams = {}) {
   if (courseId) {
     params.set('courseId', courseId.toString())
   }
-  return `/feedback/new${params.toString()}`
+  return `/feedback/new?${params.toString()}`
 }
 
 export function getCoursePath(course: Course) {
   return `/courses/${course.id}`
+}
+
+export function getFullUrl(suffix: string) {
+  const url = new URL(suffix, window.location.origin)
+  return url.toString()
 }
