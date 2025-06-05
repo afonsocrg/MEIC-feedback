@@ -74,13 +74,20 @@ export function AppProvider({ children }: AppProviderProps) {
         return
       }
 
-      const [coursesData, courseGroupsData] = await Promise.all([
-        getCourses({ degreeId: selectedDegreeId }),
-        getCourseGroups(selectedDegreeId)
-      ])
-
-      setCourses(coursesData)
-      setCourseGroups(courseGroupsData)
+      try {
+        setIsLoading(true)
+        setCourses([])
+        const [coursesData, courseGroupsData] = await Promise.all([
+          getCourses({ degreeId: selectedDegreeId }),
+          getCourseGroups(selectedDegreeId)
+        ])
+        setCourses(coursesData)
+        setCourseGroups(courseGroupsData)
+      } catch (error) {
+        console.error('Failed to fetch courses:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchCourses()
   }, [degrees, selectedDegreeId])
