@@ -10,6 +10,7 @@ export function CourseHeader({ course }: CourseHeaderProps) {
 
       <div className="flex items-center gap-4 mb-6 flex-wrap">
         <p className="text-gray-600">{course.acronym}</p>
+        {course.degree && <Chip label={course.degree.acronym} />}
         {course.terms && (
           <div className="flex items-center gap-2">
             {course.terms.map((t) => (
@@ -17,15 +18,17 @@ export function CourseHeader({ course }: CourseHeaderProps) {
             ))}
           </div>
         )}
-        <div className="flex items-center">
-          <span className="text-yellow-500 mr-1">★</span>
-          <span className="text-gray-700">
-            {(course.rating ?? 0).toFixed(1)}
-          </span>
-          <span className="text-gray-500 ml-2">
-            ({course.feedbackCount} reviews)
-          </span>
-        </div>
+        {course.feedbackCount > 0 && (
+          <div className="flex items-center">
+            <span className="text-yellow-500 mr-1">★</span>
+            <span className="text-gray-700">
+              {(course.rating ?? 0).toFixed(1)}
+            </span>
+            <span className="text-gray-500 ml-2">
+              ({course.feedbackCount} reviews)
+            </span>
+          </div>
+        )}
         <a
           href={course.url}
           target="_blank"

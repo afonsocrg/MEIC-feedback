@@ -78,22 +78,33 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
         )}
       </div>
       {feedback.length === 0 ? (
-        <p className="text-gray-600">
-          No reviews yet . Be the first to{' '}
-          <button
-            onClick={() => {
-              posthog.capture('review_form_open', {
-                source: 'course_detail_page.add_first_review',
-                course_id: course.id
-              })
-              navigate(reviewFormUrl)
-            }}
-            className="bg-istBlue text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-200 font-medium"
-          >
-            add one
-          </button>{' '}
-          😁!
-        </p>
+        <div className="flex flex-col items-center justify-center py-16 text-center gap-6 bg-gray-50 rounded-lg">
+          <div className="text-5xl">💬</div>
+          <div>
+            <h3 className="text-xl font-semibold mb-2">
+              No reviews yet for this course
+            </h3>
+            <p className="text-gray-600 max-w-md mx-auto">
+              Be the first to share your experience, or invite your friends to
+              leave feedback! Your input helps future students make better
+              choices.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 mt-2">
+            <AskForFeedback reviewFormUrl={reviewFormUrl} course={course} />
+            <Button
+              onClick={() => {
+                posthog.capture('review_form_open', {
+                  source: 'course_detail_page.add_first_review',
+                  course_id: course.id
+                })
+                navigate(reviewFormUrl)
+              }}
+            >
+              Give Feedback!
+            </Button>
+          </div>
+        </div>
       ) : (
         <div className="space-y-4">
           {Array.from(groupReviewsBySchoolYear(feedback).entries())
