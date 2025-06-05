@@ -11,47 +11,40 @@ export const whatsappUrls = {
   desktop: `https://web.whatsapp.com/send`
 }
 
-function getWhatsappShareUrl(baseUrl: string, message: string) {
-  const searchParams = new URLSearchParams()
-  searchParams.set('text', message)
-  return `${baseUrl}?${searchParams.toString()}`
+export function getOpenWhatsappAppUrl(message: string) {
+  return whatsappUrls.mobile + '?text=' + encodeURIComponent(message)
 }
 
-function openWhatsappFallback(message: string) {
-  if (isMobile()) {
-    // Try to open WhatsApp app directly
-    window.location.href = getWhatsappShareUrl(whatsappUrls.mobile, message)
-
-    // Fallback after a short delay if app doesn't open
-    setTimeout(() => {
-      window.open(
-        getWhatsappShareUrl(whatsappUrls.mobileFallback, message),
-        '_blank'
-      )
-    }, 1000)
-  } else {
-    // For desktop, open WhatsApp Web in new tab
-    window.open(getWhatsappShareUrl(whatsappUrls.desktop, message), '_blank')
-  }
+export function getOpenWhatsappWebUrl(message: string) {
+  return whatsappUrls.desktop + '?text=' + encodeURIComponent(message)
 }
 
 export interface OpenWhatsappData {
   text: string
 }
 export async function openWhatsapp({ text }: OpenWhatsappData) {
-  if (isMobile() && navigator.share) {
-    try {
-      await navigator.share({ text: text })
-    } catch (err) {
-      // If native share fails, fall back to WhatsApp direct
-      console.log('Caught error', err)
-      openWhatsappFallback(text)
-    }
+  if (isMobile()) {
+    window.open(getOpenWhatsappAppUrl(text))
   } else {
-    console.log('No navigator.share')
-    openWhatsappFallback(text)
+    window.open(getOpenWhatsappWebUrl(text), '_blank')
   }
 }
+
+// The browser navigator.share does not look very good...
+// For now we're just using the native app or web
+// if (isMobile() && navigator.share) {
+//   console.log('navigator.share is set')
+//   try {
+//     await navigator.share({ text: text })
+//   } catch (err) {
+//     // If native share fails, fall back to WhatsApp direct
+//     console.log('Caught error', err)
+//     openWhatsappFallback(text)
+//   }
+// } else {
+//   console.log('No navigator.share')
+//   openWhatsappFallback(text)
+// }
 
 export function getAskForFeedbackMessage(course: Course) {
   const feedbackUrl = `${window.location.origin}${getReviewPath({ courseId: course.id })}`

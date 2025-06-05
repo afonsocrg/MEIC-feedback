@@ -2,9 +2,12 @@ import { getAskForFeedbackMessage, openWhatsapp } from '@/utils/whatsapp'
 import { SchoolYearSection, WarningAlert } from '@components'
 import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import { type CourseDetail, type Feedback } from '@services/meicFeedbackAPI'
-import { MessageCircle } from 'lucide-react'
+import { Button, type ButtonProps } from '@ui/button'
+import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover'
+import { Check, Share2 } from 'lucide-react'
 import posthog from 'posthog-js'
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { FaWhatsapp } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
 const itemVariants = {
@@ -50,6 +53,7 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
     () => `/feedback/new${course.id ? `?courseId=${course.id}` : ''}`,
     [course.id]
   )
+
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -58,23 +62,8 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
         </h2>
         {course.feedbackCount > 0 && (
           <div className="flex gap-3">
-            <button
-              onClick={() => {
-                openWhatsapp({
-                  text: getAskForFeedbackMessage(course)
-                })
-                posthog.capture('request_feedback', {
-                  medium: 'whatsapp',
-                  course_id: course.id,
-                  course_acronym: course.acronym
-                })
-              }}
-              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors duration-200 font-medium cursor-pointer flex items-center gap-2"
-            >
-              <MessageCircle />
-              Ask a friend
-            </button>
-            <button
+            <AskForFeedback reviewFormUrl={reviewFormUrl} course={course} />
+            <Button
               onClick={() => {
                 posthog.capture('review_form_open', {
                   source: 'course_detail_page.add_review',
@@ -82,10 +71,9 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
                 })
                 navigate(reviewFormUrl)
               }}
-              className="bg-istBlue text-white px-4 py-2 rounded-md hover:bg-istBlue/80 transition-colors duration-200 font-medium cursor-pointer"
             >
               Give Feedback!
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -117,23 +105,98 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
                 (index === 0 || !isSchoolYearOutdated(array[index - 1][0]))
 
               return (
-                <>
+                <div key={schoolYear}>
                   {isFirstOutdated && (
                     <WarningAlert message="The reviews below this point may be outdated. Course content, teaching methods, and requirements may have changed since then." />
                   )}
                   <SchoolYearSection
-                    key={schoolYear}
                     schoolYear={formatSchoolYearString(schoolYear, {
                       yearFormat: 'long'
                     })}
                     feedback={yearFeedback}
                     variants={itemVariants}
                   />
-                </>
+                </div>
               )
             })}
         </div>
       )}
     </>
+  )
+}
+
+function AskForFeedback({
+  reviewFormUrl,
+  course
+}: {
+  reviewFormUrl: string
+  course: CourseDetail
+}) {
+  const [copied, setCopied] = useState(false)
+
+  const handleWhatsapp = useCallback(() => {
+    posthog.capture('request_feedback', {
+      medium: 'whatsapp',
+      course_id: course.id,
+      course_acronym: course.acronym
+    })
+
+    openWhatsapp({
+      text: getAskForFeedbackMessage(course)
+    })
+  }, [course])
+
+  const handleCopyUrl = useCallback(() => {
+    posthog.capture('request_feedback', {
+      medium: 'copy_url',
+      course_id: course.id,
+      course_acronym: course.acronym
+    })
+    const url = `${window.location.origin}${reviewFormUrl}`
+    navigator.clipboard.writeText(url)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }, [course, reviewFormUrl])
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className="gap-2 active:bg-gray-100 dark:active:bg-gray-800"
+        >
+          <Share2 className="size-4" />
+          Ask for feedback
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-48 p-2">
+        <div className="flex flex-col gap-2">
+          <PopoverButton onClick={handleWhatsapp}>
+            <FaWhatsapp className="size-4" />
+            WhatsApp
+          </PopoverButton>
+          {navigator.clipboard && (
+            <PopoverButton onClick={handleCopyUrl}>
+              {copied ? (
+                <Check className="size-4 text-green-500" />
+              ) : (
+                <Share2 className="size-4" />
+              )}
+              {copied ? 'Copied!' : 'Copy URL'}
+            </PopoverButton>
+          )}
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function PopoverButton({ ...props }: ButtonProps) {
+  return (
+    <Button
+      variant="ghost"
+      className="justify-start gap-2 active:bg-gray-100 dark:active:bg-gray-800"
+      {...props}
+    />
   )
 }
