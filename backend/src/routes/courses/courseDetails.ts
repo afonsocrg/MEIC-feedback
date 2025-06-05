@@ -1,8 +1,14 @@
-import { courses, feedback, getDb } from '@db'
+import { courses, degrees, feedback, getDb } from '@db'
 import { OpenAPIRoute } from 'chanfana'
 import { and, eq, isNotNull, sql } from 'drizzle-orm'
 import { IRequest } from 'itty-router'
 import { z } from 'zod'
+
+const DegreeSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  acronym: z.string()
+})
 
 const CourseDetailSchema = z.object({
   id: z.number(),
@@ -13,7 +19,8 @@ const CourseDetailSchema = z.object({
   rating: z.number(),
   feedbackCount: z.number(),
   terms: z.array(z.string()),
-  assessment: z.string()
+  assessment: z.string(),
+  degree: DegreeSchema.nullable()
 })
 
 export class GetCourse extends OpenAPIRoute {
@@ -52,19 +59,26 @@ export class GetCourse extends OpenAPIRoute {
         name: courses.name,
         acronym: courses.acronym,
         description: courses.description,
+        degreeId: courses.degreeId,
         url: courses.url,
         rating: sql<number>`ifnull(avg(${feedback.rating}), 0)`.as('rating'),
         feedbackCount: sql<number>`ifnull(count(${feedback.id}), 0)`.as(
           'feedback_count'
         ),
         terms: courses.terms,
-        assessment: courses.assessment
+        assessment: courses.assessment,
+        degree: {
+          id: degrees.id,
+          name: degrees.name,
+          acronym: degrees.acronym
+        }
       })
       .from(courses)
       .leftJoin(
         feedback,
         and(eq(courses.id, feedback.courseId), isNotNull(feedback.approvedAt))
       )
+      .leftJoin(degrees, eq(courses.degreeId, degrees.id))
       .where(eq(courses.id, courseId))
       .groupBy(courses.id)
 
