@@ -1,7 +1,7 @@
 import { Chip, StarRating } from '@components'
 import { Course } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 interface CourseCardProps extends Omit<Course, 'id'> {
   courseId: number
@@ -17,6 +17,7 @@ export function CourseCard({
   terms,
   useAcronymAsTitle = false
 }: CourseCardProps) {
+  const navigate = useNavigate()
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -33,13 +34,19 @@ export function CourseCard({
     <motion.div
       key={courseId}
       variants={itemVariants}
-      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow h-full"
+      className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow h-full cursor-pointer"
     >
-      <Link
-        to={`/courses/${courseId}`}
+      <div
+        onClick={() => {
+          navigate(`/courses/${courseId}`)
+        }}
         className="h-full flex flex-col justify-between"
       >
-        <div>
+        <div
+          onClick={() => {
+            navigate(`/courses/${courseId}`)
+          }}
+        >
           <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
         </div>
         <div className="flex flex-col gap-2">
@@ -79,7 +86,7 @@ export function CourseCard({
             </div>
           </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   )
 }

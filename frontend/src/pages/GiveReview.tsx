@@ -1,6 +1,8 @@
-import { useApp } from '@/hooks/useApp'
 import {
-  Course,
+  type Course,
+  type Degree,
+  getCourse,
+  getCourses,
   MeicFeedbackAPIError,
   submitFeedback
 } from '@/services/meicFeedbackAPI'
@@ -10,9 +12,11 @@ import {
   GiveReviewForm3,
   GiveReviewForm4,
   GiveReviewForm5,
+  GiveReviewProps,
   ReviewSubmitSuccess
 } from '@components'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useApp } from '@hooks'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -35,20 +39,66 @@ export type GiveReviewFormValues = z.infer<typeof formSchema>
 
 export function GiveReview() {
   const navigate = useNavigate()
+  const {
+    courses: contextCourses,
+    selectedDegreeId,
+    selectedDegree: contextDegree,
+    setSelectedDegreeId
+  } = useApp()
+
   const [searchParams] = useSearchParams()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-
-  const { courses } = useApp()
-
-  const formVersion = searchParams.get('version')
-
   const schoolYears = useMemo(
     () => Array.from({ length: 5 }, (_, i) => getCurrentSchoolYear() - i),
     []
   )
+  const initialValues = useMemo(
+    () => getInitialValues(searchParams, schoolYears),
+    [searchParams, schoolYears]
+  )
 
-  const initialValues = getInitialValues(searchParams, schoolYears)
+  const [localDegree, setLocalDegree] = useState<Degree | null>(contextDegree)
+
+  // By default, the available courses are the ones from the currently selected degree
+  // If the URL specifies a courseId and that course does not exist in the set of selected courses
+  // then we want to load all the courses from that degree.
+  // If there is no degree selected (1), we set the degree of the selected course as the selected degree
+  // (1) WARNING: we have to check if there is no degree selected using the selectedDegreeId
+  // property, because when the page is loading, we may have a selected degree, but not a
+  // degree object yet!!
+  const [courses, setCourses] = useState<Course[]>(contextCourses)
+  useEffect(() => {
+    const loadCourses = async () => {
+      if (
+        initialValues.courseId > 0 &&
+        !contextCourses?.find((c) => c.id === initialValues.courseId)
+      ) {
+        const courseDetails = await getCourse(initialValues.courseId)
+        if (selectedDegreeId === null) {
+          setSelectedDegreeId(courseDetails.degreeId)
+        } else {
+          getCourses({
+            degreeId: courseDetails.degreeId
+          }).then((degreeCourses) => {
+            setCourses(degreeCourses)
+          })
+          if (courseDetails.degreeId !== localDegree?.id) {
+            setLocalDegree(courseDetails.degree)
+          }
+        }
+      } else {
+        setCourses(contextCourses)
+      }
+    }
+    loadCourses()
+  }, [
+    initialValues.courseId,
+    contextCourses,
+    selectedDegreeId,
+    setSelectedDegreeId,
+    setLocalDegree,
+    localDegree
+  ])
+
   const form = useForm<GiveReviewFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -60,6 +110,10 @@ export function GiveReview() {
       comment: initialValues.comment
     }
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  const formVersion = searchParams.get('version')
   const selectedCourse = form.watch('courseId')
 
   async function onSubmit(values: GiveReviewFormValues) {
@@ -114,21 +168,22 @@ export function GiveReview() {
     )
   }
 
-  const props = { form, courses, schoolYears, isSubmitting, onSubmit }
-
-  switch (formVersion) {
-    case '1':
-      return <GiveReviewForm1 {...props} />
-    case '2':
-      return <GiveReviewForm2 {...props} />
-    case '3':
-      return <GiveReviewForm3 {...props} />
-    case '4':
-      return <GiveReviewForm4 {...props} />
-    case '5':
-    default:
-      return <GiveReviewForm5 {...props} />
-  }
+  return (
+    <>
+      <GiveReviewForm
+        version={formVersion}
+        {...{
+          form,
+          courses,
+          schoolYears,
+          isSubmitting,
+          onSubmit,
+          localDegree,
+          contextDegree
+        }}
+      />
+    </>
+  )
 }
 
 function getRatingValue(searchValue: string | null) {
@@ -162,5 +217,24 @@ function getInitialValues(
     rating,
     workloadRating,
     comment
+  }
+}
+
+interface GiveReviewFormProps extends GiveReviewProps {
+  version: string | null
+}
+function GiveReviewForm({ version, ...props }: GiveReviewFormProps) {
+  switch (version) {
+    case '1':
+      return <GiveReviewForm1 {...props} />
+    case '2':
+      return <GiveReviewForm2 {...props} />
+    case '3':
+      return <GiveReviewForm3 {...props} />
+    case '4':
+      return <GiveReviewForm4 {...props} />
+    case '5':
+    default:
+      return <GiveReviewForm5 {...props} />
   }
 }

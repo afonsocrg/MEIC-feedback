@@ -13,6 +13,7 @@ export interface CourseGroup {
 export interface Course {
   id: number
   name: string
+  degreeId: number
   acronym: string
   url: string
   rating: number
@@ -23,6 +24,7 @@ export interface Course {
 export interface CourseDetail extends Course {
   description: string | null
   assessment: string | null
+  degree: Degree | null
 }
 
 export interface Feedback {

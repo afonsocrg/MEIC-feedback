@@ -15,7 +15,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="text-istBlue hover:text-istBlueDark font-medium transition-colors"
             >
-              MEIC community
+              IST community
             </a>
           </div>
           <div className="flex gap-6">

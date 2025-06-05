@@ -1,4 +1,8 @@
-import { MarkdownTextarea, StarRatingWithLabel } from '@components'
+import {
+  MarkdownTextarea,
+  StarRatingWithLabel,
+  WarningAlert
+} from '@components'
 import { formatSchoolYearString } from '@lib/schoolYear'
 import {
   Button,
@@ -32,9 +36,17 @@ import {
   TooltipTrigger
 } from '@ui'
 import { cn } from '@utils'
+import { getCoursePath } from '@utils/routes'
 import { motion } from 'framer-motion'
-import { Check, ChevronDown, HelpCircle, Loader2, Send } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import {
+  Check,
+  ChevronDown,
+  ExternalLink,
+  HelpCircle,
+  Loader2,
+  Send
+} from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 import { GiveReviewProps } from './types'
 
 export function GiveReviewForm5({
@@ -42,8 +54,13 @@ export function GiveReviewForm5({
   courses,
   schoolYears,
   isSubmitting,
+  localDegree,
+  contextDegree,
   onSubmit
 }: GiveReviewProps) {
+  const navigate = useNavigate()
+  const selectedCourseId = form.watch('courseId')
+  const selectedCourse = courses.find((c) => c.id === selectedCourseId)
   return (
     <main className="container mx-auto px-4 py-8 max-w-2xl">
       <motion.div
@@ -187,7 +204,29 @@ export function GiveReviewForm5({
                     </FormItem>
                   )}
                 />
+                {selectedCourse && (
+                  <Link to={getCoursePath(selectedCourse)} target="_blank">
+                    <ExternalLink className="size-3 text-istBlue hover:text-istBlue/80" />
+                  </Link>
+                )}
               </div>
+              {localDegree?.id !== contextDegree?.id && (
+                <WarningAlert
+                  message={
+                    <>
+                      {`You are submitting a review for a ${localDegree?.acronym} course, but you currently selected ${contextDegree?.acronym}.`}
+                      <button
+                        className="underline cursor-pointer"
+                        onClick={() => {
+                          navigate('/')
+                        }}
+                      >
+                        Browse {contextDegree?.acronym} courses
+                      </button>
+                    </>
+                  }
+                />
+              )}
               <FormField
                 control={form.control}
                 name="rating"

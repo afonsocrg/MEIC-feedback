@@ -8,6 +8,7 @@ import {
   ShortcutRedirect
 } from '@pages'
 import { Toaster } from '@ui'
+import { getReviewPath } from '@utils/routes'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses/:id" element={<CourseDetail />} />
-            <Route path="/feedback/new" element={<GiveReview />} />
+            <Route path={getReviewPath()} element={<GiveReview />} />
 
             {/* Shortcut route for courses */}
             <Route path="/c/:degree/:course" element={<ShortcutRedirect />} />

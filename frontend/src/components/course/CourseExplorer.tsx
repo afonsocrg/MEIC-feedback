@@ -19,12 +19,19 @@ export function CourseExplorer() {
   const [sortBy, setSortBy] = useState<SortOption>(initialValues.sortBy)
 
   const {
+    selectedDegreeId,
     selectedDegree,
     courseGroups,
     isLoading: isAppLoading,
     courses,
     setIsDegreeSelectorOpen
   } = useApp()
+
+  useEffect(() => {
+    if (selectedDegreeId === null) {
+      setIsDegreeSelectorOpen(true)
+    }
+  }, [selectedDegreeId, setIsDegreeSelectorOpen])
 
   // Ensure selected Course Group exists!
   useEffect(() => {
