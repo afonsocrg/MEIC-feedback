@@ -87,7 +87,7 @@ export class SubmitFeedback extends OpenAPIRoute {
         workloadRating: body.workloadRating,
         comment: comment,
         originalComment: comment,
-        approvedAt: null
+        approvedAt: new Date('1970-01-01')
       }
 
       await db.insert(feedback).values(feedbackData)
