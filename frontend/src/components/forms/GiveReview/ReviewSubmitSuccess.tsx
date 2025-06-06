@@ -1,12 +1,18 @@
+import { Button } from '@/components/ui'
+import { getCoursePath } from '@/utils/routes'
+import { Course } from '@services/meicFeedbackAPI'
 import { motion } from 'framer-motion'
 import { CheckCircle, Home, PlusCircle } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 interface ReviewSubmitSuccessProps {
+  selectedCourse: Course | null
   onNewReview: () => void
   onBackToCourses: () => void
 }
 
 export function ReviewSubmitSuccess({
+  selectedCourse,
   onNewReview,
   onBackToCourses
 }: ReviewSubmitSuccessProps) {
@@ -27,25 +33,33 @@ export function ReviewSubmitSuccess({
         <h2 className="text-2xl font-semibold text-gray-900 mb-3">
           Feedback Submitted!
         </h2>
-        <p className="text-gray-600 mb-8 text-lg">
-          Thank you for helping improve MEIC courses! Your review will be
-          published soon.
-        </p>
+        {selectedCourse !== null ? (
+          <p className="text-gray-600 mb-8 text-lg">
+            Thanks for your feedback on {selectedCourse.name}!! Your review is
+            already available on the{' '}
+            <Link
+              to={getCoursePath(selectedCourse)}
+              className="cursor-pointer underline text-istBlue hover:text-istBlue/80"
+            >
+              course page
+            </Link>
+            !
+          </p>
+        ) : (
+          <p className="text-gray-600 mb-8 text-lg">
+            Thanks for your feedback!! Your review is already available on the
+            course page !
+          </p>
+        )}
         <div className="flex gap-4">
-          <button
-            onClick={onNewReview}
-            className="flex items-center gap-2 px-4 py-2 bg-istBlue hover:bg-istBlue/90 text-white rounded-lg transition-colors"
-          >
+          <Button onClick={onNewReview}>
             <PlusCircle className="w-5 h-5" />
-            Submit Another Review
-          </button>
-          <button
-            onClick={onBackToCourses}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors"
-          >
+            Submit another review
+          </Button>
+          <Button variant="outline" onClick={onBackToCourses}>
             <Home className="w-5 h-5" />
             Back to all courses
-          </button>
+          </Button>
         </div>
       </motion.div>
     </main>

@@ -111,10 +111,14 @@ export function GiveReview() {
     }
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(true)
 
   const formVersion = searchParams.get('version')
-  const selectedCourse = form.watch('courseId')
+  const selectedCourseId = form.watch('courseId')
+  const selectedCourse = useMemo(
+    () => courses.find((c) => c.id === selectedCourseId) ?? null,
+    [selectedCourseId, courses]
+  )
 
   async function onSubmit(values: GiveReviewFormValues) {
     // Store email in local storage for next time
@@ -150,15 +154,16 @@ export function GiveReview() {
     if (
       selectedCourse &&
       courses.length > 0 &&
-      !courses.some((c: Course) => c.id === selectedCourse)
+      !courses.some((c: Course) => c.id === selectedCourseId)
     ) {
       form.setValue('courseId', 0)
     }
-  }, [form, courses, selectedCourse])
+  }, [form, courses, selectedCourseId])
 
   if (isSuccess) {
     return (
       <ReviewSubmitSuccess
+        selectedCourse={selectedCourse}
         onNewReview={() => {
           setIsSuccess(false)
           form.reset()
