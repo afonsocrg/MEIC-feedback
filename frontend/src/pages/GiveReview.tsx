@@ -111,7 +111,7 @@ export function GiveReview() {
     }
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(true)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const formVersion = searchParams.get('version')
   const selectedCourseId = form.watch('courseId')
