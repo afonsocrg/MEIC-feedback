@@ -1,5 +1,5 @@
 interface WarningAlertProps {
-  message: string
+  message: React.ReactNode
 }
 
 export function WarningAlert({ message }: WarningAlertProps) {

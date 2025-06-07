@@ -1,3 +1,4 @@
+import { useIsMobile } from '@/hooks/useIsMobile'
 import {
   MarkdownTextarea,
   StarRatingWithLabel,
@@ -61,6 +62,14 @@ export function GiveReviewForm5({
   const navigate = useNavigate()
   const selectedCourseId = form.watch('courseId')
   const selectedCourse = courses.find((c) => c.id === selectedCourseId)
+  const isMobile = useIsMobile()
+
+  const selectClassNames =
+    'font-bold underline flex items-center gap-1 px-0 bg-transparent border-none shadow-none focus:outline-none w-auto'
+
+  const courseSelectClassNames =
+    'font-bold underline flex items-center gap-1 px-0 bg-transparent border-none shadow-none focus:outline-none max-w-[300px]'
+
   return (
     <main className="container mx-auto px-4 py-8 max-w-2xl">
       <motion.div
@@ -114,7 +123,7 @@ export function GiveReviewForm5({
                   </FormItem>
                 )}
               />
-              <div className="flex items-center gap-2 font-normal text-sm">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-4 font-normal text-sm">
                 {/* School Year Selector */}
                 <FormField
                   control={form.control}
@@ -122,26 +131,47 @@ export function GiveReviewForm5({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select
-                          onValueChange={(val) => field.onChange(Number(val))}
-                          defaultValue={field.value?.toString()}
-                        >
-                          <SelectTrigger className="font-bold underline flex items-center gap-1 px-0 bg-transparent border-none shadow-none focus:outline-none w-auto">
-                            <SelectValue placeholder="Select year" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>School Years</SelectLabel>
-                              {schoolYears.map((year) => (
-                                <SelectItem key={year} value={year.toString()}>
-                                  {formatSchoolYearString(year, {
-                                    yearFormat: 'long'
-                                  })}
-                                </SelectItem>
-                              ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
+                        {isMobile ? (
+                          <select
+                            value={field.value}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value))
+                            }
+                            className={selectClassNames}
+                          >
+                            {schoolYears.map((year) => (
+                              <option key={year} value={year}>
+                                {formatSchoolYearString(year, {
+                                  yearFormat: 'long'
+                                })}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <Select
+                            onValueChange={(val) => field.onChange(Number(val))}
+                            defaultValue={field.value?.toString()}
+                          >
+                            <SelectTrigger className={selectClassNames}>
+                              <SelectValue placeholder="Select year" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectLabel>School Years</SelectLabel>
+                                {schoolYears.map((year) => (
+                                  <SelectItem
+                                    key={year}
+                                    value={year.toString()}
+                                  >
+                                    {formatSchoolYearString(year, {
+                                      yearFormat: 'long'
+                                    })}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -155,50 +185,70 @@ export function GiveReviewForm5({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <button
-                              type="button"
-                              className="font-bold underline flex items-center gap-1 px-0 bg-transparent border-none shadow-none focus:outline-none max-w-[300px]"
+                        {isMobile ? (
+                          <>
+                            <select
+                              value={field.value}
+                              onChange={(e) => {
+                                field.onChange(Number(e.target.value))
+                              }}
+                              className={courseSelectClassNames}
                             >
-                              <span className="truncate">
-                                {courses.find((c) => c.id === field.value)
-                                  ?.name || 'Select course'}
-                              </span>
-                              <ChevronDown className="w-5 h-5 opacity-70 flex-shrink-0" />
-                            </button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[400px] p-0">
-                            <Command>
-                              <CommandInput
-                                placeholder="Search course..."
-                                className="h-9"
-                              />
-                              <CommandList>
-                                <CommandEmpty>No courses found.</CommandEmpty>
-                                <CommandGroup>
-                                  {courses.map((c) => (
-                                    <CommandItem
-                                      value={`${c.name}`}
-                                      key={c.id}
-                                      onSelect={() => field.onChange(c.id)}
-                                    >
-                                      <span className="truncate">{c.name}</span>
-                                      <Check
-                                        className={cn(
-                                          'ml-auto flex-shrink-0',
-                                          c.id === field.value
-                                            ? 'opacity-100'
-                                            : 'opacity-0'
-                                        )}
-                                      />
-                                    </CommandItem>
-                                  ))}
-                                </CommandGroup>
-                              </CommandList>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
+                              {courses.map((c) => (
+                                <option key={c.id} value={c.id}>
+                                  {c.name}
+                                </option>
+                              ))}
+                            </select>
+                          </>
+                        ) : (
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <button
+                                type="button"
+                                className={courseSelectClassNames}
+                              >
+                                <span className="truncate">
+                                  {courses.find((c) => c.id === field.value)
+                                    ?.name || 'Select course'}
+                                </span>
+                                <ChevronDown className="w-5 h-5 opacity-70 flex-shrink-0" />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[400px] p-0">
+                              <Command>
+                                <CommandInput
+                                  placeholder="Search course..."
+                                  className="h-9"
+                                />
+                                <CommandList>
+                                  <CommandEmpty>No courses found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {courses.map((c) => (
+                                      <CommandItem
+                                        value={`${c.name}`}
+                                        key={c.id}
+                                        onSelect={() => field.onChange(c.id)}
+                                      >
+                                        <span className="truncate">
+                                          {c.name}
+                                        </span>
+                                        <Check
+                                          className={cn(
+                                            'ml-auto flex-shrink-0',
+                                            c.id === field.value
+                                              ? 'opacity-100'
+                                              : 'opacity-0'
+                                          )}
+                                        />
+                                      </CommandItem>
+                                    ))}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                        )}
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -214,7 +264,7 @@ export function GiveReviewForm5({
                 <WarningAlert
                   message={
                     <>
-                      {`You are submitting a review for a ${localDegree?.acronym} course, but you currently selected ${contextDegree?.acronym}.`}
+                      {`You are submitting a review for a ${localDegree?.acronym} course, but you currently selected ${contextDegree?.acronym}. `}
                       <button
                         className="underline cursor-pointer"
                         onClick={() => {
