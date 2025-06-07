@@ -29,7 +29,7 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-wrap gap-2 justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-gray-800">
           Student Reviews
         </h2>
