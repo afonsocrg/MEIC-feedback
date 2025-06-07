@@ -93,11 +93,12 @@ export class SubmitFeedback extends OpenAPIRoute {
       await db.insert(feedback).values(feedbackData)
 
       await sendCourseReviewReceived(env, {
+        email: body.email,
         schoolYear: body.schoolYear,
-        acronym: course.acronym,
         rating: body.rating,
         workloadRating: body.workloadRating,
-        comment: comment
+        course,
+        comment
       })
 
       return Response.json(

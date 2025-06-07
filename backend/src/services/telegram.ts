@@ -1,3 +1,4 @@
+import { Course } from '@db/schema'
 import { formatSchoolYearString } from '@lib/schoolYear'
 
 // Telegram
@@ -19,20 +20,29 @@ async function sendToTelegram(env: Env, message: string) {
     body: JSON.stringify(payload)
   }
 
-  // console.log('Sending telegram request', options)
-  const response = await fetch(url, options)
-  // console.log('Got telegram response', response)
+  if (env.DEV_MODE === 'true') {
+    console.log('Skipping telegram request in dev mode')
+    console.log('Message:')
+    console.log(payload.text)
+    return null
+  } else {
+    // console.log('Sending telegram request', options)
+    const response = await fetch(url, options)
+    // console.log('Got telegram response', response)
 
-  return response
+    return response
+  }
 }
 
 function getStarsString(rating: number) {
-  return '⭐️'.repeat(rating) + ` (${rating})`
+  return `${rating} - ${'⭐️'.repeat(rating)}`
+  // return '⭐️'.repeat(rating) + ` (${rating})`
 }
 
 interface SendCourseReviewReceivedArgs {
+  email: string
   schoolYear: number
-  acronym: string
+  course: Course
   rating: number
   workloadRating: number
   comment: string | null
@@ -42,14 +52,29 @@ export async function sendCourseReviewReceived(
   env: Env,
   args: SendCourseReviewReceivedArgs
 ) {
-  const { schoolYear, acronym, rating, workloadRating, comment } = args
+  const { schoolYear, course, email, rating, workloadRating, comment } = args
 
   const ratingStars = getStarsString(rating)
   const workloadRatingStars = getStarsString(workloadRating)
 
-  let message = `[New Course Review]\n[${formatSchoolYearString(schoolYear, { yearFormat: 'long' })}] ${acronym}:\nOverall: ${ratingStars}\nWorkload: (${workloadRatingStars})`
-  if (comment) {
-    message += `\n\n${comment}`
-  }
+  const viewReviewUrl = `https://ist-feedback.afonsocrg.com/courses/${course.id}`
+
+  let message = `
+🎉 NEW REVIEW ALERT! 🎉
+
+A fresh review just landed on IST Feedback!!
+
+✉️ Submitted by: ${email}
+🎓 School Year: ${formatSchoolYearString(schoolYear, { yearFormat: 'long' })}
+📚 Course: ${course.acronym} - ${course.name}
+⭐ Overall Rating: ${ratingStars}
+📊 Workload Rating: ${workloadRatingStars}
+
+💬 Comment: ${comment || 'N/A'}
+
+🔗 Review: ${viewReviewUrl}
+
+Keep up the amazing work! Your platform is helping students make better course decisions! 🚀
+`.trim()
   return sendToTelegram(env, message)
 }
