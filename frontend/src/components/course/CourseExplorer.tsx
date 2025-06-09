@@ -24,6 +24,7 @@ export function CourseExplorer() {
     courseGroups,
     isLoading: isAppLoading,
     courses,
+    isDegreeSelectorOpen,
     setIsDegreeSelectorOpen
   } = useApp()
 
@@ -31,7 +32,7 @@ export function CourseExplorer() {
     if (selectedDegreeId === null) {
       setIsDegreeSelectorOpen(true)
     }
-  }, [selectedDegreeId, setIsDegreeSelectorOpen])
+  }, [selectedDegreeId, isDegreeSelectorOpen, setIsDegreeSelectorOpen])
 
   // Ensure selected Course Group exists!
   useEffect(() => {
