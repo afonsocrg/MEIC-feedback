@@ -23,7 +23,14 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z
+    .string()
+    .email()
+    .refine(
+      (email) =>
+        email.endsWith('@tecnico.ulisboa.pt') || email.endsWith('@ist.utl.pt'),
+      'Please enter a valid IST email address'
+    ),
   schoolYear: z.number().min(2020).max(3050),
   courseId: z.number(),
   rating: z.number().min(0).max(5),
