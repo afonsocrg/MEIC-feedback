@@ -55,7 +55,6 @@ export function GiveReviewForm5({
   courses,
   schoolYears,
   isSubmitting,
-  localDegree,
   contextDegree,
   onSubmit
 }: GiveReviewProps) {

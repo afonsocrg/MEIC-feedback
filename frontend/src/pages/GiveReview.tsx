@@ -7,7 +7,7 @@ import {
   GiveReviewForm2,
   GiveReviewForm3,
   GiveReviewForm4,
-  GiveReviewForm5,
+  // GiveReviewForm5,
   GiveReviewForm6,
   GiveReviewProps,
   ReviewSubmitSuccess
@@ -222,8 +222,8 @@ function GiveReviewForm({ version, ...props }: GiveReviewFormProps) {
       return <GiveReviewForm3 {...props} />
     case '4':
       return <GiveReviewForm4 {...props} />
-    case '5':
-      return <GiveReviewForm5 {...props} />
+    // case '5':
+    //   return <GiveReviewForm5 {...props} />
     case '6':
     default:
       return <GiveReviewForm6 {...props} />

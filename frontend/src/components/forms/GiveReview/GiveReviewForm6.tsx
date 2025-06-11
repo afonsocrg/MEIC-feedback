@@ -219,11 +219,11 @@ export function GiveReviewForm6({
                           className="h-9"
                         />
                         <CommandList>
-                          <CommandEmpty>No courses found.</CommandEmpty>
+                          <CommandEmpty>No degrees found.</CommandEmpty>
                           <CommandGroup>
                             {degrees?.map((d) => (
                               <CommandItem
-                                value={`${d.name}`}
+                                value={`${d.name} ${d.acronym}`}
                                 key={d.id}
                                 onSelect={() => setLocalDegreeId(d.id)}
                               >
@@ -294,7 +294,7 @@ export function GiveReviewForm6({
                                   <CommandGroup>
                                     {courses.map((c) => (
                                       <CommandItem
-                                        value={`${c.name}`}
+                                        value={`${c.acronym} ${c.name}`}
                                         key={c.id}
                                         onSelect={() => field.onChange(c.id)}
                                       >
