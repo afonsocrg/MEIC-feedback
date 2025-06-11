@@ -2,10 +2,10 @@ import { getCourseGroups } from '@services/meicFeedbackAPI'
 import { useQuery } from '@tanstack/react-query'
 import { infrequentDataConfig } from './config'
 
-export function useCourseGroups(degreeId: number) {
+export function useDegreeCourseGroups(degreeId: number | null = null) {
   return useQuery({
+    ...infrequentDataConfig,
     queryKey: ['degrees', degreeId, 'courseGroups'],
-    queryFn: () => getCourseGroups(degreeId),
-    ...infrequentDataConfig
+    queryFn: () => (degreeId ? getCourseGroups(degreeId) : Promise.resolve([]))
   })
 }

@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { useApp, useCourseGroups } from '@/hooks'
+import { useApp, useDegreeCourseGroups } from '@/hooks'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
@@ -37,7 +37,7 @@ export function SearchCourses({
   const [isExpanded, setIsExpanded] = useState(false)
 
   const { selectedDegreeId } = useApp()
-  const { data: courseGroups } = useCourseGroups(selectedDegreeId ?? 0)
+  const { data: courseGroups } = useDegreeCourseGroups(selectedDegreeId)
 
   const handleClearFilters = () => {
     setSearchQuery('')

@@ -13,7 +13,7 @@ import {
   ReviewSubmitSuccess
 } from '@components'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useApp, useCourses } from '@hooks'
+import { useApp, useDegreeCourses } from '@hooks'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
 import { getCourse } from '@services/meicFeedbackAPI'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -63,7 +63,7 @@ export function GiveReview() {
       null
   )
 
-  const { data: localCourses } = useCourses(localDegreeId ?? 0)
+  const { data: localCourses } = useDegreeCourses(localDegreeId)
 
   const form = useForm<GiveReviewFormValues>({
     resolver: zodResolver(formSchema),

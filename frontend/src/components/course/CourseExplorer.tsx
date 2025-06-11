@@ -1,5 +1,5 @@
 import { CourseGrid, SearchCourses } from '@components'
-import { useApp, useCourseGroups, useCourses } from '@hooks'
+import { useApp, useDegreeCourseGroups, useDegreeCourses } from '@hooks'
 import { motion } from 'framer-motion'
 import { Pencil } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
@@ -25,10 +25,9 @@ export function CourseExplorer() {
     setIsDegreeSelectorOpen
   } = useApp()
 
-  const { data: courses, isLoading: isCoursesLoading } = useCourses(
-    selectedDegreeId ?? 0
-  )
-  const { data: courseGroups } = useCourseGroups(selectedDegreeId ?? 0)
+  const { data: courses, isLoading: isCoursesLoading } =
+    useDegreeCourses(selectedDegreeId)
+  const { data: courseGroups } = useDegreeCourseGroups(selectedDegreeId ?? 0)
 
   useEffect(() => {
     if (selectedDegreeId === null && !isDegreeSelectorOpen) {
