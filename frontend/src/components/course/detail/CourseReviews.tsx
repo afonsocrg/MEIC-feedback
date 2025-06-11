@@ -1,4 +1,5 @@
 import { SchoolYearSection, WarningAlert } from '@components'
+import { useCourseFeedback } from '@hooks'
 import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
 import { type CourseDetail, type Feedback } from '@services/meicFeedbackAPI'
 import { Button } from '@ui/button'
@@ -18,14 +19,14 @@ const itemVariants = {
 
 export interface CourseReviewsProps {
   course: CourseDetail
-  feedback: Feedback[]
 }
-export function CourseReviews({ course, feedback }: CourseReviewsProps) {
+export function CourseReviews({ course }: CourseReviewsProps) {
   const navigate = useNavigate()
   const reviewFormUrl = useMemo(
     () => `/feedback/new${course.id ? `?courseId=${course.id}` : ''}`,
     [course.id]
   )
+  const { data: feedback } = useCourseFeedback(course.id)
 
   return (
     <>
@@ -33,7 +34,7 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
         <h2 className="text-2xl font-semibold text-gray-800">
           Student Reviews
         </h2>
-        {course.feedbackCount > 0 && (
+        {feedback && feedback.length > 0 && (
           <div className="flex gap-3">
             <AskForFeedback reviewFormUrl={reviewFormUrl} course={course} />
             <Button
@@ -50,7 +51,7 @@ export function CourseReviews({ course, feedback }: CourseReviewsProps) {
           </div>
         )}
       </div>
-      {feedback.length === 0 ? (
+      {!feedback || feedback.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center gap-6 bg-gray-50 rounded-lg">
           <div className="text-5xl">💬</div>
           <div>

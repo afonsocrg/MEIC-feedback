@@ -6,15 +6,10 @@ import {
   CourseHeader,
   CourseReviews
 } from '@components'
-import {
-  getCourse,
-  getCourseFeedback,
-  type CourseDetail,
-  type Feedback
-} from '@services/meicFeedbackAPI'
+import { useCourseDetails } from '@hooks'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ui/tabs'
 import { motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 const itemVariants = {
@@ -28,10 +23,10 @@ const itemVariants = {
 
 export function CourseDetail() {
   const { id } = useParams()
-  const [course, setCourse] = useState<CourseDetail | null>(null)
-  const [feedback, setFeedback] = useState<Feedback[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+
+  const courseId = useMemo(() => parseInt(id!, 10), [id])
+  const { data: course, isLoading, error } = useCourseDetails(courseId)
+
   const [showLeftFade, setShowLeftFade] = useState(false)
   const [showRightFade, setShowRightFade] = useState(false)
   const tabsListRef = useRef<HTMLDivElement>(null)
@@ -53,27 +48,6 @@ export function CourseDetail() {
     checkFades()
   }
 
-  useEffect(() => {
-    const fetchCourseData = async () => {
-      try {
-        setIsLoading(true)
-        const courseId = parseInt(id!, 10)
-        const courseData = await getCourse(courseId)
-        const feedbackData = await getCourseFeedback(courseId)
-        setCourse(courseData)
-        setFeedback(feedbackData)
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to load course data'
-        )
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchCourseData()
-  }, [id])
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -91,7 +65,7 @@ export function CourseDetail() {
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="text-red-500 text-center py-8">{error}</div>
+        <div className="text-red-500 text-center py-8">{error.message}</div>
       </div>
     )
   }
@@ -162,7 +136,7 @@ export function CourseDetail() {
             <CourseAssessment {...{ course }} />
           </TabsContent>
           <TabsContent value="reviews" className="mt-6">
-            <CourseReviews {...{ course, feedback }} />
+            <CourseReviews {...{ course }} />
           </TabsContent>
         </Tabs>
       </motion.div>

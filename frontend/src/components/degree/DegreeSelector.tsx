@@ -1,5 +1,5 @@
 import { SearchDegrees } from '@components'
-import { useApp } from '@hooks'
+import { useApp, useDegrees } from '@hooks'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@ui'
 import { useEffect, useState } from 'react'
 import { DegreeCard } from './DegreeCard'
@@ -10,8 +10,10 @@ interface DegreeSelectorProps {
 }
 
 export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
-  const { degrees, setSelectedDegreeId } = useApp()
+  const { setSelectedDegreeId } = useApp()
   const [searchQuery, setSearchQuery] = useState('')
+
+  const { data: degrees } = useDegrees()
 
   // Reset search query when dialog is opened
   // If we do it when the user clicks on a degree, we briefly see
@@ -28,13 +30,14 @@ export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
     onClose()
   }
 
-  const filteredDegrees = degrees.filter((degree) => {
-    const searchLower = searchQuery.toLowerCase()
-    return (
-      degree.name.toLowerCase().includes(searchLower) ||
-      degree.acronym.toLowerCase().includes(searchLower)
-    )
-  })
+  const filteredDegrees =
+    degrees?.filter((degree) => {
+      const searchLower = searchQuery.toLowerCase()
+      return (
+        degree.name.toLowerCase().includes(searchLower) ||
+        degree.acronym.toLowerCase().includes(searchLower)
+      )
+    }) ?? []
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

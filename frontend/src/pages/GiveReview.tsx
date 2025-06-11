@@ -1,8 +1,4 @@
 import {
-  type Course,
-  type Degree,
-  getCourse,
-  getCourses,
   MeicFeedbackAPIError,
   submitFeedback
 } from '@/services/meicFeedbackAPI'
@@ -12,13 +8,15 @@ import {
   GiveReviewForm3,
   GiveReviewForm4,
   GiveReviewForm5,
+  GiveReviewForm6,
   GiveReviewProps,
   ReviewSubmitSuccess
 } from '@components'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useApp } from '@hooks'
+import { useApp, useCourses } from '@hooks'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
-import { useEffect, useMemo, useState } from 'react'
+import { getCourse } from '@services/meicFeedbackAPI'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -34,17 +32,13 @@ const formSchema = z.object({
 })
 
 const FEEDBACK_EMAIL_STORAGE_KEY = 'lastFeedbackEmail'
+const FEEDBACK_DEGREE_ID_STORAGE_KEY = 'lastFeedbackDegreeId'
 
 export type GiveReviewFormValues = z.infer<typeof formSchema>
 
 export function GiveReview() {
   const navigate = useNavigate()
-  const {
-    courses: contextCourses,
-    selectedDegreeId,
-    selectedDegree: contextDegree,
-    setSelectedDegreeId
-  } = useApp()
+  const { selectedDegreeId, selectedDegree: contextDegree } = useApp()
 
   const [searchParams] = useSearchParams()
   const schoolYears = useMemo(
@@ -56,8 +50,6 @@ export function GiveReview() {
     [searchParams, schoolYears]
   )
 
-  const [localDegree, setLocalDegree] = useState<Degree | null>(contextDegree)
-
   // By default, the available courses are the ones from the currently selected degree
   // If the URL specifies a courseId and that course does not exist in the set of selected courses
   // then we want to load all the courses from that degree.
@@ -65,39 +57,13 @@ export function GiveReview() {
   // (1) WARNING: we have to check if there is no degree selected using the selectedDegreeId
   // property, because when the page is loading, we may have a selected degree, but not a
   // degree object yet!!
-  const [courses, setCourses] = useState<Course[]>(contextCourses)
-  useEffect(() => {
-    const loadCourses = async () => {
-      if (
-        initialValues.courseId > 0 &&
-        !contextCourses?.find((c) => c.id === initialValues.courseId)
-      ) {
-        const courseDetails = await getCourse(initialValues.courseId)
-        if (selectedDegreeId === null) {
-          setSelectedDegreeId(courseDetails.degreeId)
-        } else {
-          getCourses({
-            degreeId: courseDetails.degreeId
-          }).then((degreeCourses) => {
-            setCourses(degreeCourses)
-          })
-          if (courseDetails.degreeId !== localDegree?.id) {
-            setLocalDegree(courseDetails.degree)
-          }
-        }
-      } else {
-        setCourses(contextCourses)
-      }
-    }
-    loadCourses()
-  }, [
-    initialValues.courseId,
-    contextCourses,
-    selectedDegreeId,
-    setSelectedDegreeId,
-    setLocalDegree,
-    localDegree
-  ])
+  const [localDegreeId, setLocalDegreeId] = useState<number | null>(
+    selectedDegreeId ||
+      Number(localStorage.getItem(FEEDBACK_DEGREE_ID_STORAGE_KEY)) ||
+      null
+  )
+
+  const { data: localCourses } = useCourses(localDegreeId ?? 0)
 
   const form = useForm<GiveReviewFormValues>({
     resolver: zodResolver(formSchema),
@@ -110,22 +76,50 @@ export function GiveReview() {
       comment: initialValues.comment
     }
   })
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
   const formVersion = searchParams.get('version')
   const selectedCourseId = form.watch('courseId')
   const selectedCourse = useMemo(
-    () => courses.find((c) => c.id === selectedCourseId) ?? null,
-    [selectedCourseId, courses]
+    () => localCourses?.find((c) => c.id === selectedCourseId) ?? null,
+    [selectedCourseId, localCourses]
   )
 
+  const appliedSearchCourseId = useRef(false)
+  useEffect(() => {
+    if (
+      appliedSearchCourseId.current ||
+      !initialValues.courseId ||
+      (localCourses &&
+        localCourses.find((c) => c.id === initialValues.courseId))
+    ) {
+      return
+    } else {
+      appliedSearchCourseId.current = true
+      ;(async () => {
+        console.log('Loading course details...')
+        const courseDetails = await getCourse(initialValues.courseId)
+        setLocalDegreeId(courseDetails.degreeId)
+      })()
+    }
+  }, [initialValues.courseId, localCourses])
+
   async function onSubmit(values: GiveReviewFormValues) {
-    // Store email in local storage for next time
+    // Store email and degree id in local storage for next time
     localStorage.setItem(FEEDBACK_EMAIL_STORAGE_KEY, values.email)
+    if (localDegreeId) {
+      localStorage.setItem(
+        FEEDBACK_DEGREE_ID_STORAGE_KEY,
+        localDegreeId.toString()
+      )
+    } else {
+      console.error('No local degree id')
+    }
 
     // Check if courseId is a valid course
-    if (!courses.some((c) => c.id === values.courseId)) {
+    if (!localCourses || !localCourses.some((c) => c.id === values.courseId)) {
       form.setError('courseId', {
         message: 'Please select a valid course'
       })
@@ -149,17 +143,6 @@ export function GiveReview() {
     setIsSubmitting(false)
   }
 
-  // Validate course selection
-  useEffect(() => {
-    if (
-      selectedCourse &&
-      courses.length > 0 &&
-      !courses.some((c: Course) => c.id === selectedCourseId)
-    ) {
-      form.setValue('courseId', 0)
-    }
-  }, [form, courses, selectedCourseId])
-
   if (isSuccess) {
     return (
       <ReviewSubmitSuccess
@@ -176,14 +159,15 @@ export function GiveReview() {
   return (
     <>
       <GiveReviewForm
-        version={formVersion}
         {...{
+          version: formVersion,
           form,
-          courses,
+          courses: localCourses ?? [],
           schoolYears,
           isSubmitting,
           onSubmit,
-          localDegree,
+          localDegreeId,
+          setLocalDegreeId,
           contextDegree
         }}
       />
@@ -239,7 +223,9 @@ function GiveReviewForm({ version, ...props }: GiveReviewFormProps) {
     case '4':
       return <GiveReviewForm4 {...props} />
     case '5':
-    default:
       return <GiveReviewForm5 {...props} />
+    case '6':
+    default:
+      return <GiveReviewForm6 {...props} />
   }
 }

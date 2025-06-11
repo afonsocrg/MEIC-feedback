@@ -8,6 +8,7 @@ export interface GiveReviewProps {
   schoolYears: number[]
   isSubmitting: boolean
   onSubmit: (values: GiveReviewFormValues) => Promise<void>
-  localDegree: Degree | null
+  localDegreeId: number | null
+  setLocalDegreeId: (degreeId: number | null) => void
   contextDegree: Degree | null
 }

@@ -1,14 +1,7 @@
-import {
-  type Course,
-  type CourseGroup,
-  type Degree
-} from '@services/meicFeedbackAPI'
+import { type Degree } from '@services/meicFeedbackAPI'
 import { createContext } from 'react'
 
 export interface AppContextType {
-  degrees: Degree[]
-  courses: Course[]
-  courseGroups: CourseGroup[]
   // The context stores both selectedDegreeId and selectedDegree object
   // selectedDegreeId is used as the source of truth because:
   // 1. It persists across page loads via localStorage
@@ -19,7 +12,6 @@ export interface AppContextType {
   selectedDegree: Degree | null
   isDegreeSelectorOpen: boolean
   setIsDegreeSelectorOpen: (isOpen: boolean) => void
-  isLoading: boolean
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined)

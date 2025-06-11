@@ -1,9 +1,5 @@
-import {
-  MarkdownTextarea,
-  StarRatingWithLabel,
-  WarningAlert
-} from '@components'
-import { useIsMobile } from '@hooks'
+import { MarkdownTextarea, StarRatingWithLabel } from '@components'
+import { useDegrees, useIsMobile } from '@hooks'
 import { formatSchoolYearString } from '@lib/schoolYear'
 import {
   Button,
@@ -47,19 +43,20 @@ import {
   Loader2,
   Send
 } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { GiveReviewProps } from './types'
 
-export function GiveReviewForm5({
+export function GiveReviewForm6({
   form,
   courses,
   schoolYears,
   isSubmitting,
-  localDegree,
-  contextDegree,
+  localDegreeId,
+  setLocalDegreeId,
   onSubmit
 }: GiveReviewProps) {
-  const navigate = useNavigate()
+  const { data: degrees } = useDegrees()
+
   const selectedCourseId = form.watch('courseId')
   const selectedCourse = courses.find((c) => c.id === selectedCourseId)
   const isMobile = useIsMobile()
@@ -130,6 +127,7 @@ export function GiveReviewForm5({
                   name="schoolYear"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>School Year</FormLabel>
                       <FormControl>
                         {isMobile ? (
                           <select
@@ -177,6 +175,77 @@ export function GiveReviewForm5({
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="flex flex-wrap items-start gap-x-2 gap-y-4 font-normal text-sm">
+                {/* Degree Selector */}
+                {isMobile ? (
+                  <select
+                    value={localDegreeId ?? 0}
+                    onChange={(e) => {
+                      const degree = degrees?.find(
+                        (d) => d.id === Number(e.target.value)
+                      )
+                      if (degree) {
+                        setLocalDegreeId(degree.id)
+                      } else {
+                        console.error('Degree not found')
+                      }
+                    }}
+                    className={courseSelectClassNames}
+                  >
+                    <option value="0">Select degree...</option>
+                    {degrees?.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.name}
+                      </option>
+                    )) ?? []}
+                  </select>
+                ) : (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button type="button" className={courseSelectClassNames}>
+                        <span className="truncate">
+                          {degrees?.find(
+                            (d) => localDegreeId && d.id === localDegreeId
+                          )?.acronym ?? 'Select degree'}
+                        </span>
+                        <ChevronDown className="w-5 h-5 opacity-70 flex-shrink-0" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[400px] p-0">
+                      <Command>
+                        <CommandInput
+                          placeholder="Search course..."
+                          className="h-9"
+                        />
+                        <CommandList>
+                          <CommandEmpty>No courses found.</CommandEmpty>
+                          <CommandGroup>
+                            {degrees?.map((d) => (
+                              <CommandItem
+                                value={`${d.name}`}
+                                key={d.id}
+                                onSelect={() => setLocalDegreeId(d.id)}
+                              >
+                                <span className="truncate">
+                                  {d.acronym} - {d.name}
+                                </span>
+                                <Check
+                                  className={cn(
+                                    'ml-auto flex-shrink-0',
+                                    d.id === localDegreeId
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )}
+                                />
+                              </CommandItem>
+                            )) ?? []}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                )}
 
                 {/* Course Selector */}
                 <FormField
@@ -186,22 +255,20 @@ export function GiveReviewForm5({
                     <FormItem>
                       <FormControl>
                         {isMobile ? (
-                          <>
-                            <select
-                              value={field.value}
-                              onChange={(e) => {
-                                field.onChange(Number(e.target.value))
-                              }}
-                              className={courseSelectClassNames}
-                            >
-                              <option value="0">Select course...</option>
-                              {courses.map((c) => (
-                                <option key={c.id} value={c.id}>
-                                  {c.name}
-                                </option>
-                              ))}
-                            </select>
-                          </>
+                          <select
+                            value={field.value}
+                            onChange={(e) => {
+                              field.onChange(Number(e.target.value))
+                            }}
+                            className={courseSelectClassNames}
+                          >
+                            <option value="0">Select course...</option>
+                            {courses.map((c) => (
+                              <option key={c.id} value={c.id}>
+                                {c.name}
+                              </option>
+                            ))}
+                          </select>
                         ) : (
                           <Popover>
                             <PopoverTrigger asChild>
@@ -261,23 +328,6 @@ export function GiveReviewForm5({
                   </Link>
                 )}
               </div>
-              {localDegree?.id !== contextDegree?.id && (
-                <WarningAlert
-                  message={
-                    <>
-                      {`You are submitting a review for a ${localDegree?.acronym} course, but you currently selected ${contextDegree?.acronym}. `}
-                      <button
-                        className="underline cursor-pointer"
-                        onClick={() => {
-                          navigate('/')
-                        }}
-                      >
-                        Browse {contextDegree?.acronym} courses
-                      </button>
-                    </>
-                  }
-                />
-              )}
               <FormField
                 control={form.control}
                 name="rating"

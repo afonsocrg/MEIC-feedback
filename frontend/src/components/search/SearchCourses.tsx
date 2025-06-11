@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { useApp } from '@/hooks/useApp'
+import { useApp, useCourseGroups } from '@/hooks'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
@@ -36,7 +36,8 @@ export function SearchCourses({
 }: SearchCoursesProps) {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const { courseGroups } = useApp()
+  const { selectedDegreeId } = useApp()
+  const { data: courseGroups } = useCourseGroups(selectedDegreeId ?? 0)
 
   const handleClearFilters = () => {
     setSearchQuery('')
@@ -66,7 +67,7 @@ export function SearchCourses({
             className={`self-end px-4 py-2 text-sm font-medium focus:outline-none flex items-center gap-2 ${
               hasActiveFilters
                 ? 'text-istBlue bg-blue-50 rounded-lg border border-blue-100'
-                : 'text-istBlue hover:text-istBlueDark'
+                : 'text-istBlue hover:istBlue/80'
             }`}
           >
             <span>
@@ -141,14 +142,14 @@ export function SearchCourses({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All</SelectItem>
-                      {courseGroups.map((courseGroup) => (
+                      {courseGroups?.map((courseGroup) => (
                         <SelectItem
                           key={courseGroup.id}
                           value={courseGroup.id.toString()}
                         >
                           {courseGroup.name}
                         </SelectItem>
-                      ))}
+                      )) ?? []}
                     </SelectContent>
                   </Select>
                 </div>

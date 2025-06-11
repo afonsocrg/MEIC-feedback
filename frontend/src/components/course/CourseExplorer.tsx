@@ -1,5 +1,5 @@
 import { CourseGrid, SearchCourses } from '@components'
-import { useApp } from '@hooks'
+import { useApp, useCourseGroups, useCourses } from '@hooks'
 import { motion } from 'framer-motion'
 import { Pencil } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
@@ -9,8 +9,8 @@ type SortOption = 'rating' | 'alphabetical' | 'reviews'
 
 export function CourseExplorer() {
   const [searchParams] = useSearchParams()
-
   const initialValues = getInitialValues(searchParams)
+
   const [searchQuery, setSearchQuery] = useState(initialValues.searchQuery)
   const [selectedTerm, setSelectedTerm] = useState(initialValues.term)
   const [selectedCourseGroupId, setSelectedCourseGroupId] = useState<
@@ -21,15 +21,17 @@ export function CourseExplorer() {
   const {
     selectedDegreeId,
     selectedDegree,
-    courseGroups,
-    isLoading: isAppLoading,
-    courses,
     isDegreeSelectorOpen,
     setIsDegreeSelectorOpen
   } = useApp()
 
+  const { data: courses, isLoading: isCoursesLoading } = useCourses(
+    selectedDegreeId ?? 0
+  )
+  const { data: courseGroups } = useCourseGroups(selectedDegreeId ?? 0)
+
   useEffect(() => {
-    if (selectedDegreeId === null) {
+    if (selectedDegreeId === null && !isDegreeSelectorOpen) {
       setIsDegreeSelectorOpen(true)
     }
   }, [selectedDegreeId, isDegreeSelectorOpen, setIsDegreeSelectorOpen])
@@ -38,14 +40,15 @@ export function CourseExplorer() {
   useEffect(() => {
     if (
       selectedCourseGroupId !== null &&
-      courseGroups.find((s) => s.id === selectedCourseGroupId) === undefined
+      (!courseGroups ||
+        courseGroups.find((s) => s.id === selectedCourseGroupId) === undefined)
     ) {
       setSelectedCourseGroupId(null)
     }
   }, [courseGroups, selectedCourseGroupId])
 
   const availableTerms = useMemo(() => {
-    return [...new Set(courses.flatMap((course) => course.terms))].sort()
+    return [...new Set(courses?.flatMap((course) => course.terms) ?? [])].sort()
   }, [courses])
 
   // Load filters from search params
@@ -67,7 +70,7 @@ export function CourseExplorer() {
   const filteredCourses = useMemo(
     () =>
       courses
-        .filter((course) => {
+        ?.filter((course) => {
           const searchLower = searchQuery.toLowerCase()
           const matchesSearch =
             course.name.toLowerCase().includes(searchLower) ||
@@ -77,7 +80,7 @@ export function CourseExplorer() {
           const matchesCourseGroup =
             !selectedCourseGroupId ||
             courseGroups
-              .find((s) => s.id === selectedCourseGroupId)
+              ?.find((s) => s.id === selectedCourseGroupId)
               ?.courseIds.includes(course.id)
           return matchesSearch && matchesTerm && matchesCourseGroup
         })
@@ -92,7 +95,7 @@ export function CourseExplorer() {
             default:
               return 0
           }
-        }),
+        }) ?? [],
     [
       courses,
       searchQuery,
@@ -165,7 +168,7 @@ export function CourseExplorer() {
             </motion.div>
 
             <motion.div variants={itemVariants}>
-              {isAppLoading ? (
+              {isCoursesLoading ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[...Array(6)].map((_, index) => (
                     <div
