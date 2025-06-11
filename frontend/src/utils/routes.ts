@@ -20,3 +20,9 @@ export function getFullUrl(suffix: string) {
   const url = new URL(suffix, window.location.origin)
   return url.toString()
 }
+
+export function addUtmParams(url: string, medium: string): string {
+  const urlObj = new URL(url)
+  urlObj.searchParams.set('utm_medium', medium)
+  return urlObj.toString()
+}

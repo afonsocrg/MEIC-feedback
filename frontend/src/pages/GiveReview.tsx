@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useApp, useDegreeCourses } from '@hooks'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
 import { getCourse } from '@services/meicFeedbackAPI'
+import posthog from 'posthog-js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -106,7 +107,6 @@ export function GiveReview() {
     } else {
       appliedSearchCourseId.current = true
       ;(async () => {
-        console.log('Loading course details...')
         const courseDetails = await getCourse(initialValues.courseId)
         setLocalDegreeId(courseDetails.degreeId)
       })()
@@ -138,6 +138,13 @@ export function GiveReview() {
       await submitFeedback(values)
       setIsSuccess(true)
       toast.success('Feedback submitted successfully')
+      posthog.capture('review_form_submit', {
+        courseId: values.courseId,
+        degreeId: localDegreeId,
+        schoolYear: values.schoolYear,
+        rating: values.rating,
+        workloadRating: values.workloadRating
+      })
     } catch (err) {
       if (err instanceof MeicFeedbackAPIError) {
         toast.error(err.message)

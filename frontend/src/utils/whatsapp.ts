@@ -1,6 +1,6 @@
 import { Course } from '@services/meicFeedbackAPI'
 import { isMobile } from '@utils'
-import { getReviewPath } from '@utils/routes'
+import { addUtmParams } from '@utils/routes'
 
 export const whatsappUrls = {
   // For mobile devices - tries to open app directly
@@ -46,8 +46,11 @@ export async function openWhatsapp({ text }: OpenWhatsappData) {
 //   openWhatsappFallback(text)
 // }
 
-export function getAskForFeedbackMessage(course: Course) {
-  const feedbackUrl = `${window.location.origin}${getReviewPath({ courseId: course.id })}`
-  const acronym = course.acronym
-  return `Boas!! Podias dizer-me como foi a tua experiência a fazer ${acronym}?\n\n${feedbackUrl}\n\nObrigado!!!`
+export function getAskForFeedbackMessage(
+  course: Course,
+  reviewFormUrl: string
+) {
+  const feedbackUrl = addUtmParams(reviewFormUrl, 'whatsapp')
+  const name = course.name
+  return `Boas!! Podias dizer-me como foi a tua experiência a fazer ${name}?\n\n${feedbackUrl}\n\nObrigado!!!`
 }

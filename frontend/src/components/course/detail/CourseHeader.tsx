@@ -1,3 +1,4 @@
+import { addUtmParams } from '@/utils/routes'
 import { openWhatsapp } from '@/utils/whatsapp'
 import { Chip, CopyButton, Tooltip } from '@components'
 import { type CourseDetail } from '@services/meicFeedbackAPI'
@@ -19,8 +20,9 @@ export function CourseHeader({ course }: CourseHeaderProps) {
       course_acronym: course.acronym
     })
 
+    const shareUrl = addUtmParams(window.location.toString(), 'whatsapp')
     openWhatsapp({
-      text: `Check out this course on IST Feedback: ${window.location}`
+      text: `Check out this course on IST Feedback: ${shareUrl}`
     })
   }, [course])
 
@@ -30,8 +32,8 @@ export function CourseHeader({ course }: CourseHeaderProps) {
       course_id: course.id,
       course_acronym: course.acronym
     })
-    const url = `${window.location}`
-    navigator.clipboard.writeText(url)
+    const shareUrl = addUtmParams(window.location.toString(), 'copy_url')
+    navigator.clipboard.writeText(shareUrl)
   }, [course])
 
   return (

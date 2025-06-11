@@ -1,6 +1,7 @@
+import { addUtmParams } from '@/utils/routes'
 import { getAskForFeedbackMessage, openWhatsapp } from '@/utils/whatsapp'
 import { CopyButton } from '@components'
-import { type CourseDetail } from '@services/meicFeedbackAPI'
+import { useCourseDetails } from '@hooks'
 import { Button } from '@ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover'
 import { Share2 } from 'lucide-react'
@@ -10,10 +11,16 @@ import { FaWhatsapp } from 'react-icons/fa'
 
 interface AskForFeedbackProps {
   reviewFormUrl: string
-  course: CourseDetail
+  courseId: number
 }
-export function AskForFeedback({ reviewFormUrl, course }: AskForFeedbackProps) {
+export function AskForFeedback({
+  reviewFormUrl,
+  courseId
+}: AskForFeedbackProps) {
+  console.log({ reviewFormUrl, courseId })
+  const { data: course } = useCourseDetails(courseId)
   const handleWhatsapp = useCallback(() => {
+    if (!course) return
     posthog.capture('request_feedback', {
       medium: 'whatsapp',
       course_id: course.id,
@@ -21,19 +28,22 @@ export function AskForFeedback({ reviewFormUrl, course }: AskForFeedbackProps) {
     })
 
     openWhatsapp({
-      text: getAskForFeedbackMessage(course)
+      text: getAskForFeedbackMessage(course, reviewFormUrl)
     })
-  }, [course])
+  }, [course, reviewFormUrl])
 
   const handleCopyUrl = useCallback(() => {
+    if (!course) return
     posthog.capture('request_feedback', {
       medium: 'copy_url',
       course_id: course.id,
       course_acronym: course.acronym
     })
-    const url = `${window.location.origin}${reviewFormUrl}`
+    const url = addUtmParams(reviewFormUrl, 'copy_url')
     navigator.clipboard.writeText(url)
   }, [course, reviewFormUrl])
+
+  if (!course) return null
 
   return (
     <Popover>

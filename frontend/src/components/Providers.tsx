@@ -36,7 +36,6 @@ persistQueryClient({
 })
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  console.log('Rendering providers')
   return (
     <MaybePostHogProvider>
       <QueryClientProvider client={queryClient}>
