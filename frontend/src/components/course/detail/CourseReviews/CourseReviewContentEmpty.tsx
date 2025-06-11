@@ -1,3 +1,4 @@
+import { getFullUrl } from '@/utils/routes'
 import { Button } from '@ui/button'
 import posthog from 'posthog-js'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +26,10 @@ export function CourseReviewContentEmpty({
         </p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 mt-2">
-        <AskForFeedback reviewFormUrl={reviewFormUrl} courseId={courseId} />
+        <AskForFeedback
+          reviewFormUrl={getFullUrl(reviewFormUrl)}
+          courseId={courseId}
+        />
         <Button
           onClick={() => {
             posthog.capture('review_form_open', {

@@ -14,7 +14,7 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
   const navigate = useNavigate()
 
   const reviewFormUrl = useMemo(() => {
-    return getFullUrl(`/feedback/new?courseId=${courseId}`)
+    return `/feedback/new?courseId=${courseId}`
   }, [courseId])
   const { data: feedback } = useCourseFeedback(courseId)
 
@@ -26,7 +26,10 @@ export function CourseReviews({ courseId }: CourseReviewsProps) {
         </h2>
         {feedback && feedback.length > 0 && (
           <div className="flex gap-3">
-            <AskForFeedback reviewFormUrl={reviewFormUrl} courseId={courseId} />
+            <AskForFeedback
+              reviewFormUrl={getFullUrl(reviewFormUrl)}
+              courseId={courseId}
+            />
             <Button
               onClick={() => {
                 posthog.capture('review_form_open', {

@@ -17,7 +17,6 @@ export function AskForFeedback({
   reviewFormUrl,
   courseId
 }: AskForFeedbackProps) {
-  console.log({ reviewFormUrl, courseId })
   const { data: course } = useCourseDetails(courseId)
   const handleWhatsapp = useCallback(() => {
     if (!course) return
