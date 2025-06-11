@@ -99,8 +99,9 @@ export function GiveReviewForm6({
                               side="top"
                               className="max-w-xs text-sm"
                             >
-                              We ask for your email in case we need to get back
-                              to you regarding your review.
+                              We ask for your email to verify you are an IST
+                              student. We may contact you about your review if
+                              needed.
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
