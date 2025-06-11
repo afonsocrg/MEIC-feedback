@@ -12,7 +12,7 @@ export function ActionButton({
 }: ActionButtonProps) {
   const buttonClasses =
     variant === 'primary'
-      ? 'bg-istBlue hover:bg-istBlueDark text-white'
+      ? 'bg-istBlue hover:bg-istBlue/80 text-white'
       : 'bg-white border-2 border-istBlue text-istBlue hover:bg-istBlue hover:text-white'
 
   const commonClasses =
