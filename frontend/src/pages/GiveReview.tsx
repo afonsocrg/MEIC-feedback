@@ -156,7 +156,10 @@ export function GiveReview() {
         selectedCourse={selectedCourse}
         onNewReview={() => {
           setIsSuccess(false)
-          form.reset()
+          form.setValue('courseId', 0)
+          form.setValue('workloadRating', 0)
+          form.setValue('rating', 0)
+          form.setValue('comment', '')
         }}
         onBackToCourses={() => navigate('/')}
       />
