@@ -1,5 +1,6 @@
 import { Chip, StarRating } from '@components'
 import { Course } from '@services/meicFeedbackAPI'
+import { Button } from '@ui'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -36,17 +37,11 @@ export function CourseCard({
       variants={itemVariants}
       className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow h-full cursor-pointer"
     >
-      <div
-        onClick={() => {
-          navigate(`/courses/${courseId}`)
-        }}
+      <Link
+        to={`/courses/${courseId}`}
         className="h-full flex flex-col justify-between"
       >
-        <div
-          onClick={() => {
-            navigate(`/courses/${courseId}`)
-          }}
-        >
+        <div>
           <h2 className="text-xl font-semibold text-gray-800 mb-2">{title}</h2>
         </div>
         <div className="flex flex-col gap-2">
@@ -76,18 +71,22 @@ export function CourseCard({
                   </span>
                 </>
               ) : (
-                <Link
-                  to={`/feedback/new?courseId=${courseId}`}
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-istBlue italic hover:text-istBlue/80 hover:underline text-sm transition-colors"
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    window.open(`/feedback/new?courseId=${courseId}`, '_blank')
+                  }}
+                  // className="text-istBlue italic hover:text-istBlue/80 hover:underline text-sm transition-colors"
+                  variant="link"
                 >
                   Give the first review!
-                </Link>
+                </Button>
               )}
             </div>
           </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   )
 }
