@@ -26,7 +26,8 @@ export function StarRatingWithLabel({
   onChange,
   size,
   labels,
-  displayHover = true
+  displayHover = true,
+  labelPosition = 'right'
 }: StarRatingWithLabelProps) {
   const [hoverValue, setHoverValue] = useState<number | null>(null)
 
@@ -36,7 +37,27 @@ export function StarRatingWithLabel({
 
   const displayValue = displayHover && hoverValue ? hoverValue : value
   const label =
-    displayValue >= 1 && displayValue <= 5 ? labels[displayValue - 1] : null
+    displayValue >= 1 && displayValue <= 5 ? labels[displayValue - 1] : ''
+
+  if (labelPosition === 'bottom') {
+    return (
+      <div className="flex flex-col items-start gap-1">
+        <StarRating
+          value={value}
+          onChange={onChange}
+          onHover={setHoverValue}
+          hoverValue={hoverValue}
+          size={size}
+        />
+        <span
+          className="text-sm text-gray-500 min-h-[20px] min-w-[70px] block pl-2"
+          style={{ height: '20px' }}
+        >
+          {label}
+        </span>
+      </div>
+    )
+  }
 
   return (
     <div className={cn('flex gap-3', 'flex-row items-center gap-3')}>
@@ -47,7 +68,12 @@ export function StarRatingWithLabel({
         hoverValue={hoverValue}
         size={size}
       />
-      <span className="text-sm text-gray-500 min-w-[70px]">{label}</span>
+      <span
+        className="text-sm text-gray-500 min-w-[70px]"
+        style={{ height: '20px', display: 'inline-block' }}
+      >
+        {label}
+      </span>
     </div>
   )
 }

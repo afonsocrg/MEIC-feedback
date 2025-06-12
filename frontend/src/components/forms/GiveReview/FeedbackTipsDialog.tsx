@@ -16,7 +16,7 @@ export function FeedbackTipsDialog({
         <DialogTitle>Feedback tips</DialogTitle>
       </div>
       <DialogContent className="!max-w-[600px] max-h-[80vh] flex flex-col">
-        <div className="overflow-y-auto py-4 px-6">
+        <div className="overflow-y-auto">
           <Markdown>{content}</Markdown>
         </div>
       </DialogContent>

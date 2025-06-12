@@ -9,6 +9,7 @@ import {
   GiveReviewForm4,
   // GiveReviewForm5,
   GiveReviewForm6,
+  GiveReviewForm7,
   GiveReviewProps,
   ReviewSubmitSuccess
 } from '@components'
@@ -33,6 +34,7 @@ const formSchema = z.object({
       'Please enter a valid IST email address'
     ),
   schoolYear: z.number().min(2020).max(3050),
+  degreeId: z.number().optional(),
   courseId: z.number(),
   rating: z.number().min(0).max(5),
   workloadRating: z.number().min(0).max(5),
@@ -54,8 +56,8 @@ export function GiveReview() {
     []
   )
   const initialValues = useMemo(
-    () => getInitialValues(searchParams, schoolYears),
-    [searchParams, schoolYears]
+    () => getInitialValues(searchParams, selectedDegreeId, schoolYears),
+    [searchParams, selectedDegreeId, schoolYears]
   )
 
   // By default, the available courses are the ones from the currently selected degree
@@ -65,25 +67,28 @@ export function GiveReview() {
   // (1) WARNING: we have to check if there is no degree selected using the selectedDegreeId
   // property, because when the page is loading, we may have a selected degree, but not a
   // degree object yet!!
-  const [localDegreeId, setLocalDegreeId] = useState<number | null>(
-    selectedDegreeId ||
-      Number(localStorage.getItem(FEEDBACK_DEGREE_ID_STORAGE_KEY)) ||
-      null
-  )
-
-  const { data: localCourses } = useDegreeCourses(localDegreeId)
+  // const [localDegreeId, setLocalDegreeId] = useState<number | null>(
+  //   selectedDegreeId ||
+  //     Number(localStorage.getItem(FEEDBACK_DEGREE_ID_STORAGE_KEY)) ||
+  //     null
+  // )
 
   const form = useForm<GiveReviewFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: initialValues.email,
       schoolYear: initialValues.schoolYear,
+      degreeId: initialValues.degreeId,
       courseId: initialValues.courseId,
       rating: initialValues.rating,
       workloadRating: initialValues.workloadRating,
       comment: initialValues.comment
     }
   })
+
+  const localDegreeId = form.watch('degreeId')
+
+  const { data: localCourses } = useDegreeCourses(localDegreeId)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -108,10 +113,11 @@ export function GiveReview() {
       appliedSearchCourseId.current = true
       ;(async () => {
         const courseDetails = await getCourse(initialValues.courseId)
-        setLocalDegreeId(courseDetails.degreeId)
+        // setLocalDegreeId(courseDetails.degreeId)
+        form.setValue('degreeId', courseDetails.degreeId)
       })()
     }
-  }, [initialValues.courseId, localCourses])
+  }, [form, initialValues.courseId, localCourses])
 
   async function onSubmit(values: GiveReviewFormValues) {
     // Store email and degree id in local storage for next time
@@ -183,8 +189,8 @@ export function GiveReview() {
           schoolYears,
           isSubmitting,
           onSubmit,
-          localDegreeId,
-          setLocalDegreeId,
+          localDegreeId: localDegreeId ?? null,
+          // setLocalDegreeId,
           contextDegree
         }}
       />
@@ -201,6 +207,7 @@ function getRatingValue(searchValue: string | null) {
 
 function getInitialValues(
   searchParams: URLSearchParams,
+  selectedDegreeId: number | null,
   schoolYears: number[]
 ) {
   const email =
@@ -211,6 +218,7 @@ function getInitialValues(
     const year = Number(searchParams.get('schoolYear'))
     return schoolYears.includes(year) ? year : getCurrentSchoolYear()
   })()
+  const degreeId = selectedDegreeId ?? 0
   const courseId = Number(searchParams.get('courseId')) || 0
   const rating = getRatingValue(searchParams.get('rating'))
   const workloadRating = getRatingValue(searchParams.get('workloadRating'))
@@ -219,6 +227,7 @@ function getInitialValues(
   return {
     email,
     schoolYear,
+    degreeId,
     courseId,
     rating,
     workloadRating,
@@ -242,7 +251,8 @@ function GiveReviewForm({ version, ...props }: GiveReviewFormProps) {
     // case '5':
     //   return <GiveReviewForm5 {...props} />
     case '6':
-    default:
       return <GiveReviewForm6 {...props} />
+    default:
+      return <GiveReviewForm7 {...props} />
   }
 }

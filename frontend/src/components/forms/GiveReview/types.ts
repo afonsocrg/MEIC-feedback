@@ -9,6 +9,6 @@ export interface GiveReviewProps {
   isSubmitting: boolean
   onSubmit: (values: GiveReviewFormValues) => Promise<void>
   localDegreeId: number | null
-  setLocalDegreeId: (degreeId: number | null) => void
+  setLocalDegreeId?: (degreeId: number | null) => void
   contextDegree: Degree | null
 }

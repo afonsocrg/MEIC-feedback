@@ -123,7 +123,7 @@ export function GiveReviewForm6({
                       </FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="your.email@example.com"
+                          placeholder="your.email@tecnico.ulisboa.pt"
                           {...field}
                           className="bg-white"
                         />
@@ -203,7 +203,7 @@ export function GiveReviewForm6({
                           (d) => d.id === Number(e.target.value)
                         )
                         if (degree) {
-                          setLocalDegreeId(degree.id)
+                          setLocalDegreeId?.(degree.id)
                         } else {
                           console.error('Degree not found')
                         }
@@ -245,7 +245,7 @@ export function GiveReviewForm6({
                                 <CommandItem
                                   value={`${d.name} ${d.acronym}`}
                                   key={d.id}
-                                  onSelect={() => setLocalDegreeId(d.id)}
+                                  onSelect={() => setLocalDegreeId?.(d.id)}
                                 >
                                   <span className="truncate">
                                     {d.acronym} - {d.name}

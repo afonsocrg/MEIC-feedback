@@ -4,9 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Markdown } from '@components'
 import { Textarea } from '@ui'
 
+interface MarkdownTextareaProps extends React.ComponentProps<'textarea'> {
+  previewPlaceholder?: string
+}
 export function MarkdownTextarea({
+  previewPlaceholder = 'Nothing to preview...',
   ...props
-}: React.ComponentProps<'textarea'>) {
+}: MarkdownTextareaProps) {
   return (
     <div className="w-full border rounded-md bg-white">
       <Tabs defaultValue="markdown" className="gap-0">
@@ -38,7 +42,7 @@ export function MarkdownTextarea({
         <TabsContent value="preview">
           <div className="w-full min-h-[120px] border rounded-md rounded-t-none p-2">
             <Markdown className="markdown-compact">
-              {String(props.value || 'Nothing to preview...')}
+              {String(props.value || previewPlaceholder)}
             </Markdown>
           </div>
         </TabsContent>
