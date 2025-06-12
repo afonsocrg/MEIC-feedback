@@ -28,7 +28,9 @@ const getColorForLabel = (label: string) => {
   }, 0)
 
   // Get array of color keys and use hash to select one
-  const colorKeys = Object.keys(CHIP_COLORS) as ChipColor[]
+  const colorKeys = Object.keys(CHIP_COLORS).filter(
+    (key) => key !== 'gray'
+  ) as ChipColor[]
   const index = Math.abs(hash) % colorKeys.length
   return CHIP_COLORS[colorKeys[index]]
 }
