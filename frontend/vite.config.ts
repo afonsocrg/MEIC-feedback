@@ -25,7 +25,21 @@ function getAlias() {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    {
+      name: 'markdown-loader',
+      transform(code, id) {
+        if (id.endsWith('.md')) {
+          return {
+            code: `export default ${JSON.stringify(code)}`,
+            map: null
+          }
+        }
+      }
+    }
+  ],
   optimizeDeps: {
     exclude: ['lucide-react']
   },

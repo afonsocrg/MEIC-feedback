@@ -22,7 +22,7 @@ export function MarkdownTextarea({
               value="preview"
               className="px-4 py-2 font-medium rounded-full data-[state=active]:bg-gray-100 cursor-pointer  hover:border-gray-200"
             >
-              Preview
+              Markdown Preview
             </TabsTrigger>
           </TabsList>
         </div>

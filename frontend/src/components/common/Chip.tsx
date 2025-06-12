@@ -15,7 +15,8 @@ const CHIP_COLORS = {
   'light-green': { bg: '#F1F8E9', text: '#558B2F' },
   amber: { bg: '#FFF8E1', text: '#F57F17' },
   'deep-purple': { bg: '#EDE7F6', text: '#4527A0' },
-  indigo: { bg: '#E8EAF6', text: '#283593' }
+  indigo: { bg: '#E8EAF6', text: '#283593' },
+  gray: { bg: '#F3F4F6', text: '#6B7280' }
 }
 
 export type ChipColor = keyof typeof CHIP_COLORS

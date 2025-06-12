@@ -2,7 +2,7 @@ import { Chip, StarRating } from '@components'
 import { Course } from '@services/meicFeedbackAPI'
 import { Button } from '@ui'
 import { motion } from 'framer-motion'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 interface CourseCardProps extends Omit<Course, 'id'> {
   courseId: number
@@ -18,7 +18,6 @@ export function CourseCard({
   terms,
   useAcronymAsTitle = false
 }: CourseCardProps) {
-  const navigate = useNavigate()
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -77,7 +76,6 @@ export function CourseCard({
                     e.stopPropagation()
                     window.open(`/feedback/new?courseId=${courseId}`, '_blank')
                   }}
-                  // className="text-istBlue italic hover:text-istBlue/80 hover:underline text-sm transition-colors"
                   variant="link"
                 >
                   Give the first review!

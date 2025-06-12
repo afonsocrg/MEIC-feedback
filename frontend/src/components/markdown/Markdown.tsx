@@ -33,7 +33,8 @@ const defaultComponents: Components = {
     <ol {...props} className="list-decimal pl-6 space-y-1 my-2" />
   ),
   li: ({ ...props }) => <li {...props} className="text-gray-600" />,
-  p: ({ ...props }) => <p {...props} className="mb-2" />
+  p: ({ ...props }) => <p {...props} className="mb-2" />,
+  hr: () => <hr className="my-6 border-t-2 border-gray-200 rounded-full" />
 }
 
 export function Markdown({

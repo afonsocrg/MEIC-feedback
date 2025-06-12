@@ -20,7 +20,8 @@
       "@utils": ["./src/utils"],
       "@utils/*": ["./src/utils/*"],
       "@ui": ["./src/components/ui"],
-      "@ui/*": ["./src/components/ui/*"]
+      "@ui/*": ["./src/components/ui/*"],
+      "@md/*": ["./src/md/*"]
     }
   },
   "include": ["src/**/*", "../lib/src/**/*"]
