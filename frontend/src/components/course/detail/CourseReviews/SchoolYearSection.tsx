@@ -1,8 +1,9 @@
-import { FeedbackItem } from '@components'
+import { Chip, FeedbackItem } from '@components'
+import { formatSchoolYearString } from '@lib/schoolYear'
 import { Feedback } from '@services/meicFeedbackAPI'
 
 interface SchoolYearSectionProps {
-  schoolYear: string
+  schoolYear: number
   feedback: Feedback[]
   variants: {
     hidden: { opacity: number; y: number }
@@ -14,6 +15,8 @@ interface SchoolYearSectionProps {
   }
 }
 
+const firstMEPPYear = 2021
+
 export function SchoolYearSection({
   schoolYear,
   feedback,
@@ -21,8 +24,9 @@ export function SchoolYearSection({
 }: SchoolYearSectionProps) {
   return (
     <div>
-      <div className="text-lg font-semibold text-gray-700 mb-4">
-        {schoolYear}
+      <div className="text-lg font-semibold text-gray-700 mb-4 flex items-center gap-2">
+        {formatSchoolYearString(schoolYear, { yearFormat: 'long' })}
+        {schoolYear < firstMEPPYear && <Chip label="Pre-MEPP" color="amber" />}
       </div>
       {feedback.map((f) => (
         <FeedbackItem key={f.id} feedback={f} variants={variants} />

@@ -1,3 +1,4 @@
+import { getFullUrl } from '@/utils/routes'
 import {
   CourseReviewContentEmpty,
   CourseReviewsSkeleton,
@@ -5,7 +6,7 @@ import {
   WarningAlert
 } from '@components'
 import { useCourseFeedback } from '@hooks'
-import { formatSchoolYearString, getCurrentSchoolYear } from '@lib/schoolYear'
+import { getCurrentSchoolYear } from '@lib/schoolYear'
 import { type Feedback } from '@services/meicFeedbackAPI'
 import { useMemo } from 'react'
 
@@ -28,7 +29,7 @@ export function CourseReviewsContent({ courseId }: CourseReviewsContentProps) {
     isError: isErrorFeedback
   } = useCourseFeedback(courseId)
   const reviewFormUrl = useMemo(() => {
-    return `/feedback/new?courseId=${courseId}`
+    return getFullUrl(`/feedback/new?courseId=${courseId}`)
   }, [courseId])
 
   const groupedFeedback = useMemo(() => {
@@ -65,9 +66,7 @@ export function CourseReviewsContent({ courseId }: CourseReviewsContentProps) {
               <WarningAlert message="The reviews below this point may be outdated. Course content, teaching methods, and requirements may have changed since then." />
             )}
             <SchoolYearSection
-              schoolYear={formatSchoolYearString(schoolYear, {
-                yearFormat: 'long'
-              })}
+              schoolYear={schoolYear}
               feedback={yearFeedback}
               variants={itemVariants}
             />
