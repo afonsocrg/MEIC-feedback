@@ -38,7 +38,7 @@ const formSchema = z.object({
   courseId: z.number(),
   rating: z.number().min(0).max(5),
   workloadRating: z.number().min(0).max(5),
-  comment: z.string().min(0).max(1000).optional()
+  comment: z.string().min(0).optional()
 })
 
 const FEEDBACK_EMAIL_STORAGE_KEY = 'lastFeedbackEmail'
