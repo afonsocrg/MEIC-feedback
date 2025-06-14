@@ -27,8 +27,6 @@ export function CourseDetail() {
   const courseId = useMemo(() => parseInt(id!, 10), [id])
   const { data: course, isLoading, error } = useCourseDetails(courseId)
 
-  console.log({ courseId })
-
   const [showLeftFade, setShowLeftFade] = useState(false)
   const [showRightFade, setShowRightFade] = useState(false)
   const tabsListRef = useRef<HTMLDivElement>(null)

@@ -38,7 +38,7 @@ export const getEditCourseFormUrl = (
   let url =
     'https://docs.google.com/forms/d/e/1FAIpQLSfsGQ0rvC-AG5Ns-eNRM5C7vqfT-5p7p_d62mw-8245GMwwSg/viewform?usp=pp_url'
 
-  url += `&entry.392580474=${getCourseNameForForm(course)}`
+  url += `&entry.392580474=${course.id}`
   url += `&entry.92044763=${fieldName}`
 
   const currentValue = getter(course)
