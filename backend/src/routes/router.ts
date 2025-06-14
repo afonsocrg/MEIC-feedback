@@ -7,7 +7,8 @@ const { preflight, corsify } = cors({
   origin: [
     'http://localhost:5173',
     'https://meic-feedback.afonsocrg.com',
-    'https://ist-feedback.afonsocrg.com'
+    'https://ist-feedback.afonsocrg.com',
+    'https://istfeedback.com'
   ],
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']

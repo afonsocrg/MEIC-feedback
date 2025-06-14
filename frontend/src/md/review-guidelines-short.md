@@ -8,4 +8,4 @@
 
 ---
 
-You can check out some good feedback examples in [this page](https://ist-feedback.afonsocrg.com/courses/54) to get inspired!
+You can check out some good feedback examples in [this page](https://istfeedback.com/courses/54) to get inspired!
