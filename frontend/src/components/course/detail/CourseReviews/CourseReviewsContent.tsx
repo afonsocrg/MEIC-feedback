@@ -1,4 +1,3 @@
-import { getFullUrl } from '@/utils/routes'
 import {
   CourseReviewContentEmpty,
   CourseReviewsSkeleton,
@@ -29,7 +28,7 @@ export function CourseReviewsContent({ courseId }: CourseReviewsContentProps) {
     isError: isErrorFeedback
   } = useCourseFeedback(courseId)
   const reviewFormUrl = useMemo(() => {
-    return getFullUrl(`/feedback/new?courseId=${courseId}`)
+    return `/feedback/new?courseId=${courseId}`
   }, [courseId])
 
   const groupedFeedback = useMemo(() => {

@@ -28,7 +28,7 @@ export function HeroSection() {
             variant="primary"
           />
           <ActionButton
-            label="Give a review"
+            label="Give feedback"
             description="Help your peers by sharing your honest review!"
             onClick={() => {
               posthog.capture('review_form_open', {
