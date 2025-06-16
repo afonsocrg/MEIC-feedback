@@ -91,13 +91,45 @@ DB_REMOTE=true bun drizzle-kit migrate
 
 Locally:
 ```
-$ bun wrangler d1 execute <database_name> --local <sql_file>
+$ bun wrangler d1 execute <database_name> --local --file <sql_file>
 ```
 
 Remotely:
 ```
-$ bun wrangler d1 execute <database_name> --remote <sql_file>
+$ bun wrangler d1 execute <database_name> --remote --file <sql_file>
 ```
+
+## How to test the remote database locally:
+
+1. Make sure the local server is not running
+
+2. Create a backup of the remote database
+```
+bun run backup
+```
+
+This will create a backup in the `backups` directory, with the current timestamp
+
+3. Remove the local .wrangler/d1 directory
+```
+rm -rf .wrangler/state/v3/d1
+```
+
+4. Start the local server
+```
+bun run dev
+```
+
+5. Execute the SQL files
+```
+bun wrangler d1 execute meic-feedback --local --file <sql_file>
+```
+Where sql_file corresponds to the name of the SQL file in the `backups/remote` directory.
+
+---
+
+To restore the previous state of the database, you can repeat these steps starting from step 3, but on step 5, use the backup file that is in the `backups/local` directory
+
 
 ---
 
