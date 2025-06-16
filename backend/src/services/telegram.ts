@@ -1,4 +1,4 @@
-import { Course } from '@db/schema'
+import { Course, Degree } from '@db/schema'
 import { formatSchoolYearString } from '@lib/schoolYear'
 
 // Telegram
@@ -43,6 +43,7 @@ interface SendCourseReviewReceivedArgs {
   email: string
   schoolYear: number
   course: Course
+  degree: Degree
   rating: number
   workloadRating: number
   comment: string | null
@@ -52,7 +53,8 @@ export async function sendCourseReviewReceived(
   env: Env,
   args: SendCourseReviewReceivedArgs
 ) {
-  const { schoolYear, course, email, rating, workloadRating, comment } = args
+  const { schoolYear, course, degree, email, rating, workloadRating, comment } =
+    args
 
   const ratingStars = getStarsString(rating)
   const workloadRatingStars = getStarsString(workloadRating)
@@ -66,6 +68,7 @@ A fresh review just landed on IST Feedback!!
 
 ✉️ Submitted by: ${email}
 🎓 School Year: ${formatSchoolYearString(schoolYear, { yearFormat: 'long' })}
+🎓 Degree: ${degree.acronym} - ${degree.name}
 📚 Course: ${course.acronym} - ${course.name}
 ⭐ Overall Rating: ${ratingStars}
 📊 Workload Rating: ${workloadRatingStars}

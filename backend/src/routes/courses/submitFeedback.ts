@@ -1,4 +1,4 @@
-import { courses, feedback, getDb } from '@db'
+import { courses, degrees, feedback, getDb } from '@db'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
 import { sendCourseReviewReceived } from '@services/telegram'
 import { contentJson, OpenAPIRoute } from 'chanfana'
@@ -72,8 +72,23 @@ export class SubmitFeedback extends OpenAPIRoute {
           { status: 404 }
         )
       }
-
       const course = courseResult[0]
+
+      const degreeResult = await db
+        .select()
+        .from(degrees)
+        .where(eq(degrees.id, courseResult[0].degreeId))
+        .limit(1)
+
+      if (degreeResult.length === 0) {
+        return Response.json(
+          {
+            error: 'Degree not found'
+          },
+          { status: 404 }
+        )
+      }
+      const degree = degreeResult[0]
 
       // Ignore empty comments
       const comment = body.comment?.trim() || null
@@ -95,6 +110,7 @@ export class SubmitFeedback extends OpenAPIRoute {
       await sendCourseReviewReceived(env, {
         email: body.email,
         schoolYear: body.schoolYear,
+        degree,
         rating: body.rating,
         workloadRating: body.workloadRating,
         course,
