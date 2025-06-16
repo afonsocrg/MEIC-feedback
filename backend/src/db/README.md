@@ -96,7 +96,7 @@ $ bun wrangler d1 execute <database_name> --local --file <sql_file>
 
 Remotely:
 ```
-$ bun wrangler d1 execute <database_name> --remote --file <sql_file>
+$ bun wrangler d1 execute <database_name> --remote --file <sql_file> -y
 ```
 
 ## How to test the remote database locally:
