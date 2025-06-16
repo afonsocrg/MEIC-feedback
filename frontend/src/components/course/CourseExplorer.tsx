@@ -1,3 +1,4 @@
+import { insensitiveMatch } from '@/utils'
 import { CourseGrid, SearchCourses } from '@components'
 import { useApp, useDegreeCourseGroups, useDegreeCourses } from '@hooks'
 import { motion } from 'framer-motion'
@@ -70,10 +71,10 @@ export function CourseExplorer() {
     () =>
       courses
         ?.filter((course) => {
-          const searchLower = searchQuery.toLowerCase()
-          const matchesSearch =
-            course.name.toLowerCase().includes(searchLower) ||
-            course.acronym.toLowerCase().includes(searchLower)
+          const matchesSearch = insensitiveMatch(
+            `${course.name} ${course.acronym}`,
+            searchQuery
+          )
           const matchesTerm =
             !selectedTerm || course.terms.includes(selectedTerm)
           const matchesCourseGroup =

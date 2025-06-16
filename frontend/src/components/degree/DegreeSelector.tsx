@@ -1,6 +1,7 @@
 import { SearchDegrees } from '@components'
 import { useApp, useDegrees } from '@hooks'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@ui'
+import { insensitiveMatch } from '@utils'
 import { useEffect, useMemo, useState } from 'react'
 import { DegreeCard } from './DegreeCard'
 
@@ -38,11 +39,7 @@ export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
   const filteredDegrees =
     degrees
       ?.filter((degree) => {
-        const searchLower = searchQuery.toLowerCase()
-        return (
-          degree.name.toLowerCase().includes(searchLower) ||
-          degree.acronym.toLowerCase().includes(searchLower)
-        )
+        return insensitiveMatch(`${degree.name} ${degree.acronym}`, searchQuery)
       })
       .filter((degree) => {
         if (selectedType === null) {
