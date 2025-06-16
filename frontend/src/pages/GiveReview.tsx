@@ -1,7 +1,4 @@
-import {
-  MeicFeedbackAPIError,
-  submitFeedback
-} from '@/services/meicFeedbackAPI'
+import { MeicFeedbackAPIError } from '@/services/meicFeedbackAPI'
 import {
   GiveReviewForm1,
   GiveReviewForm2,
@@ -14,7 +11,7 @@ import {
   ReviewSubmitSuccess
 } from '@components'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useApp, useDegreeCourses } from '@hooks'
+import { useApp, useDegreeCourses, useSubmitFeedback } from '@hooks'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
 import { getCourse } from '@services/meicFeedbackAPI'
 import posthog from 'posthog-js'
@@ -49,6 +46,7 @@ export type GiveReviewFormValues = z.infer<typeof formSchema>
 export function GiveReview() {
   const navigate = useNavigate()
   const { selectedDegreeId, selectedDegree: contextDegree } = useApp()
+  const submitFeedbackMutation = useSubmitFeedback()
 
   const [searchParams] = useSearchParams()
   const schoolYears = useMemo(
@@ -141,7 +139,7 @@ export function GiveReview() {
 
     setIsSubmitting(true)
     try {
-      await submitFeedback(values)
+      await submitFeedbackMutation.mutateAsync(values)
       setIsSuccess(true)
       toast.success('Feedback submitted successfully')
       posthog.capture('review_form_submit', {

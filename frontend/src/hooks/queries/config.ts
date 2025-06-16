@@ -2,15 +2,14 @@ import { HOUR, MINUTE } from '@utils/time_ms'
 
 export const infrequentDataConfig = {
   staleTime: 24 * HOUR,
-  refetchOnMount: false,
+  refetchOnMount: true,
   refetchOnWindowFocus: false,
   refetchOnReconnect: false
 }
 
 export const frequentDataConfig = {
   staleTime: 10 * MINUTE,
-  // refetchInterval: 5 * MINUTE
-  refetchOnMount: false,
+  refetchOnMount: true,
   refetchOnWindowFocus: true,
   refetchOnReconnect: true
 }
