@@ -43,7 +43,6 @@ import {
   Send
 } from 'lucide-react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { FeedbackTipsDialog } from './FeedbackTipsDialog'
 import { GiveReviewProps } from './types'
 
@@ -59,6 +58,13 @@ export function GiveReviewForm7({
   const selectedDegreeId = form.watch('degreeId')
   const [isFeedbackTipsDialogOpen, setIsFeedbackTipsDialogOpen] =
     useState(false)
+
+  // Watch all required fields
+  const email = form.watch('email')
+  const schoolYear = form.watch('schoolYear')
+  const courseId = form.watch('courseId')
+  const rating = form.watch('rating')
+  const workloadRating = form.watch('workloadRating')
 
   return (
     <>
@@ -89,6 +95,7 @@ export function GiveReviewForm7({
                         <FormLabel>
                           <>
                             <span>Email</span>
+                            {!email && <span className="text-red-500">*</span>}
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -132,7 +139,12 @@ export function GiveReviewForm7({
                       control={form.control}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>School Year</FormLabel>
+                          <FormLabel>
+                            School Year
+                            {!schoolYear && (
+                              <span className="text-red-500">*</span>
+                            )}
+                          </FormLabel>
                           <FormControl>
                             <Select
                               onValueChange={(val) =>
@@ -173,7 +185,12 @@ export function GiveReviewForm7({
                         control={form.control}
                         render={({ field }) => (
                           <FormItem className="flex flex-col flex-grow">
-                            <FormLabel>Degree</FormLabel>
+                            <FormLabel>
+                              Degree
+                              {!selectedDegreeId && (
+                                <span className="text-red-500">*</span>
+                              )}
+                            </FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <FormControl>
@@ -238,7 +255,12 @@ export function GiveReviewForm7({
                           control={form.control}
                           render={({ field }) => (
                             <FormItem className="flex flex-col flex-grow">
-                              <FormLabel>Course</FormLabel>
+                              <FormLabel>
+                                Course
+                                {selectedDegreeId && !courseId && (
+                                  <span className="text-red-500">*</span>
+                                )}
+                              </FormLabel>
                               <Popover>
                                 <PopoverTrigger asChild>
                                   <FormControl>
@@ -311,7 +333,12 @@ export function GiveReviewForm7({
                         name="rating"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Overall Rating</FormLabel>
+                            <FormLabel>
+                              Overall Rating
+                              {!rating && (
+                                <span className="text-red-500">*</span>
+                              )}
+                            </FormLabel>
                             <FormControl>
                               <StarRatingWithLabel
                                 value={field.value}
@@ -331,7 +358,12 @@ export function GiveReviewForm7({
                         name="workloadRating"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Workload Rating</FormLabel>
+                            <FormLabel>
+                              Workload Rating
+                              {!workloadRating && (
+                                <span className="text-red-500">*</span>
+                              )}
+                            </FormLabel>
                             <FormControl>
                               <StarRatingWithLabel
                                 value={field.value}
@@ -384,15 +416,9 @@ export function GiveReviewForm7({
                           />
                         </FormControl>
                         <FormMessage />
-                        <FormDescription>
-                          You can use Markdown to format your comment!!{' '}
-                          <Link
-                            to="https://www.markdownguide.org/basic-syntax/"
-                            target="_blank"
-                            className="underline text-istBlue hover:text-istBlue/80"
-                          >
-                            Learn more
-                          </Link>
+                        <FormDescription className="text-gray-500 pl-2">
+                          ❤️ This field is optional, but it's the one that helps
+                          other students the most!
                         </FormDescription>
                       </FormItem>
                     )}

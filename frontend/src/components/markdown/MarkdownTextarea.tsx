@@ -2,7 +2,15 @@ import * as React from 'react'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Markdown } from '@components'
-import { Textarea } from '@ui'
+import {
+  Button,
+  Textarea,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@ui'
+import { CircleHelp } from 'lucide-react'
 
 interface MarkdownTextareaProps extends React.ComponentProps<'textarea'> {
   previewPlaceholder?: string
@@ -29,11 +37,34 @@ export function MarkdownTextarea({
               Markdown Preview
             </TabsTrigger>
           </TabsList>
+          <span className="text-gray-500 text-sm">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    variant="link"
+                    size="xs"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      window.open(
+                        'https://www.markdownguide.org/cheat-sheet/',
+                        '_blank'
+                      )
+                    }}
+                  >
+                    <CircleHelp className="size-4 text-gray-500" />
+                    {/* What is Markdown? */}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Learn Markdown!</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </span>
         </div>
         <TabsContent value="markdown">
           <Textarea
             {...props}
-            className="w-full min-h-[120px] rounded-md rounded-t-none p-2 resize-y "
+            className="w-full min-h-[120px] rounded-md rounded-t-none p-2 resize-y text-sm"
             placeholder={
               props.placeholder || 'Use Markdown to format your comment'
             }
