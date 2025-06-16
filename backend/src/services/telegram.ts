@@ -57,7 +57,7 @@ export async function sendCourseReviewReceived(
   const ratingStars = getStarsString(rating)
   const workloadRatingStars = getStarsString(workloadRating)
 
-  const viewReviewUrl = `https://ist-feedback.afonsocrg.com/courses/${course.id}`
+  const viewReviewUrl = `https://istfeedback.com/courses/${course.id}`
 
   let message = `
 🎉 NEW REVIEW ALERT! 🎉

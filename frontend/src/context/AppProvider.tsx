@@ -41,13 +41,6 @@ export function AppProvider({ children }: AppProviderProps) {
     }
   }, [selectedDegreeId, paramsDegreeAcronym, setSelectedDegreeId, degrees])
 
-  // Update page title based on selected degree
-  useEffect(() => {
-    document.title = selectedDegree
-      ? `${selectedDegree.acronym} Feedback`
-      : 'IST Feedback'
-  }, [selectedDegree])
-
   return (
     <AppContext.Provider
       value={{
