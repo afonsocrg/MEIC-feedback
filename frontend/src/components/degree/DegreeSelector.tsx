@@ -1,7 +1,7 @@
 import { SearchDegrees } from '@components'
 import { useApp, useDegrees } from '@hooks'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@ui'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { DegreeCard } from './DegreeCard'
 
 interface DegreeSelectorProps {
@@ -14,6 +14,11 @@ export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
   const [searchQuery, setSearchQuery] = useState('')
 
   const { data: degrees } = useDegrees()
+
+  const availableTypes = useMemo(() => {
+    return [...new Set(degrees?.map((degree) => degree.type))].sort()
+  }, [degrees])
+  const [selectedType, setSelectedType] = useState<string | null>(null)
 
   // Reset search query when dialog is opened
   // If we do it when the user clicks on a degree, we briefly see
@@ -31,13 +36,20 @@ export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
   }
 
   const filteredDegrees =
-    degrees?.filter((degree) => {
-      const searchLower = searchQuery.toLowerCase()
-      return (
-        degree.name.toLowerCase().includes(searchLower) ||
-        degree.acronym.toLowerCase().includes(searchLower)
-      )
-    }) ?? []
+    degrees
+      ?.filter((degree) => {
+        const searchLower = searchQuery.toLowerCase()
+        return (
+          degree.name.toLowerCase().includes(searchLower) ||
+          degree.acronym.toLowerCase().includes(searchLower)
+        )
+      })
+      .filter((degree) => {
+        if (selectedType === null) {
+          return true
+        }
+        return degree.type === selectedType
+      }) ?? []
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -48,6 +60,9 @@ export function DegreeSelector({ isOpen, onClose }: DegreeSelectorProps) {
         <SearchDegrees
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          availableTypes={availableTypes}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
         />
         <div className="flex-1 min-h-0 mt-4 overflow-y-auto">
           {filteredDegrees.length === 0 ? (
