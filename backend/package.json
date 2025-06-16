@@ -37,6 +37,6 @@
     "drizzle-kit": "^0.30.6",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "wrangler": "^4.19.1"
+    "wrangler": "^4.20.0"
   }
 }
