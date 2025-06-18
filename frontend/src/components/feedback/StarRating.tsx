@@ -14,7 +14,7 @@ export function StarRating({
   size = 'md'
 }: StarRatingProps) {
   const sizeClasses = { sm: 'text-lg', md: 'text-2xl', lg: 'text-3xl' }
-  const displayValue = hoverValue ?? value
+  const displayValue = Math.round(hoverValue ?? value)
   const yellowTone =
     hoverValue === null ? 'text-yellow-500' : 'text-yellow-500/80'
 
