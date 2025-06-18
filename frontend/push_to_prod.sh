@@ -66,4 +66,5 @@ git checkout main || {
     exit 1
 }
 
-echo "✅ Deployment completed successfully!"
+echo "✅ Sucessfully merged to production."
+echo "You can check the deployment status at https://dash.cloudflare.com/6775eddc96fc027d1dca7762dfd44efa/pages/view/meic-feedback"
