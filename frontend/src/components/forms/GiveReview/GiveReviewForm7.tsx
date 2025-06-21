@@ -42,16 +42,48 @@ import {
   Loader2,
   Send
 } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import { z } from 'zod'
 import { FeedbackTipsDialog } from './FeedbackTipsDialog'
 import { GiveReviewProps } from './types'
+
+// Utility function to check if a field is required in the Zod schema
+function isFieldRequired(schema: z.ZodSchema, fieldName: string): boolean {
+  try {
+    const shape = (schema as any)._def?.shape()
+    const field = shape?.[fieldName]
+
+    if (!field) return false
+
+    // Check if field is optional
+    return !field.isOptional()
+  } catch {
+    return false
+  }
+}
+
+// Function to get required fields from schema
+function getRequiredFields(schema: z.ZodSchema): string[] {
+  try {
+    const shape = (schema as any)._def?.shape()
+    if (!shape) return []
+
+    return Object.keys(shape).filter((fieldName) => {
+      const field = shape[fieldName]
+      return !field.isOptional()
+    })
+  } catch {
+    return []
+  }
+}
 
 export function GiveReviewForm7({
   form,
   courses,
   schoolYears,
   isSubmitting,
-  onSubmit
+  onSubmit,
+  schema
 }: GiveReviewProps) {
   const { data: degrees } = useDegrees()
 
@@ -59,7 +91,61 @@ export function GiveReviewForm7({
   const [isFeedbackTipsDialogOpen, setIsFeedbackTipsDialogOpen] =
     useState(false)
 
-  // Watch all required fields
+  // Watch all form values to check for completeness
+  const formValues = form.watch()
+
+  // Get required fields from schema
+  const requiredFields = useMemo(() => {
+    if (!schema) return []
+    return getRequiredFields(schema)
+  }, [schema])
+
+  // Check if field is required
+  const isRequired = useMemo(() => {
+    if (!schema) return {}
+    return requiredFields.reduce(
+      (acc, field) => {
+        acc[field] = isFieldRequired(schema, field)
+        return acc
+      },
+      {} as Record<string, boolean>
+    )
+  }, [schema, requiredFields])
+
+  // Check if all required fields are filled
+  const isFormValid = useMemo(() => {
+    if (!schema || requiredFields.length === 0) return true
+
+    return requiredFields.every((field) => {
+      const value = formValues[field as keyof typeof formValues]
+
+      // Special handling for different field types
+      if (field === 'email') {
+        return typeof value === 'string' && value.trim() !== ''
+      }
+      if (field === 'degreeId') {
+        return typeof value === 'number' && value > 0
+      }
+      if (field === 'courseId') {
+        return (
+          typeof value === 'number' &&
+          value > 0 &&
+          courses.some((c) => c.id === value)
+        )
+      }
+      if (field === 'rating' || field === 'workloadRating') {
+        return typeof value === 'number' && value > 0
+      }
+      if (field === 'schoolYear') {
+        return typeof value === 'number' && value > 0
+      }
+
+      // Default check for other fields
+      return value !== undefined && value !== null && value !== ''
+    })
+  }, [formValues, requiredFields, schema])
+
+  // Watch individual fields for asterisk display
   const email = form.watch('email')
   const schoolYear = form.watch('schoolYear')
   const courseId = form.watch('courseId')
@@ -95,7 +181,9 @@ export function GiveReviewForm7({
                         <FormLabel>
                           <>
                             <span>Email</span>
-                            {!email && <span className="text-red-500">*</span>}
+                            {isRequired.email && !email && (
+                              <span className="text-red-500">*</span>
+                            )}
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
@@ -141,7 +229,7 @@ export function GiveReviewForm7({
                         <FormItem>
                           <FormLabel>
                             School Year
-                            {!schoolYear && (
+                            {isRequired.schoolYear && !schoolYear && (
                               <span className="text-red-500">*</span>
                             )}
                           </FormLabel>
@@ -187,7 +275,7 @@ export function GiveReviewForm7({
                           <FormItem className="flex flex-col flex-grow">
                             <FormLabel>
                               Degree
-                              {!selectedDegreeId && (
+                              {isRequired.degreeId && !selectedDegreeId && (
                                 <span className="text-red-500">*</span>
                               )}
                             </FormLabel>
@@ -257,9 +345,11 @@ export function GiveReviewForm7({
                             <FormItem className="flex flex-col flex-grow">
                               <FormLabel>
                                 Course
-                                {selectedDegreeId && !courseId && (
-                                  <span className="text-red-500">*</span>
-                                )}
+                                {isRequired.courseId &&
+                                  selectedDegreeId &&
+                                  !courseId && (
+                                    <span className="text-red-500">*</span>
+                                  )}
                               </FormLabel>
                               <Popover>
                                 <PopoverTrigger asChild>
@@ -335,7 +425,7 @@ export function GiveReviewForm7({
                           <FormItem>
                             <FormLabel>
                               Overall Rating
-                              {!rating && (
+                              {isRequired.rating && !rating && (
                                 <span className="text-red-500">*</span>
                               )}
                             </FormLabel>
@@ -360,7 +450,7 @@ export function GiveReviewForm7({
                           <FormItem>
                             <FormLabel>
                               Workload Rating
-                              {!workloadRating && (
+                              {isRequired.workloadRating && !workloadRating && (
                                 <span className="text-red-500">*</span>
                               )}
                             </FormLabel>
@@ -425,7 +515,11 @@ export function GiveReviewForm7({
                   />
                 </div>
 
-                <Button type="submit" className="w-full mt-6">
+                <Button
+                  type="submit"
+                  className="w-full mt-6"
+                  disabled={!isFormValid || isSubmitting}
+                >
                   <>
                     {isSubmitting ? (
                       <>

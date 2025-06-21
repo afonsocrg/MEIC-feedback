@@ -207,7 +207,8 @@ export function GiveReview() {
           onSubmit,
           localDegreeId: localDegreeId ?? null,
           // setLocalDegreeId,
-          contextDegree
+          contextDegree,
+          schema: formSchema
         }}
       />
     </>

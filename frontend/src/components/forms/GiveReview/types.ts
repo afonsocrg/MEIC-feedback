@@ -1,6 +1,7 @@
 import { Course, Degree } from '@/services/meicFeedbackAPI'
 import { GiveReviewFormValues } from '@pages'
 import { UseFormReturn } from 'react-hook-form'
+import { z } from 'zod'
 
 export interface GiveReviewProps {
   form: UseFormReturn<GiveReviewFormValues>
@@ -11,4 +12,5 @@ export interface GiveReviewProps {
   localDegreeId: number | null
   setLocalDegreeId?: (degreeId: number | null) => void
   contextDegree: Degree | null
+  schema?: z.ZodSchema
 }
