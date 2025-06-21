@@ -13,7 +13,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useApp, useDegreeCourses, useSubmitFeedback } from '@hooks'
 import { getCurrentSchoolYear } from '@lib/schoolYear'
-import { getCourse } from '@services/meicFeedbackAPI'
+import { getCourse, getFeedbackDraft } from '@services/meicFeedbackAPI'
 import posthog from 'posthog-js'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -116,6 +116,24 @@ export function GiveReview() {
       })()
     }
   }, [form, initialValues.courseId, localCourses])
+
+  // Handle feedback draft codes
+  const appliedFeedbackDraft = useRef(false)
+  useEffect(() => {
+    const draftCode = searchParams.get('code')
+    if (!draftCode || appliedFeedbackDraft.current) return
+
+    appliedFeedbackDraft.current = true
+    ;(async () => {
+      const draftData = await getFeedbackDraftData(draftCode)
+      if (draftData) {
+        if (draftData.rating) form.setValue('rating', draftData.rating)
+        if (draftData.workloadRating)
+          form.setValue('workloadRating', draftData.workloadRating)
+        if (draftData.comment) form.setValue('comment', draftData.comment)
+      }
+    })()
+  }, [form, searchParams])
 
   async function onSubmit(values: GiveReviewFormValues) {
     // Store email and degree id in local storage for next time
@@ -230,6 +248,21 @@ function getInitialValues(
     rating,
     workloadRating,
     comment
+  }
+}
+
+async function getFeedbackDraftData(code: string) {
+  try {
+    const data = await getFeedbackDraft(code)
+    return {
+      rating: data.rating,
+      workloadRating: data.workloadRating,
+      comment: data.comment || ''
+    }
+  } catch (error) {
+    console.error('Failed to load feedback draft data:', error)
+    toast.error('Failed to load feedback draft data')
+    return null
   }
 }
 
